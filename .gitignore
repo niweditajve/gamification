@@ -1,0 +1,57 @@
+# yii console commands
+/yii
+/yii_test
+/yii_test.bat
+
+# phpstorm project files
+.idea
+
+# netbeans project files
+nbproject
+
+# zend studio for eclipse project files
+.buildpath
+.project
+.settings
+
+# windows thumbnail cache
+Thumbs.db
+
+# composer vendor dir
+/vendor
+
+# composer itself is not needed
+composer.phar
+
+# Mac DS_Store Files
+.DS_Store
+
+# phpunit itself is not needed
+phpunit.phar
+# local phpunit config
+/phpunit.xml
+
+# vagrant runtime
+/.vagrant
+/vagrant/
+/Vagrantfile
+/frontend/controllers/xxSiteController.php
+/frontend/models/xxPasswordResetRequestForm.php
+/frontend/models/xxSignupForm.php
+/frontend/models/xxContactForm.php
+/frontend/models/xxResetPasswordForm.php
+/common/models/xxLoginForm.php
+/common/models/xxUser.php
+/backend/views/dashboard/dash2.php
+/backend/web/uploads/jacada/angel.jpg
+/backend/web/uploads/jacada/bearded.jpg
+/frontend/web/jacadaassets/angel.jpg
+/frontend/web/jacadaassets/bacchus.jpg
+/frontend/web/jacadaassets/appolo.jpg
+/backend/logs/
+/backend/controllers/report.log
+/backend/controllers/xxxTfnlistController.php
+/backend/views/tfnlist/
+/frontend/web/jacadaassets/
+/junk/
+/backend/controllers/CallDataCotroller-Result from incontactAPIcall

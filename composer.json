@@ -1,0 +1,43 @@
+{
+    "name": "hughesnet portal",
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=5.4.0",
+        "yiisoft/yii2": "~2.0.6",
+        "yiisoft/yii2-bootstrap": "~2.0.0",
+        "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
+        "phpseclib/phpseclib": "^2.0",
+        "2amigos/yii2-usuario": "~1.0",
+        "2amigos/yii2-highcharts-widget": "~1.0",
+        "kartik-v/yii2-grid": "@dev",
+        "kartik-v/yii2-krajee-base": "dev-master",
+        "kartik-v/yii2-mpdf": "*",
+        "kartik-v/yii2-widgets": "*",
+        "kartik-v/yii2-export": "^1.2.9",
+        "kartik-v/yii2-field-range": "dev-master",
+        "linslin/yii2-curl": "*",
+        "true/punycode": "~2.0",
+        "omnilight/yii2-scheduling": "*",
+        "yiisoft/yii2-redis": "~2.0.0",
+        "symfony/yaml": "^4.1"
+    },
+    "require-dev": {
+        "yiisoft/yii2-debug": "~2.0.0",
+        "yiisoft/yii2-gii": "~2.0.0",
+        "yiisoft/yii2-faker": "~2.0.0",
+        "codeception/base": "^2.2.3",
+        "codeception/verify": "~0.3.1"
+    },
+    "config": {
+        "process-timeout": 1800,
+        "fxp-asset": {
+            "enabled": false
+        }
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ]
+}
