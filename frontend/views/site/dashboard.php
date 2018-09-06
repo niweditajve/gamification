@@ -8,9 +8,10 @@ use yii\widgets\FileInput;
 $this->title = 'RM Factory';
 ?>
 <style>
-  .user_image_button: {
-    content: 'whatever it is you want to add' !important;
+  .fileinput-button> .glyphicon-plus  {
+    display: none;
 }
+
 </style>
 <div class="site-index">
 
