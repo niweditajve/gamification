@@ -21,7 +21,7 @@ $this->title = 'RM Factory';
 
                   
 
-                  <?= FileUpload::widget([
+                  <?php echo FileUpload::widget([
                     'model' => $model,
                     'attribute' => 'profile_pic',
                     'url' => ['site/upload', 'id' => $model->id], // your url, this is just for demo purposes,
@@ -52,7 +52,7 @@ $this->title = 'RM Factory';
 
                 
 
-                    <img src="<?= Yii::$app->request->baseUrl ?>/images/user_dummy.png" class="user_image" height="100px" width="auto">
+                    <img src="<?php echo Yii::$app->request->baseUrl ?>/images/user_dummy.png" class="user_image" height="100px" width="auto">
                 </div>
                 <div class="col-md-2">
                     Today's Close Rate
