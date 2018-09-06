@@ -70,8 +70,14 @@ class SiteController extends Controller
     {
     	$model = new User();
 
+    	$profile = User::find()
+           ->select('profile_pic')
+          	->where(['id' => Yii::$app->user->id])
+           ->one();
+           //print_r($profile['profile_pic']);  exit;
+
         return $this->render('dashboard', [
-            'model' => $model,
+            'model' => $model, 'profile' => $profile['profile_pic']
         ]);
     }
 

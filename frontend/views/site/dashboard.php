@@ -1,12 +1,17 @@
 <?php
 /* @var $this yii\web\View */
 use dosamigos\fileupload\FileUpload;
-use yii\helpers\Html; // or yii\helpers\Html
-use yii\widgets\ActiveForm; // or yii\widgets\ActiveForm
+ // or yii\helpers\Html
+// or yii\widgets\ActiveForm
 use yii\widgets\FileInput;
 
 $this->title = 'RM Factory';
 ?>
+<style>
+  .user_image_button: {
+    content: 'whatever it is you want to add' !important;
+}
+</style>
 <div class="site-index">
 
     <div class="">
@@ -18,10 +23,14 @@ $this->title = 'RM Factory';
             <div class="row">
             <div class="col-md-12">
                 <div class="col-md-4">
-
-                  
-
-                  <?php echo FileUpload::widget([
+                  <?php if($profile == ""): ?>
+                    <img src="<?php echo Yii::$app->request->baseUrl ?>/images/user_dummy.png" class="user_image" height="100px" width="auto">
+                  <?php else: ?>
+                    <img src="<?php echo Yii::$app->request->baseUrl  . '/img/temp/' . Yii::$app->session->id .'/'  . $profile ?>" class="user_image" height="100px" width="auto">
+                  <?php endif; ?>
+                    
+                    <div style="padding-top:4px;" class="user_image_button">
+                     <?php echo FileUpload::widget([
                     'model' => $model,
                     'attribute' => 'profile_pic',
                     'url' => ['site/upload', 'id' => $model->id], // your url, this is just for demo purposes,
@@ -31,6 +40,8 @@ $this->title = 'RM Factory';
                         'maxHeight' => 100,
                         'maxWidth' => 100,
                     ],
+
+
 
                     // Also, you can specify jQuery-File-Upload events
                     // see: https://github.com/blueimp/jQuery-File-Upload/wiki/Options#processing-callback-options
@@ -48,11 +59,7 @@ $this->title = 'RM Factory';
                                             }',
                     ],
                 ]); ?>
-
-
-                
-
-                    <img src="<?php echo Yii::$app->request->baseUrl ?>/images/user_dummy.png" class="user_image" height="100px" width="auto">
+              </div>
                 </div>
                 <div class="col-md-2">
                     Today's Close Rate
@@ -85,7 +92,7 @@ $this->title = 'RM Factory';
                     Your Center! <br>
                 </div>
                 <div class="col-md-8">
-                        <img alt="Trophy_Image" height="200px" width="auto">
+                        <img src="<?php echo Yii::$app->request->baseUrl ?>/images/images.png" height="180px" width="550px">
                 </div>
             </div>
 
