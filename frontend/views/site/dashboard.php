@@ -1,11 +1,15 @@
 <?php
 /* @var $this yii\web\View */
+use dosamigos\fileupload\FileUpload;
+use yii\helpers\Html; // or yii\helpers\Html
+use yii\widgets\ActiveForm; // or yii\widgets\ActiveForm
+use yii\widgets\FileInput;
 
 $this->title = 'RM Factory';
 ?>
 <div class="site-index">
 
-    <div class="jumbotron">
+    <div class="">
 
 
         <?php if (Yii::$app->user->isGuest): ?>
@@ -14,7 +18,41 @@ $this->title = 'RM Factory';
             <div class="row">
             <div class="col-md-12">
                 <div class="col-md-4">
-                    <img src="<?= Yii::$app->request->baseUrl ?>/images/user_dummy.png" height="100px" width="auto">
+
+                  
+
+                  <?= FileUpload::widget([
+                    'model' => $model,
+                    'attribute' => 'profile_pic',
+                    'url' => ['site/upload', 'id' => $model->id], // your url, this is just for demo purposes,
+                    'options' => ['accept' => 'image/*'],
+                    'clientOptions' => [
+                        'maxFileSize' => 2000000,
+                        'maxHeight' => 100,
+                        'maxWidth' => 100,
+                    ],
+
+                    // Also, you can specify jQuery-File-Upload events
+                    // see: https://github.com/blueimp/jQuery-File-Upload/wiki/Options#processing-callback-options
+                    'clientEvents' => [
+                        'fileuploaddone' => 'function(e, data) {
+                                               var rt = JSON.parse(data.result);
+                                               console.log(rt.files[0].name);
+                                               console.log(rt.files[0].url);
+                                              
+                                               $(".user_image").attr("src",rt.files[0].url);
+                                            }',
+                        'fileuploadfail' => 'function(e, data) {
+                                                console.log(e);
+                                                console.log(data);
+                                            }',
+                    ],
+                ]); ?>
+
+
+                
+
+                    <img src="<?= Yii::$app->request->baseUrl ?>/images/user_dummy.png" class="user_image" height="100px" width="auto">
                 </div>
                 <div class="col-md-2">
                     Today's Close Rate

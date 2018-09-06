@@ -9,6 +9,13 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use common\models\LoginForm;
 use common\models\ContactForm;
+use common\models\User;
+use common\models\UploadForm;
+use common\models\uploadImage;
+use yii\web\UploadedFile;
+use yii\helpers\FileHelper;
+use yii\helpers\Json;
+use yii\helpers\Url;
 
 class SiteController extends Controller
 {
@@ -61,7 +68,11 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('dashboard');
+    	$model = new User();
+
+        return $this->render('dashboard', [
+            'model' => $model,
+        ]);
     }
 
     /**
@@ -74,8 +85,8 @@ class SiteController extends Controller
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-
         $model = new LoginForm();
+
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
         }
@@ -95,6 +106,44 @@ class SiteController extends Controller
 
         return $this->goHome();
     }
+
+    public function actionUpload()
+    {
+        $model = new User();
+
+	    $imageFile = UploadedFile::getInstance($model, 'profile_pic');
+
+	    $directory = Yii::getAlias('@frontend/web/img/temp') . DIRECTORY_SEPARATOR . Yii::$app->session->id . DIRECTORY_SEPARATOR;
+	    if (!is_dir($directory)) {
+	        FileHelper::createDirectory($directory);
+	    }
+
+	    if ($imageFile) {
+	        $uid = uniqid(time(), true);
+	        $fileName = $uid . '.' . $imageFile->extension;
+	        $filePath = $directory . $fileName;
+	        if ($imageFile->saveAs($filePath)) {
+	            //$path = '/img/temp/' . Yii::$app->session->id . DIRECTORY_SEPARATOR . $fileName;
+	            $path = Url::base(true)  . '/img/temp/' . Yii::$app->session->id . DIRECTORY_SEPARATOR . $fileName;
+
+	            Yii::$app->db->createCommand()
+			        ->update('user', ['profile_pic' => $fileName])
+			        ->execute();
+
+
+	            return Json::encode([
+	                'files' => [
+	                    [
+	                        'name' => $fileName,
+	                        'url' => $path
+	                    ],
+	                ],
+	            ]);
+	        }
+	    }
+
+	    return '';
+	    }
 
     /**
      * Displays contact page.
