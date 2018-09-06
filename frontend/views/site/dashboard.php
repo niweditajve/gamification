@@ -8,14 +8,21 @@ use yii\widgets\FileInput;
 $this->title = 'RM Factory';
 ?>
 <style>
+.jumbotron .btn{
+      font-size: 13px;
+    padding: 10px 15px;
+  }
   .fileinput-button> .glyphicon-plus  {
+    display: none;
+}
+.user_image_button {
     display: none;
 }
 
 </style>
 <div class="site-index">
 
-    <div class="">
+    <div class="jumbotron">
 
 
         <?php if (Yii::$app->user->isGuest): ?>
@@ -41,8 +48,6 @@ $this->title = 'RM Factory';
                         'maxHeight' => 100,
                         'maxWidth' => 100,
                     ],
-
-
 
                     // Also, you can specify jQuery-File-Upload events
                     // see: https://github.com/blueimp/jQuery-File-Upload/wiki/Options#processing-callback-options
@@ -372,3 +377,11 @@ $this->title = 'RM Factory';
 
     </div>
 </div>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+$('.user_image_button').show();
+$(".fileinput-button").find("span").text("Change Image");
+
+  });
+</script>
