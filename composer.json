@@ -19,7 +19,8 @@
         "true/punycode": "~2.0",
         "omnilight/yii2-scheduling": "*",
         "yiisoft/yii2-redis": "~2.0.0",
-        "symfony/yaml": "^4.1"
+        "symfony/yaml": "^4.1",
+        "2amigos/yii2-file-upload-widget": "~1.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

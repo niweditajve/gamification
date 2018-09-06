@@ -85,7 +85,7 @@ $this->title = 'RM Factory';
                     Your Center! <br>
                 </div>
                 <div class="col-md-8">
-                        <img src="<?= Yii::$app->request->baseUrl ?>/images/download.jpg" height="200px" width="auto">
+                        <img alt="Trophy_Image" height="200px" width="auto">
                 </div>
             </div>
 
