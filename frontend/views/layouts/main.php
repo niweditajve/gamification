@@ -42,7 +42,14 @@ AppAsset::register($this);
             } else {
                 $navItems = [
                     ['label' => 'Home', 'url' => ['/site/index']],
-                    
+                    ['label' => 'Skills', 'url' => ['#'],
+
+                        'items' => [
+                            ['label' => 'Consumer', 'url' => ['/dashboard/index']],
+                            ['label' => 'Business', 'url' => ['/dashboard/index']],
+                            ['label' => 'Dealer', 'url' => ['/dashboard/index']],
+                        ],
+                    ],
                     
                     ['label' => 'IVR', 'url' => ['#'],
                         'items' => [

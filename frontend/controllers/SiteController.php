@@ -68,17 +68,17 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-    	$model = new User();
+    	/*$model = new User();
 
     	$profile = User::find()
            ->select('profile_pic')
           	->where(['id' => Yii::$app->user->id])
-           ->one();
+           ->one();*/
            //print_r($profile['profile_pic']);  exit;
 
-        return $this->render('dashboard', [
+        return $this->render('index'/*, [
             'model' => $model, 'profile' => $profile['profile_pic']
-        ]);
+        ]*/);
     }
 
     /**
