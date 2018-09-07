@@ -34,7 +34,7 @@ $this->title = 'RM Factory';
                   <?php if($profile == ""): ?>
                     <img src="<?php echo Yii::$app->request->baseUrl ?>/images/user_dummy.png" class="user_image" height="100px" width="auto">
                   <?php else: ?>
-                    <img src="<?php echo Yii::$app->request->baseUrl  . '/img/temp/' . Yii::$app->session->id .'/'  . $profile ?>" class="user_image" height="100px" width="auto">
+                    <img src="<?php echo Yii::$app->request->baseUrl  . '/images/user/' . $profile ?>" class="user_image" height="100px" width="auto">
                   <?php endif; ?>
                     
                     <div style="padding-top:4px;" class="user_image_button">

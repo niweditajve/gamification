@@ -119,7 +119,7 @@ class SiteController extends Controller
 
 	    $imageFile = UploadedFile::getInstance($model, 'profile_pic');
 
-	    $directory = Yii::getAlias('@frontend/web/img/temp') . DIRECTORY_SEPARATOR . Yii::$app->session->id . DIRECTORY_SEPARATOR;
+	    $directory = Yii::getAlias('@frontend/web/images/user') . DIRECTORY_SEPARATOR;
 	    if (!is_dir($directory)) {
 	        FileHelper::createDirectory($directory);
 	    }
@@ -130,7 +130,7 @@ class SiteController extends Controller
 	        $filePath = $directory . $fileName;
 	        if ($imageFile->saveAs($filePath)) {
 	            //$path = '/img/temp/' . Yii::$app->session->id . DIRECTORY_SEPARATOR . $fileName;
-	            $path = Url::base(true)  . '/img/temp/' . Yii::$app->session->id . DIRECTORY_SEPARATOR . $fileName;
+	            $path = Url::base(true)  . '/images/user/' . DIRECTORY_SEPARATOR . $fileName;
 
 	            Yii::$app->db->createCommand()
 			        ->update('user', ['profile_pic' => $fileName])
