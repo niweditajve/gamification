@@ -16,7 +16,7 @@ return [
             // ...other configs from here: [Configuration Options](installation/configuration-options.md), e.g.
 // 'generatePasswords' => true,
 // 'switchIdentitySessionKey' => 'myown_usuario_admin_user_key',
-            'administrators' => ['tfabbricante', 'todschenke'],
+            'administrators' => ['tfabbricante', 'todschenke','niweditajaysawal'],
             'enableRegistration' => FALSE,
             'enableEmailConfirmation' => FALSE,
             'allowAccountDelete' => FALSE,
