@@ -42,11 +42,16 @@ AppAsset::register($this);
             } else {
                 $navItems = [
                     ['label' => 'Home', 'url' => ['/site/index']],
-                   
-                    ['label' => 'Consumer', 'url' => ['/dashboard/index']],
-                    ['label' => 'Business', 'url' => ['/dashboard/index']],
-                    ['label' => 'Dealer(SOC)', 'url' => ['/dashboard/index']],
-                      
+                     
+                    ['label' => 'Category', 'url' => ['#'],
+                        'items' => [
+                            ['label' => 'Consumer', 'url' => ['/dashboard/index']],
+                            ['label' => 'Business', 'url' => ['/dashboard/index']],
+                            ['label' => 'Dealer', 'url' => ['/dashboard/index']],
+                        ],
+                        'visible' => Yii::$app->user->can('virtual_user')
+                    ],
+                    
                     ['label' => 'IVR', 'url' => ['#'],
                         'items' => [
                             ['label' => 'TFN', 'url' => ['/tfnlist/index'], 'visible' => Yii::$app->user->can('admin_cc')],
