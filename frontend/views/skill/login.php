@@ -7,13 +7,11 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = 'Login';
+$this->title = 'Sign in';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-login">
     <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>Please fill out the following fields to login:</p>
 
     <?php $form = ActiveForm::begin([
         'id' => 'login-form',
@@ -22,8 +20,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
             'labelOptions' => ['class' => 'col-lg-1 control-label'],
         ],
-        'action'=>'login',
+        'action'=>'signin',
     ]); ?>
+    <?php if(\Yii::$app->session->hasFlash('agentNotFoundInCSV')):?>
+        <div class="info">
+            <?php echo \Yii::$app->session->getFlash('agentNotFoundInCSV'); ?>
+        </div>
+    <?php endif; ?>
 
         <?= $form->field($model, 'Login')->textInput(['autofocus' => true]) ?>
 

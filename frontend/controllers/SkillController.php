@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\models\AgentLoginForm;
+use common\models\AgentSignInForm;
 use yii\filters\AccessControl;
 use yii\helpers\Url;
 
@@ -83,16 +84,16 @@ class SkillController extends Controller
                     return $this->redirect(['confirm']);
                 
             }*/
-
+		if (Yii::$app->request->isAjax || Yii::$app->request->post()){
 	        $fileHandler=fopen( Url::base(true) . "/agents.csv",'r');
 			if($fileHandler){
 			   while($line=fgetcsv($fileHandler,1000)){
 			      if($line[0])
 			      	echo $line[0];
 			   }
-			   //exit;
+			   exit;
 			}
-		//}
+		}
 
 		return $this->render(
             'login',
@@ -100,6 +101,49 @@ class SkillController extends Controller
                 'model' => $model
             ]
         );
+    }
+
+    public function actionSignin(){
+
+    	if (!Yii::$app->user->isGuest) {
+            return $this->goHome();
+        }
+
+        $model = new AgentSignInForm();
+        //print_r($model); exit; && $model->login()
+        if ($model->load(Yii::$app->request->post()) ) {
+        	
+
+        	$userdata =  Yii::$app->request->post();
+
+        	$username = $userdata['AgentSignInForm']['Login'];
+
+        	$userFound = false;
+
+        	$fileHandler=fopen( Url::base(true) . "/agents.csv",'r');
+			if($fileHandler){
+			   while($line=fgetcsv($fileHandler,1000)){
+			      if($line[0] == $username){
+			      		$userFound = true;
+			      		$model->signIn();
+			      }
+			      	
+			   }
+			}
+
+			if(!$userFound)
+			{
+				\Yii::$app->session->setFlash('agentNotFoundInCSV', 'Sorry!!! You are not allowed to login! Please contact to administartor.');
+				 return $this->redirect(['skill/signin']);
+			}
+        	
+            //return $this->goBack();
+        }
+
+        $model->Password = '';
+        return $this->render('login', [
+            'model' => $model,
+        ]);
     }
 
 

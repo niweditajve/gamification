@@ -3,6 +3,10 @@
 namespace common\models;
 
 use Yii;
+use yii\base\NotSupportedException;
+use yii\db\ActiveRecord;
+use yii\helpers\Security;
+use yii\web\IdentityInterface;
 
 /**
  * This is the model class for table "tblAgent".
@@ -36,6 +40,7 @@ use Yii;
  * @property integer $Five9
  * @property string $Groupings
  * @property string $Groups
+ * @property string $Auth_key
  * @property integer $ModifiedAgent
  * @property integer $CreateAgent
  * @property string $LastReset
@@ -48,11 +53,15 @@ use Yii;
  * @property integer $ReportBuilder
  * @property integer $inContactConnector
  */
-class Agent extends \yii\db\ActiveRecord {
+class Agent extends \yii\db\ActiveRecord implements IdentityInterface {
 
     /**
      * @inheritdoc
      */
+
+    //public $auth_key;
+    //public $username;
+
     public static function tableName() {
         return 'tblAgent';
     }
@@ -68,6 +77,7 @@ class Agent extends \yii\db\ActiveRecord {
             //[['CreateDate', 'LastModified', 'LastReset'], 'safe'],
             [['FirstName', 'LastName'], 'string', 'max' => 100],
             [['Login'], 'string', 'max' => 50],
+            [['Auth_key'], 'string', 'max' => 32],
             [['Password', 'EmaiContact', 'Groupings', 'Groups'], 'string', 'max' => 250],
             [['AlternateEmail', 'IMName', 'EmailContact'], 'string', 'max' => 450],
             [['Phone', 'AlternatePhone', 'IMType'], 'string', 'max' => 200],
@@ -119,7 +129,60 @@ class Agent extends \yii\db\ActiveRecord {
             'DatabaseBuilder' => 'Database Builder',
             'ReportBuilder' => 'Report Builder',
             'inContactConnector' => 'In Contact Connector',
+            'Auth_key' => 'Auth Key',
         ];
+    }
+
+    public static function findByUsername($username)
+    {
+        return static::findOne(['Login' => $username]);
+    }
+
+    public function validatePassword($password)
+    {
+        return $this->Password === $password;
+    }
+
+    public static function findIdentity($AgentID)
+    {
+        return static::findOne($AgentID);
+    }
+
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+          return static::findOne(['access_token' => $token]);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getId()
+    {
+        return $this->getPrimaryKey();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAuthKey()
+    {
+        return $this->auth_key;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function validateAuthKey($authKey)
+    {
+        return $this->getAuthKey() === $authKey;
+    }
+
+    /**
+     * Generates "remember me" authentication key
+     */
+    public function generateAuthKey()
+    {
+        $this->auth_key = Security::generateRandomKey();
     }
 
 }
