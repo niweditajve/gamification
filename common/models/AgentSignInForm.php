@@ -87,11 +87,14 @@ class AgentSignInForm extends Model
         if(!$userExists){
 
             $arr = explode("@", $this->Login, 2);
-            
+           
             $model = new User;
             $model->email = $this->Login;
             $model->username = $arr[0];
             $model->password_hash = sha1($this->Password);
+            //User::generateAuthKey();
+            //$model->auth_key = User::getAuthKey();
+
            
             if($model->save(false)){
 
@@ -106,7 +109,7 @@ class AgentSignInForm extends Model
                
             }
 
-            //$this->agentsignIn();
+            //$this->changePassword();
 
         }else{
 
@@ -114,25 +117,16 @@ class AgentSignInForm extends Model
             
         }
         
-
-        
-/*
-
-   else{
-        
-        \Yii::$app->session->setFlash('agentNotFoundInCSV', 'Sorry!!! You are not allowed to login! Please contact to administartor.');
-        return Yii::$app->response->redirect(Url::to(['skill/signin']));
-        //return $this->redirect(['skill/signin']);
-        
-        
-    }*/
          
     }
 
     public function agentsignIn(){
-            Yii::$app->user->login($this->getEmail(), $this->rememberMe ? 3600*24*30 : 0);
+
+        if ($this->validate()) {
+            Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
            
             return Yii::$app->response->redirect(Url::to(['dashboard/index']));
+        }
     }   
 
     /**

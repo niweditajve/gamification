@@ -5,7 +5,6 @@ namespace common\models;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\db\ActiveRecord;
-use yii\helpers\Security;
 use yii\web\IdentityInterface;
 
 /**
@@ -59,8 +58,8 @@ class Agent extends \yii\db\ActiveRecord implements IdentityInterface {
      * @inheritdoc
      */
 
-    //public $auth_key;
-    //public $username;
+    private $auth_key;
+    private $username;
 
     public static function tableName() {
         return 'tblAgent';
@@ -182,7 +181,7 @@ class Agent extends \yii\db\ActiveRecord implements IdentityInterface {
      */
     public function generateAuthKey()
     {
-        $this->auth_key = Security::generateRandomKey();
+        $this->auth_key = Yii::$app->getSecurity()->generateRandomKey();
     }
 
 }

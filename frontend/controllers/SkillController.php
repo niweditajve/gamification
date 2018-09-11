@@ -146,4 +146,32 @@ class SkillController extends Controller
 
 
 
+    /**
+	 * Change User password.
+	 *
+	 * @return mixed
+	 * @throws BadRequestHttpException
+	 */
+	public function actionChangePassword()
+	{
+	    $id = \Yii::$app->user->id; 
+	 
+	    try {
+	        $model = new \common\models\ChangePasswordForm($id);
+	        
+	    } catch (InvalidParamException $e) {
+	        throw new \yii\web\BadRequestHttpException($e->getMessage());
+	    }
+	 
+	    if ($model->load(\Yii::$app->request->post()) && $model->validate() && $model->changePassword()) {
+	        \Yii::$app->session->setFlash('success', 'Password Changed!');
+	    }
+	 
+	    return $this->render('changePassword', [
+	        'model' => $model,
+	    ]);
+	}
+
+
+
  }

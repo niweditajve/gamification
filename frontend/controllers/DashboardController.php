@@ -34,6 +34,9 @@ class DashboardController extends Controller
      */
     public function actionIndex()
     {
+
+       $this->checkUser();
+
     	$model = new User();
 
     	$profile = User::find()
@@ -47,5 +50,22 @@ class DashboardController extends Controller
         return $this->render('dashboard', [
             'model' => $model, 'profile' => $profile['profile_pic']
         ]);
+    }
+
+    public function checkUser(){
+
+        $user = User::find()
+           ->select('password_changed_at')
+            ->where(['id' => Yii::$app->user->id])
+           ->one();
+
+       if(empty($user['password_changed_at']))
+       {
+            return Yii::$app->response->redirect(Url::to(['skill/change-password']));
+       }
+       
+        return true;
+       
+        
     }
 }
