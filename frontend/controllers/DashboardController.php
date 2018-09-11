@@ -40,7 +40,9 @@ class DashboardController extends Controller
            ->select('profile_pic')
           	->where(['id' => Yii::$app->user->id])
            ->one();
-           //print_r($profile['profile_pic']);  exit;
+
+        //$this->TodaysCloseRate();
+       // Yii::$app->agentcomponent->welcome(); exit;
 
         return $this->render('dashboard', [
             'model' => $model, 'profile' => $profile['profile_pic']
