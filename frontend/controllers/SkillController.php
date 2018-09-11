@@ -126,8 +126,7 @@ class SkillController extends Controller
 			      if($line[0] == $username){
 			      		$userFound = true;
 			      		$model->signIn();
-			      }
-			      	
+			      }	
 			   }
 			}
 
@@ -137,7 +136,6 @@ class SkillController extends Controller
 				 return $this->redirect(['skill/signin']);
 			}
         	
-            //return $this->goBack();
         }
 
         $model->Password = '';

@@ -106,17 +106,34 @@ class AgentSignInForm extends Model
                
             }
 
-        }
-       else{
-            
+            //$this->agentsignIn();
 
-            Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600*24*30 : 0);
-           
-            return Yii::$app->response->redirect(Url::to(['dashboard/index']));
+        }else{
+
+            $this->agentsignIn();
             
         }
+        
+
+        
+/*
+
+   else{
+        
+        \Yii::$app->session->setFlash('agentNotFoundInCSV', 'Sorry!!! You are not allowed to login! Please contact to administartor.');
+        return Yii::$app->response->redirect(Url::to(['skill/signin']));
+        //return $this->redirect(['skill/signin']);
+        
+        
+    }*/
          
     }
+
+    public function agentsignIn(){
+            Yii::$app->user->login($this->getEmail(), $this->rememberMe ? 3600*24*30 : 0);
+           
+            return Yii::$app->response->redirect(Url::to(['dashboard/index']));
+    }   
 
     /**
      * Finds user by [[username]]
@@ -126,9 +143,21 @@ class AgentSignInForm extends Model
     public function getUser()
     {
         if ($this->_user === false) {
+           
             $this->_user = User::findByUsername($this->Login);
         }
         return $this->_user;
     }
+
+    public function getEmail()
+    {
+        if ($this->_user === false) {
+           
+            $this->_user = User::findByEmail($this->Login);
+        }
+        return $this->_user;
+    }
+
+
 
 }
