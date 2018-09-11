@@ -109,7 +109,9 @@ class AgentSignInForm extends Model
                
             }
 
-            //$this->changePassword();
+            Yii::$app->user->login(User::findByEmail($this->Login), $this->rememberMe ? 3600*24*30 : 0);
+           
+            return Yii::$app->response->redirect(Url::to(['dashboard/index']));
 
         }else{
 

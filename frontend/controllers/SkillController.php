@@ -110,29 +110,31 @@ class SkillController extends Controller
         }
 
         $model = new AgentSignInForm();
-        //print_r($model); exit; && $model->login()
+        
         if ($model->load(Yii::$app->request->post()) ) {
         	
 
         	$userdata =  Yii::$app->request->post();
 
         	$username = $userdata['AgentSignInForm']['Login'];
+        	$password = $userdata['AgentSignInForm']['Password'];
 
         	$userFound = false;
 
         	$fileHandler=fopen( Url::base(true) . "/agents.csv",'r');
 			if($fileHandler){
 			   while($line=fgetcsv($fileHandler,1000)){
-			      if($line[0] == $username){
+			   	
+			      if($line[0] == $username && $line[1] == $password){
 			      		$userFound = true;
 			      		$model->signIn();
-			      }	
+			      	}	
 			   }
 			}
 
 			if(!$userFound)
 			{
-				\Yii::$app->session->setFlash('agentNotFoundInCSV', 'Sorry!!! You are not allowed to login! Please contact to administartor.');
+				\Yii::$app->session->setFlash('agentNotFoundInCSV', 'Sorry!!! You are not allowed to login! Please contact to administartor or check username and password.');
 				 return $this->redirect(['skill/signin']);
 			}
         	
@@ -158,7 +160,7 @@ class SkillController extends Controller
 	 
 	    try {
 	        $model = new \common\models\ChangePasswordForm($id);
-	        
+
 	    } catch (InvalidParamException $e) {
 	        throw new \yii\web\BadRequestHttpException($e->getMessage());
 	    }

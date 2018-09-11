@@ -8,8 +8,9 @@ use yii\widgets\ActiveForm;
  
 $this->title = 'Change Password';
 ?>
-<div class="user-changePassword">
- 
+<div class="user-changePassword row">
+ 	<div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
+ 		<h1><?= Html::encode($this->title) ?></h1>
     <?php $form = ActiveForm::begin(['action'=>'change-password']); ?>
  
         <?= $form->field($model, 'password')->passwordInput() ?>
@@ -19,5 +20,5 @@ $this->title = 'Change Password';
             <?= Html::submitButton('Change', ['class' => 'btn btn-primary']) ?>
         </div>
     <?php ActiveForm::end(); ?>
- 
+ 	</div>
 </div>

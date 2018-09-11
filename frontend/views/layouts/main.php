@@ -34,7 +34,7 @@ AppAsset::register($this);
                     'class' => 'navbar-inverse navbar-fixed-top',
                 ],
             ]);
-
+            
             if (Yii::$app->user->isGuest) {
                 $navItems = [
                     ['label' => 'Home', 'url' => ['/site/index']],
@@ -69,6 +69,7 @@ AppAsset::register($this);
             if (Yii::$app->user->isGuest) {
                 //   array_push($navItems, ['label' => 'Sign In', 'url' => ['/user/login']], ['label' => 'Sign Up', 'url' => ['/user/register']]);
                 array_push($navItems, ['label' => 'Login', 'url' => ['/user/security/login']]);
+                array_push($navItems, ['label' => 'Agent Login', 'url' => ['/skill/signin']]);
                 //array_push($navItems, ['label' => 'Login In', 'url' => ['/user/security/login']], ['label' => 'Sign Up', 'url' => ['/user/registration/register']]);
             } else {
                 array_push($navItems, ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',

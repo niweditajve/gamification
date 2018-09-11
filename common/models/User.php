@@ -165,7 +165,7 @@ class User extends \yii\db\ActiveRecord implements IdentityInterface
 
     public static function findByEmail($email)
     {
-        return static::findOne(['email' => $username]);
+        return static::findOne(['email' => $email]);
     }
 
     /** INCLUDE USER LOGIN VALIDATION FUNCTIONS**/
