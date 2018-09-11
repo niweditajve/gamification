@@ -128,15 +128,16 @@ class SiteController extends Controller
 	        $uid = uniqid(time(), true);
 	        $fileName = $uid . '.' . $imageFile->extension;
 	        $filePath = $directory . $fileName;
+            $userid = \Yii::$app->user->identity->id;
+
 	        if ($imageFile->saveAs($filePath)) {
-	            //$path = '/img/temp/' . Yii::$app->session->id . DIRECTORY_SEPARATOR . $fileName;
+	            
 	            $path = Url::base(true)  . '/images/user/' . DIRECTORY_SEPARATOR . $fileName;
 
-	            Yii::$app->db->createCommand()
-			        ->update('user', ['profile_pic' => $fileName])
-			        ->execute();
-
-
+                $user = User::findOne(Yii::$app->user->id);
+                $user->profile_pic = $fileName;
+                $user->save(false);
+	            
 	            return Json::encode([
 	                'files' => [
 	                    [
