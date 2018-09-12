@@ -69,11 +69,11 @@ $this->title = 'RM Factory';
                 </div>
                 <div class="col-md-2">
                     Today's Close Rate
-                    <div class="demo-1" data-percent="30"></div>
+                    <div class="demo-1" data-percent="<?php echo $todaysColseRate; ?>"></div>
               </div>
                 <div class="col-md-2">
-                    Today's Coomunity Close Rate
-                    <div class="demo-2" data-percent="60"></div>
+                    Today's Community Close Rate
+                    <div class="demo-2" data-percent="<?php echo $communityCloseRate; ?>"></div>
                 </div>
                 <div class="col-md-2">
                     Today's Points Earned

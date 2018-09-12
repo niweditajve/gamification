@@ -57,6 +57,11 @@ return [
             'rules' => [
             ],
         ],
+        'agentcomponent' => [
+         
+            'class' => 'app\components\AgentRate',
+
+        ],
     ],
     'params' => $params,
 ];
