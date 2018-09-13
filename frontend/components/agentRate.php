@@ -1,6 +1,5 @@
 <?php
 namespace app\components;
-
 use Yii;
 use yii\base\Component;
 use common\models\Agent;
