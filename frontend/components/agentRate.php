@@ -11,11 +11,7 @@ class AgentRate extends Component
 
 	public function getAgentId(){
 		
-		$agent = Agent::find()
-           ->select('AgentID')
-          	->where(['Login' => Yii::$app->user->identity->email])
-           ->one();
-
+        $agent = Agent::find()->select('AgentID')->where(['Login' => Yii::$app->user->identity->email])->one();
         if($agent)
         	return $agent['AgentID'];
         else
@@ -95,7 +91,8 @@ class AgentRate extends Component
       	$totalCall = $result[0]['offered'];
 
       	if($answeredCall && $totalCall)
-      		return round (($answeredCall / $totalCall) * 100);
+            return round (($answeredCall / $totalCall) * 100);
+                //return (($answeredCall / $totalCall) * 100);
       	else
       		return 0;
 
