@@ -36,7 +36,7 @@ class AgentRate extends Component
 		$totalCall = $result[0]['offered'];
 
 		if($answeredCall && $totalCall)
-			return round(( $answeredCall/$totalCall ) * 100);
+			return ( $totalCall / $answeredCall);
 		else
 			return 0;
 
@@ -69,7 +69,7 @@ class AgentRate extends Component
 		$totalCall = $result[0]['offered'];
 
 		if($answeredCall && $totalCall)
-			return round (($answeredCall / $totalCall) * 100);
+			return ($totalCall/$answeredCall);
 		else
 			return 0;
 
@@ -95,7 +95,7 @@ class AgentRate extends Component
       	$totalCall = $result[0]['offered'];
 
       	if($answeredCall && $totalCall)
-      		return round (($answeredCall / $totalCall) * 100);
+      		return ( $totalCall / $answeredCall);
       	else
       		return 0;
 
