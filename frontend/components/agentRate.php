@@ -23,9 +23,9 @@ class AgentRate extends Component
 
 	}
 
-	public function getTodaysCloseRate($agentID){
+	public function getTodaysCloseRate($skillType,$agentID){
 
-		$sql = "SELECT sum(if(LastState=19 or LastState=16 or (LastState=17 and Transfer!=1),1,0)) as offered,sum(if(LastState=19,1,0)) as answered from billing_summaries where Start BETWEEN 1480546800 AND 1482274799  AND AgentID =".$agentID;
+		$sql = "SELECT sum(if(LastState=19 or LastState=16 or (LastState=17 and Transfer!=1),1,0)) as offered,sum(if(LastState=19,1,0)) as answered from billing_summaries where Start = CURDATE() AND LastQueue = '".$skillType."'  AND AgentID =".$agentID;
 
 		$command = Yii::$app->db->createCommand($sql);
 
@@ -44,7 +44,7 @@ class AgentRate extends Component
 
 	public function startTimestamp(){
 
-		$start_date = "1-1-".date("y")." 12:00:00";
+		$start_date = "1-1-".date("y")." 00:00:00";
 
 		return $start = strtotime($start_date);
 	}
@@ -56,9 +56,9 @@ class AgentRate extends Component
 		return $end = strtotime($end_date);
 	}
 
-	public function getCommunityCloseRate($agentID){
+	public function getCommunityCloseRate($skillType,$agentID){
 
-		$sql = "SELECT sum(if(LastState=19 or LastState=16 or (LastState=17 and Transfer!=1),1,0)) as offered,sum(if(LastState=19,1,0)) as answered from billing_summaries where Start >= ".$this->startTimestamp()." AND Start < ".$this->endTimestamp()." AND AgentID =".$agentID;
+		$sql = "SELECT sum(if(LastState=19 or LastState=16 or (LastState=17 and Transfer!=1),1,0)) as offered,sum(if(LastState=19,1,0)) as answered from billing_summaries where Start >= " . $this->startTimestamp() . " AND Start < ".$this->endTimestamp() . " AND LastQueue = '".$skillType."' AND AgentID =".$agentID;
 
 		$command = Yii::$app->db->createCommand($sql);
 
@@ -75,7 +75,7 @@ class AgentRate extends Component
 
 	}
 
-	public function closeRate($agentID,$onBehalf,$community=null){
+	public function closeRate($skillType,$agentID,$onBehalf,$community=null){
 
 		if($community)
 			$startEnd = " Start >= ".$this->startTimestamp()." AND Start < ".$this->endTimestamp();
@@ -84,7 +84,7 @@ class AgentRate extends Component
 
 		$mediaType = $this->getRateText($onBehalf);
 
-	  	$sql = "SELECT sum(if(LastState=19 or LastState=16 or (LastState=17 and Transfer!=1),1,0)) as offered,sum(if(LastState=19,1,0)) as answered from billing_summaries where $startEnd and DNIS in (select inContactTFN from tfnMedia where mediaType in ($mediaType)) AND AgentID =".$agentID;
+	  	$sql = "SELECT sum(if(LastState=19 or LastState=16 or (LastState=17 and Transfer!=1),1,0)) as offered,sum(if(LastState=19,1,0)) as answered from billing_summaries where $startEnd and DNIS in (select inContactTFN from tfnMedia where mediaType in ($mediaType)) AND LastQueue = '".$skillType."' AND AgentID =".$agentID;
 
 	  	$command = Yii::$app->db->createCommand($sql);
 
