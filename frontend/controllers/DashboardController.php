@@ -44,7 +44,7 @@ class DashboardController extends Controller
           	->where(['id' => Yii::$app->user->id])
            ->one();
 
-      $agentId = Yii::$app->agentcomponent->getAgentId();
+      $agentId = 322;//Yii::$app->agentcomponent->getAgentId();
 
       $todaysColseRate = Yii::$app->agentcomponent->getTodaysCloseRate($agentId);
       
