@@ -71,11 +71,11 @@ $agentId = 322;//Yii::$app->agentcomponent->getAgentId();
                 </div>
                 <div class="col-md-2">
                     Today's Close Rate
-                    <div class="demo-1" data-percent="<?php echo Yii::$app->agentcomponent->getTodaysCloseRate($agentId); ?>"></div>
+                    <div class="demo-1" data-percent="<?php echo Yii::$app->agentcomponent->getTodaysCloseRate($skillType,$agentId); ?>"></div>
               </div>
                 <div class="col-md-2">
                     Today's Community Close Rate
-                    <div class="demo-2" data-percent="<?php echo Yii::$app->agentcomponent->getCommunityCloseRate($agentId); ?>"></div>
+                    <div class="demo-2" data-percent="<?php echo Yii::$app->agentcomponent->getCommunityCloseRate($skillType,$agentId); ?>"></div>
                 </div>
                 <div class="col-md-2">
                     Today's Points Earned
@@ -114,14 +114,14 @@ $agentId = 322;//Yii::$app->agentcomponent->getAgentId();
                           <div class="progress-bar">
                             <div class="progress-track">
                               <div class="progress-fill red">
-                                <span><?php echo Yii::$app->agentcomponent->closeRate($agentId,"TV"); ?>%</span>
+                                <span><?php echo Yii::$app->agentcomponent->closeRate($skillType,$agentId,"TV"); ?>%</span>
                               </div>
                             </div>
                           </div>
                           <div class="progress-bar">
                             <div class="progress-track">
                               <div class="progress-fill yellow">
-                                <span><?php echo Yii::$app->agentcomponent->closeRate($agentId,"TV",1); ?>%</span>
+                                <span><?php echo Yii::$app->agentcomponent->closeRate($skillType,$agentId,"TV",1); ?>%</span>
                               </div>
                             </div>
                           </div>
@@ -135,14 +135,14 @@ $agentId = 322;//Yii::$app->agentcomponent->getAgentId();
                           <div class="progress-bar">
                             <div class="progress-track">
                               <div class="progress-fill yellow">
-                                <span><?php echo Yii::$app->agentcomponent->closeRate($agentId,"directMail"); ?>%</span>
+                                <span><?php echo Yii::$app->agentcomponent->closeRate($skillType,$agentId,"directMail"); ?>%</span>
                               </div>
                             </div>
                           </div>
                           <div class="progress-bar">
                             <div class="progress-track">
                               <div class="progress-fill green">
-                                <span><?php echo Yii::$app->agentcomponent->closeRate($agentId,"directMail",1); ?>%</span>
+                                <span><?php echo Yii::$app->agentcomponent->closeRate($skillType,$agentId,"directMail",1); ?>%</span>
                               </div>
                             </div>
                           </div>
@@ -155,14 +155,14 @@ $agentId = 322;//Yii::$app->agentcomponent->getAgentId();
                           <div class="progress-bar">
                             <div class="progress-track">
                               <div class="progress-fill green">
-                                <span><?php echo Yii::$app->agentcomponent->closeRate($agentId,"web"); ?>%</span>
+                                <span><?php echo Yii::$app->agentcomponent->closeRate($skillType,$agentId,"web"); ?>%</span>
                               </div>
                             </div>
                           </div>
                           <div class="progress-bar">
                             <div class="progress-track">
                               <div class="progress-fill red">
-                                <span><?php echo Yii::$app->agentcomponent->closeRate($agentId,"web",1); ?>%</span>
+                                <span><?php echo Yii::$app->agentcomponent->closeRate($skillType,$agentId,"web",1); ?>%</span>
                               </div>
                             </div>
                           </div>
@@ -176,14 +176,14 @@ $agentId = 322;//Yii::$app->agentcomponent->getAgentId();
                           <div class="progress-bar">
                             <div class="progress-track">
                               <div class="progress-fill red">
-                                <span><?php echo Yii::$app->agentcomponent->closeRate($agentId,"transfer"); ?>%</span>
+                                <span><?php echo Yii::$app->agentcomponent->closeRate($skillType,$agentId,"transfer"); ?>%</span>
                               </div>
                             </div>
                           </div>
                           <div class="progress-bar">
                             <div class="progress-track">
                               <div class="progress-fill green">
-                                <span><?php echo Yii::$app->agentcomponent->closeRate($agentId,"transfer",1); ?>%</span>
+                                <span><?php echo Yii::$app->agentcomponent->closeRate($skillType,$agentId,"transfer",1); ?>%</span>
                               </div>
                             </div>
                           </div>

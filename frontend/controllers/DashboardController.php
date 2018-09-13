@@ -32,24 +32,95 @@ class DashboardController extends Controller
      *
      * @return string
      */
+
+    /**
+     * Displays homepage.
+     *
+     * @return string
+     */
     public function actionIndex()
     {
 
-       $this->checkUser();
+      $this->checkUser();
+
+      $model = new User();
+
+      $skillType = "Business";
+
+      $profile = User::find()
+           ->select('profile_pic')
+            ->where(['id' => Yii::$app->user->id])
+           ->one();
+
+      return $this->render('dashboard', [
+          'model'               => $model,
+          'profile'             => $profile['profile_pic'] ,
+          'skillType'           => $skillType,
+      ]);
+    }
+
+    public function actionConsumer()
+    {
+
+      $this->checkUser();
 
     	$model = new User();
+
+      $skillType = "Consumer";
 
     	$profile = User::find()
            ->select('profile_pic')
           	->where(['id' => Yii::$app->user->id])
            ->one();
 
+      return $this->render('dashboard', [
+          'model'               => $model,
+          'profile'             => $profile['profile_pic'] ,
+          'skillType'           => $skillType,
+      ]);
+    }
+
+    public function actionBusiness(){
+
+      $this->checkUser();
+
+      $model = new User();
+
+      $skillType = "Business";
+
+      $profile = User::find()
+           ->select('profile_pic')
+            ->where(['id' => Yii::$app->user->id])
+           ->one();
 
       return $this->render('dashboard', [
           'model'               => $model,
           'profile'             => $profile['profile_pic'] ,
+          'skillType'           => $skillType,          
       ]);
     }
+
+    public function actionDealer(){
+
+      $this->checkUser();
+
+      $model = new User();
+
+      $skillType = "Dealer SalesOnCall";
+
+      $profile = User::find()
+           ->select('profile_pic')
+            ->where(['id' => Yii::$app->user->id])
+           ->one();
+
+      return $this->render('dashboard', [
+          'model'               => $model,
+          'profile'             => $profile['profile_pic'] ,
+          'skillType'           => $skillType,
+      ]);
+    }
+
+
 
     public function checkUser(){
 
