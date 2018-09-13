@@ -45,9 +45,9 @@ AppAsset::register($this);
                      
                     ['label' => 'Category', 'url' => ['#'],
                         'items' => [
-                            ['label' => 'Consumer', 'url' => ['/dashboard/index']],
-                            ['label' => 'Business', 'url' => ['/dashboard/index']],
-                            ['label' => 'Dealer', 'url' => ['/dashboard/index']],
+                            ['label' => 'Consumer', 'url' => ['/dashboard/consumer']],
+                            ['label' => 'Business', 'url' => ['/dashboard/business']],
+                            ['label' => 'Dealer', 'url' => ['/dashboard/dealer']],
                         ],
                         'visible' => Yii::$app->user->can('virtual_user')
                     ],
