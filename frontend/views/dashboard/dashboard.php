@@ -6,6 +6,8 @@ use dosamigos\fileupload\FileUpload;
 use yii\widgets\FileInput;
 
 $this->title = 'RM Factory';
+
+$agentId = 322;//Yii::$app->agentcomponent->getAgentId();
 ?>
 <style>
 .jumbotron .btn{
@@ -69,11 +71,11 @@ $this->title = 'RM Factory';
                 </div>
                 <div class="col-md-2">
                     Today's Close Rate
-                    <div class="demo-1" data-percent="<?php echo $todaysColseRate; ?>"></div>
+                    <div class="demo-1" data-percent="<?php echo Yii::$app->agentcomponent->getTodaysCloseRate($agentId); ?>"></div>
               </div>
                 <div class="col-md-2">
                     Today's Community Close Rate
-                    <div class="demo-2" data-percent="<?php echo $communityCloseRate; ?>"></div>
+                    <div class="demo-2" data-percent="<?php echo Yii::$app->agentcomponent->getCommunityCloseRate($agentId); ?>"></div>
                 </div>
                 <div class="col-md-2">
                     Today's Points Earned
@@ -112,14 +114,14 @@ $this->title = 'RM Factory';
                           <div class="progress-bar">
                             <div class="progress-track">
                               <div class="progress-fill red">
-                                <span>30%</span>
+                                <span><?php echo Yii::$app->agentcomponent->closeRate($agentId,"TV"); ?>%</span>
                               </div>
                             </div>
                           </div>
                           <div class="progress-bar">
                             <div class="progress-track">
                               <div class="progress-fill yellow">
-                                <span>60%</span>
+                                <span><?php echo Yii::$app->agentcomponent->closeRate($agentId,"TV",1); ?>%</span>
                               </div>
                             </div>
                           </div>
@@ -133,14 +135,14 @@ $this->title = 'RM Factory';
                           <div class="progress-bar">
                             <div class="progress-track">
                               <div class="progress-fill yellow">
-                                <span>60%</span>
+                                <span><?php echo Yii::$app->agentcomponent->closeRate($agentId,"directMail"); ?>%</span>
                               </div>
                             </div>
                           </div>
                           <div class="progress-bar">
                             <div class="progress-track">
                               <div class="progress-fill green">
-                                <span>95%</span>
+                                <span><?php echo Yii::$app->agentcomponent->closeRate($agentId,"directMail",1); ?>%</span>
                               </div>
                             </div>
                           </div>
@@ -153,14 +155,14 @@ $this->title = 'RM Factory';
                           <div class="progress-bar">
                             <div class="progress-track">
                               <div class="progress-fill green">
-                                <span>90%</span>
+                                <span><?php echo Yii::$app->agentcomponent->closeRate($agentId,"web"); ?>%</span>
                               </div>
                             </div>
                           </div>
                           <div class="progress-bar">
                             <div class="progress-track">
                               <div class="progress-fill red">
-                                <span>15%</span>
+                                <span><?php echo Yii::$app->agentcomponent->closeRate($agentId,"web",1); ?>%</span>
                               </div>
                             </div>
                           </div>
@@ -174,14 +176,14 @@ $this->title = 'RM Factory';
                           <div class="progress-bar">
                             <div class="progress-track">
                               <div class="progress-fill red">
-                                <span>20%</span>
+                                <span><?php echo Yii::$app->agentcomponent->closeRate($agentId,"transfer"); ?>%</span>
                               </div>
                             </div>
                           </div>
                           <div class="progress-bar">
                             <div class="progress-track">
                               <div class="progress-fill green">
-                                <span>95%</span>
+                                <span><?php echo Yii::$app->agentcomponent->closeRate($agentId,"transfer",1); ?>%</span>
                               </div>
                             </div>
                           </div>

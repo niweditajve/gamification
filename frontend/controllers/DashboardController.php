@@ -44,17 +44,10 @@ class DashboardController extends Controller
           	->where(['id' => Yii::$app->user->id])
            ->one();
 
-      $agentId = 322;//Yii::$app->agentcomponent->getAgentId();
-
-      $todaysColseRate = Yii::$app->agentcomponent->getTodaysCloseRate($agentId);
-      
-      $communityCloseRate = Yii::$app->agentcomponent->getCommunityCloseRate($agentId);
 
       return $this->render('dashboard', [
-          'model' => $model,
-          'profile' => $profile['profile_pic'] ,
-          'todaysColseRate' => $todaysColseRate,
-          'communityCloseRate' => $communityCloseRate,
+          'model'               => $model,
+          'profile'             => $profile['profile_pic'] ,
       ]);
     }
 
