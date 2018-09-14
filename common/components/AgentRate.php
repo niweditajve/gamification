@@ -11,10 +11,10 @@ class AgentRate extends Component
 
 	public function getAgentId(){
 		
-		$agent = Agent::find()
-           ->select('AgentID')
-          	->where(['Login' => Yii::$app->user->identity->email])
-           ->one();
+	$agent = Agent::find()
+                ->select('AgentID')
+                     ->where(['Login' => Yii::$app->user->identity->email])
+                ->one();
 
         if($agent)
         	return $agent['AgentID'];
