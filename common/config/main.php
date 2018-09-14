@@ -11,5 +11,10 @@ return [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
+        'agentcomponent' => [
+         
+            'class' => 'common\components\AgentRate',
+
+            ],
     ],
 ];

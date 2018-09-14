@@ -57,11 +57,17 @@ return [
             'rules' => [
             ],
         ],
-        'agentcomponent' => [
+       /* 'agentcomponent' => [
          
-            'class' => 'app\components\AgentRate',
+            'class' => 'frontend\components\AgentRate',
 
-        ],
+            ],*/
+        'agentformcomponent' => [
+         
+            'class' => 'app\components\AgentLoginForm',
+
+            ],
+           
     ],
     'params' => $params,
 ];
