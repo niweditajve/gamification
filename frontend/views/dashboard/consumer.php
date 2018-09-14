@@ -7,7 +7,10 @@ use yii\widgets\FileInput;
 
 $this->title = 'RM Factory';
 
-$agentId = Yii::$app->agentcomponent->getAgentId();
+$agent = Yii::$app->agentcomponent->getAgentId();
+ 
+$agentId = $agent['AgentID']; 
+$parentTenantID = $agent['ParentTenantID'];
 ?>
 <style>
 .jumbotron .btn{
@@ -214,7 +217,7 @@ $agentId = Yii::$app->agentcomponent->getAgentId();
                     Voice Attachment
                     <?php 
                     $voices = Yii::$app->agentcomponent->getVoiceAttachement($skillType,$agentId);
-                    $voiceCommunity = Yii::$app->agentcomponent->getVoiceAttachement($skillType,$agentId,1);
+                    $voiceCommunity = Yii::$app->agentcomponent->getVoiceAttachement($skillType,$agentId);
                     ?>
                         <div class="container vertical rounded" style="margin-left:40px;">
                           
@@ -238,19 +241,23 @@ $agentId = Yii::$app->agentcomponent->getAgentId();
 
                 <div class="col-md-3">
                     Express Repair
+                    <?php 
+                    $exp = Yii::$app->agentcomponent->getExpRepairSold($skillType,$agentId);
+                    $expCommunity = Yii::$app->agentcomponent->getExpRepairSold($skillType,$agentId,$parentTenantID);
+                    ?>
                     <div class="container vertical rounded" style="margin-left:40px;">
                           
                           <div class="progress-bar">
                             <div class="progress-track">
-                              <div class="progress-fill yellow">
-                                <span>60%</span>
+                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor("exp", $exp); ?>">
+                                <span><?php echo $exp; ?>%</span>
                               </div>
                             </div>
                           </div>
                           <div class="progress-bar">
                             <div class="progress-track">
-                              <div class="progress-fill green">
-                                <span>95%</span>
+                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor("exp", $expCommunity); ?>">
+                                <span><?php echo $expCommunity; ?>%</span>
                               </div>
                             </div>
                           </div>
@@ -259,18 +266,22 @@ $agentId = Yii::$app->agentcomponent->getAgentId();
 
                 <div class="col-md-3">
                     Norton Attachment
+                    <?php 
+                    $pce = Yii::$app->agentcomponent->getPCESold($skillType,$agentId);
+                    $pceCommunity = Yii::$app->agentcomponent->getPCESold($skillType,$agentId,$parentTenantID);
+                    ?>
                     <div class="container vertical rounded" style="margin-left:40px;">
                           <div class="progress-bar">
                             <div class="progress-track">
-                              <div class="progress-fill green">
-                                <span>90%</span>
+                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor("exp", $pce); ?>">
+                                <span><?php echo $pce; ?>%</span>
                               </div>
                             </div>
                           </div>
                           <div class="progress-bar">
                             <div class="progress-track">
-                              <div class="progress-fill red">
-                                <span>15%</span>
+                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor("exp", $pceCommunity); ?>">
+                                <span><?php echo $pceCommunity; ?>%</span>
                               </div>
                             </div>
                           </div>

@@ -12,12 +12,12 @@ class AgentRate extends Component
 	public function getAgentId(){
 		
 	$agent = Agent::find()
-                ->select('AgentID')
-                     ->where(['Login' => Yii::$app->user->identity->email])
-                ->one();
-
+            ->select('AgentID,ParentTenantID')
+            ->where(['Login' => Yii::$app->user->identity->email])
+            ->one();
+        
         if($agent)
-        	return $agent['AgentID'];
+        	return $agent;
         else
         	return false;
 
@@ -117,19 +117,19 @@ class AgentRate extends Component
 
             switch($onBehalf){
                 case "TV":
-                        $str = "'Broadcast','Broadcast2'";
-                        return $str;
+                    $str = "'Broadcast','Broadcast2'";
+                    return $str;
                 case "directMail":
-                        $str = "'Campaigns','Direct Mail'";
-                        return $str;
+                    $str = "'Campaigns','Direct Mail'";
+                    return $str;
                 case "web":
-                        $str = "'Web','Web Managed'";
-                        return $str;
+                    $str = "'Web','Web Managed'";
+                    return $str;
                 case "transfer":
-                        $str = "'Callback','Other'";
-                        return $str;
+                    $str = "'Callback','Other'";
+                    return $str;
                 default:
-                        return $str;	
+                    return $str;	
             }
 
 	}
@@ -149,7 +149,7 @@ class AgentRate extends Component
 
             $validEmails = $result[0]['emails'];
 
-            return $validEmails;
+            return $validEmails ? $validEmails : 0;
 	}
 
 
@@ -195,9 +195,9 @@ class AgentRate extends Component
             $order = $result[0]['voip1'] + $result[0]['voip2'] + $result[0]['voip3'];
  
             if($totalOrder && $order)
-			return ($totalOrder/$order);
-		else
-			return 0;
+                return ($totalOrder/$order);
+            else
+                return 0;
 
 	}
 
@@ -210,6 +210,60 @@ class AgentRate extends Component
             elseif($value >= 60)
                 return "green";
         }
+        
+        public function getExpRepairSold($skillType,$agentID,$community=null){
+            
+            if($community)
+            {
+                $startEnd = " CreateDate >= '".$this->startTime()."' AND CreateDate < '".$this->endTime()."' AND AgentID in(SELECT AgentID FROM tblagent WHERE ParentTenantID = $community) AND ExpRepairSold != ''";
+            }
+            else
+                $startEnd = " CreateDate >= 'CURDATE() 00:00:00' AND CreateDate < 'CURDATE() +1 11:59:59' AND AgentID =".$agentID ." AND ExpRepairSold != ''";
+
+            $sql = "SELECT sum(if(ExpRepairSold like 'Y',1,0)) as exp, sum(RowID) AS totalOrders FROM calldata WHERE ".$startEnd;
+
+            $command = Yii::$app->db->createCommand($sql);
+
+            $result = $command->queryAll();
+            
+            $exp = $result[0]['exp'];
+            
+            $totalOrders = $result[0]['totalOrders'];
+            
+            if($totalOrders && $exp)
+                return ($totalOrders/$exp);
+            else
+                return 0;
+            
+        }
+        
+        public function getPCESold($skillType,$agentID,$community=null){
+            
+            if($community)
+            {
+                $startEnd = " CreateDate >= '".$this->startTime()."' AND CreateDate < '".$this->endTime()."' AND AgentID in(SELECT AgentID FROM tblagent WHERE ParentTenantID = $community) AND PCESold != ''";
+            }
+            else
+                $startEnd = " CreateDate >= 'CURDATE() 00:00:00' AND CreateDate < 'CURDATE() +1 11:59:59' AND AgentID =".$agentID ." AND PCESold != ''";
+
+            $sql = "SELECT sum(if(PCESold like 'Y',1,0)) as exp, sum(RowID) AS totalOrders FROM calldata WHERE ".$startEnd;
+
+            $command = Yii::$app->db->createCommand($sql);
+
+            $result = $command->queryAll();
+            
+            $exp = $result[0]['exp'];
+            
+            $totalOrders = $result[0]['totalOrders'];
+            
+            if($totalOrders && $exp)
+                return ($totalOrders/$exp);
+            else
+                return 0;
+            
+        }
+        
+        
 
 
 
