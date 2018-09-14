@@ -13,7 +13,7 @@ return [
         ],
         'agentcomponent' => [
          
-            'class' => 'common\components\AgentRate',
+            'class' => 'components\AgentRate',
 
             ],
     ],
