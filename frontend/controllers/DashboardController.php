@@ -40,7 +40,6 @@ class DashboardController extends Controller
      */
     public function actionIndex()
     {
-
       $this->checkUser();
 
       $model = new User();
@@ -48,11 +47,11 @@ class DashboardController extends Controller
       $skillType = "Business";
 
       $profile = User::find()
-           ->select('profile_pic')
+            ->select('profile_pic')
             ->where(['id' => Yii::$app->user->id])
-           ->one();
+            ->one();
 
-      return $this->render('dashboard', [
+      return $this->render('business', [
           'model'               => $model,
           'profile'             => $profile['profile_pic'] ,
           'skillType'           => $skillType,
@@ -62,22 +61,22 @@ class DashboardController extends Controller
     public function actionConsumer()
     {
 
-      $this->checkUser();
+        $this->checkUser();
 
-    	$model = new User();
+        $model = new User();
 
-      $skillType = "Consumer";
+        $skillType = "Consumer";
 
-    	$profile = User::find()
-           ->select('profile_pic')
-          	->where(['id' => Yii::$app->user->id])
-           ->one();
+        $profile = User::find()
+            ->select('profile_pic')
+            ->where(['id' => Yii::$app->user->id])
+            ->one();
 
-      return $this->render('dashboard', [
-          'model'               => $model,
-          'profile'             => $profile['profile_pic'] ,
-          'skillType'           => $skillType,
-      ]);
+        return $this->render('consumer', [
+            'model'               => $model,
+            'profile'             => $profile['profile_pic'] ,
+            'skillType'           => $skillType,
+        ]);
     }
 
     public function actionBusiness(){
@@ -93,7 +92,7 @@ class DashboardController extends Controller
             ->where(['id' => Yii::$app->user->id])
            ->one();
 
-      return $this->render('dashboard', [
+      return $this->render('business', [
           'model'               => $model,
           'profile'             => $profile['profile_pic'] ,
           'skillType'           => $skillType,          
@@ -113,7 +112,7 @@ class DashboardController extends Controller
             ->where(['id' => Yii::$app->user->id])
            ->one();
 
-      return $this->render('dashboard', [
+      return $this->render('dealer', [
           'model'               => $model,
           'profile'             => $profile['profile_pic'] ,
           'skillType'           => $skillType,
