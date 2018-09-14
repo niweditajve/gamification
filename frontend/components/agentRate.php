@@ -51,9 +51,19 @@ class AgentRate extends Component
 		return $end = strtotime($end_date);
 	}
 
+	public function startTime(){
+
+		return $start_date = "1-1-".date("y")." 00:00:00";
+	}
+
+	public function endTime(){
+		
+		return $end_date = "30-12-".date("y")." 11:59:59";
+	}
+
 	public function getCommunityCloseRate($skillType,$agentID){
 
-		$sql = "SELECT sum(if(LastState=19 or LastState=16 or (LastState=17 and Transfer!=1),1,0)) as offered,sum(if(LastState=19,1,0)) as answered from billing_summaries where Start >= " . $this->startTimestamp() . " AND Start < ".$this->endTimestamp() . " AND LastQueue = '".$skillType."' AND AgentID =".$agentID;
+		$sql = "SELECT sum(if(LastState=19 or LastState=16 or (LastState=17 and Transfer!=1),1,0)) as offered,sum(if(LastState=19,1,0)) as answered from billing_summaries where Start >= " . $this->startTimestamp() . " AND Start < ".$this->endTimestamp() . " AND LastQueue = '".$skillType."'";
 
 		$command = Yii::$app->db->createCommand($sql);
 
@@ -75,11 +85,11 @@ class AgentRate extends Component
 		if($community)
 			$startEnd = " Start >= ".$this->startTimestamp()." AND Start < ".$this->endTimestamp();
 		else
-			$startEnd = " Start BETWEEN 1480546800 AND 1482274799";
+			$startEnd = " Start BETWEEN 1480546800 AND 1482274799 AND AgentID =".$agentID;
 
 		$mediaType = $this->getRateText($onBehalf);
 
-	  	$sql = "SELECT sum(if(LastState=19 or LastState=16 or (LastState=17 and Transfer!=1),1,0)) as offered,sum(if(LastState=19,1,0)) as answered from billing_summaries where $startEnd and DNIS in (select inContactTFN from tfnMedia where mediaType in ($mediaType)) AND LastQueue = '".$skillType."' AND AgentID =".$agentID;
+	  	$sql = "SELECT sum(if(LastState=19 or LastState=16 or (LastState=17 and Transfer!=1),1,0)) as offered,sum(if(LastState=19,1,0)) as answered from billing_summaries where $startEnd and DNIS in (select inContactTFN from tfnMedia where mediaType in ($mediaType)) AND LastQueue = '".$skillType."' ";
 
 	  	$command = Yii::$app->db->createCommand($sql);
 
@@ -120,6 +130,46 @@ class AgentRate extends Component
 		}
 
 	}
+
+	public function getValidEmailCollection($skillType,$agentID,$onBehalf,$community=null){
+
+		if($community)
+			$startEnd = " AND CreateDate >= '".$this->startTime()."' AND CreateDate < '".$this->endTime()."'";
+		else
+			$startEnd = " AND CreateDate >= '".$this->startTime()."' AND CreateDate < '".$this->endTime()."' AND AgentID =".$agentID;
+
+		$sql = "SELECT sum(if(`EmailAddress`,1,0)) as emails FROM `calldata` WHERE `EmailAddress` NOT LIKE '%@hughes.com%'". $startEnd;
+
+		$command = Yii::$app->db->createCommand($sql);
+
+      	$result = $command->queryAll();
+
+	  	$validEmails = $result[0]['emails'];
+
+	  	return $validEmails;
+	}
+
+
+	public function getValidPhoneCollection($skillType,$agentID,$onBehalf,$community=null){
+
+		if($community)
+			$startEnd = " AND CreateDate >= '".$this->startTime()."' AND CreateDate < '".$this->endTime()."'";
+		else
+			$startEnd = " AND CreateDate >= '".$this->startTime()."' AND CreateDate < '".$this->endTime()."' AND AgentID =".$agentID;
+
+		$sql = "SELECT sum(if(`PhoneNumber`,1,0)) as phones FROM `callData` WHERE `PhoneNumber` REGEXP '[0-9]{10}' ".$startEnd;
+
+		$command = Yii::$app->db->createCommand($sql);
+
+      	$result = $command->queryAll();
+
+	  	$validPhones = $result[0]['phones'];
+
+	  	return $validPhones;
+	}
+
+
+
 
 
  
