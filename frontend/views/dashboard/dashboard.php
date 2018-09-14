@@ -287,14 +287,14 @@ $agentId = 322;//Yii::$app->agentcomponent->getAgentId();
                           <div class="progress-bar">
                             <div class="progress-track">
                               <div class="progress-fill red">
-                                <span>30%</span>
+                                <span><?php echo Yii::$app->agentcomponent->getValidEmailCollection($skillType,$agentId,"transfer"); ?>%</span>
                               </div>
                             </div>
                           </div>
                           <div class="progress-bar">
                             <div class="progress-track">
                               <div class="progress-fill yellow">
-                                <span>60%</span>
+                                <span><?php echo Yii::$app->agentcomponent->getValidEmailCollection($skillType,$agentId,"transfer",1); ?>%</span>
                               </div>
                             </div>
                           </div>
@@ -307,14 +307,14 @@ $agentId = 322;//Yii::$app->agentcomponent->getAgentId();
                           <div class="progress-bar">
                             <div class="progress-track">
                               <div class="progress-fill yellow">
-                                <span>60%</span>
+                                <span><?php echo Yii::$app->agentcomponent->getValidPhoneCollection($skillType,$agentId,"transfer"); ?>%</span>
                               </div>
                             </div>
                           </div>
                           <div class="progress-bar">
                             <div class="progress-track">
                               <div class="progress-fill green">
-                                <span>95%</span>
+                                <span><?php echo Yii::$app->agentcomponent->getValidPhoneCollection($skillType,$agentId,"transfer"); ?>%</span>
                               </div>
                             </div>
                           </div>
