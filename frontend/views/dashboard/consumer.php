@@ -8,7 +8,7 @@ use yii\widgets\FileInput;
 $this->title = 'RM Factory';
 
 $agent = Yii::$app->agentcomponent->getAgentId();
- 
+ //echo "<pre>"; print_r(Yii::$app->agentcomponent->getAgentId()); die;
 $agentId = $agent['AgentID']; 
 $parentTenantID = $agent['ParentTenantID'];
 ?>

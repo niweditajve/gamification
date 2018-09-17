@@ -9,6 +9,7 @@ use yii\base\InvalidConfigException;
 class AgentRate extends Component
 {
 
+    
 	public function getAgentId(){
 		
 	$agent = Agent::find()
@@ -334,6 +335,30 @@ class AgentRate extends Component
             
             if($totalOrders && $exp)
                 return ($totalOrders/$exp);
+            else
+                return 0;
+        }
+        
+        public function getCCOrders($skillType,$agentID,$community=null){
+            if($community)
+            {
+                $startEnd = " CreateDate >= '".$this->startTime()."' AND CreateDate < '".$this->endTime()."' AND AgentID in(SELECT AgentID FROM tblagent WHERE ParentTenantID = $community)";
+            }
+            else
+                $startEnd = " CreateDate >= 'CURDATE() 00:00:00' AND CreateDate < 'CURDATE() 11:59:59' AND AgentID =".$agentID ." ";
+
+            $sql = "SELECT sum(if(CCNumber != '',1,0)) as ccorders, sum(RowID) AS totalOrders FROM calldata WHERE ".$startEnd;
+
+            $command = Yii::$app->db->createCommand($sql);
+
+            $result = $command->queryAll();
+            
+            $ccorders = $result[0]['ccorders'];
+            
+            $totalOrders = $result[0]['totalOrders'];
+            
+            if($totalOrders && $ccorders)
+                return ($totalOrders/$ccorders);
             else
                 return 0;
         }
