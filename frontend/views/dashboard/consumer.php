@@ -80,7 +80,7 @@ $parentTenantID = $agent['ParentTenantID'];
               </div>
                 <div class="col-md-2">
                     Today's Community Close Rate
-                    <div class="demo-2" data-percent="<?php echo Yii::$app->agentcomponent->getCommunityCloseRate($skillType,$agentId); ?>"></div>
+                    <div class="demo-2" data-percent="<?php echo Yii::$app->agentcomponent->getTodaysCloseRate($skillType,$agentId,$parentTenantID); ?>"></div>
                 </div>
                 <div class="col-md-2">
                     Today's Points Earned
