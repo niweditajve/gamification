@@ -179,21 +179,23 @@ class AgentRate extends Component
         public function getVoiceAttachement($skillType,$agentID,$community=null){
 
             if($community)
-                $startEnd = " CreateDate >= '".$this->startTime()."' AND CreateDate < '".$this->endTime()."' AND AgentID in(SELECT AgentID FROM tblagent WHERE ParentTenantID = $community)";
+                $startEnd = " CreateDate >= '".$this->startTime()."' AND CreateDate < '".$this->endTime()."' AND AgentID in(SELECT AgentID FROM tblagent WHERE ParentTenantID = $community) AND Sale = 'Y' ";
             else
-                $startEnd = " CreateDate >= '".$this->startTime()."' AND CreateDate < '".$this->endTime()."' AND AgentID =".$agentID;
+                $startEnd = " CreateDate >= '".$this->startTime()."' AND CreateDate < '".$this->endTime()."' AND AgentID =".$agentID ." AND Sale = 'Y' ";
 
-            $sql = "SELECT sum(if(OfferedProducts like '%VoIP%',1,0)) as vpoffered, sum(if(VoIP='VoIP Domestic Business - 1 Year Commitment',1,0)) as voip1,
+            /*$sql = "SELECT sum(if(OfferedProducts like '%VoIP%',1,0)) as vpoffered, sum(if(VoIP='VoIP Domestic Business - 1 Year Commitment',1,0)) as voip1,
                         sum(if(VoIP='VoIP Domestic - 2 Year Commitment',1,0)) AS voip2,
-                        sum(if(VoIP='VoIP Domestic - No Commitment',1,0)) AS voip3 FROM calldata WHERE ".$startEnd;
+                        sum(if(VoIP='VoIP Domestic - No Commitment',1,0)) AS voip3 FROM calldata WHERE ".$startEnd; */
+            
+            $sql = "SELECT sum(if(VoIPSold like 'Y',1,0)) as voice, sum(RowID) AS totalOrders FROM calldata WHERE ".$startEnd; 
 
             $command = Yii::$app->db->createCommand($sql);
 
             $result = $command->queryAll();
             
-            $totalOrder = $result[0]['vpoffered'];
+            $totalOrder = $result[0]['totalOrders'];
             
-            $order = $result[0]['voip1'] + $result[0]['voip2'] + $result[0]['voip3'];
+            $order = $result[0]['voice'];
  
             if($totalOrder && $order)
                 return ($totalOrder/$order);
@@ -216,10 +218,10 @@ class AgentRate extends Component
             
             if($community)
             {
-                $startEnd = " CreateDate >= '".$this->startTime()."' AND CreateDate < '".$this->endTime()."' AND AgentID in(SELECT AgentID FROM tblagent WHERE ParentTenantID = $community) AND ExpRepairSold != ''";
+                $startEnd = " CreateDate >= '".$this->startTime()."' AND CreateDate < '".$this->endTime()."' AND AgentID in(SELECT AgentID FROM tblagent WHERE ParentTenantID = $community) AND Sale = 'Y' ";
             }
             else
-                $startEnd = " CreateDate >= 'CURDATE() 00:00:00' AND CreateDate < 'CURDATE() 11:59:59' AND AgentID =".$agentID ." AND ExpRepairSold != ''";
+                $startEnd = " CreateDate >= 'CURDATE() 00:00:00' AND CreateDate < 'CURDATE() 11:59:59' AND AgentID =".$agentID ." AND Sale = 'Y' ";
 
             $sql = "SELECT sum(if(ExpRepairSold like 'Y',1,0)) as exp, sum(RowID) AS totalOrders FROM calldata WHERE ".$startEnd;
 
@@ -242,10 +244,10 @@ class AgentRate extends Component
             
             if($community)
             {
-                $startEnd = " CreateDate >= '".$this->startTime()."' AND CreateDate < '".$this->endTime()."' AND AgentID in(SELECT AgentID FROM tblagent WHERE ParentTenantID = $community) AND PCESold != ''";
+                $startEnd = " CreateDate >= '".$this->startTime()."' AND CreateDate < '".$this->endTime()."' AND AgentID in(SELECT AgentID FROM tblagent WHERE ParentTenantID = $community) AND Sale = 'Y' ";
             }
             else
-                $startEnd = " CreateDate >= 'CURDATE() 00:00:00' AND CreateDate < 'CURDATE() 11:59:59' AND AgentID =".$agentID ." AND PCESold != ''";
+                $startEnd = " CreateDate >= 'CURDATE() 00:00:00' AND CreateDate < 'CURDATE() 11:59:59' AND AgentID =".$agentID ." AND Sale = 'Y' ";
 
             $sql = "SELECT sum(if(PCESold like 'Y',1,0)) as exp, sum(RowID) AS totalOrders FROM calldata WHERE ".$startEnd;
 
@@ -269,10 +271,10 @@ class AgentRate extends Component
             
             if($community)
             {
-                $startEnd = " CreateDate >= '".$this->startTime()."' AND CreateDate < '".$this->endTime()."' AND AgentID in(SELECT AgentID FROM tblagent WHERE ParentTenantID = $community) AND NortonSold != ''";
+                $startEnd = " CreateDate >= '".$this->startTime()."' AND CreateDate < '".$this->endTime()."' AND AgentID in(SELECT AgentID FROM tblagent WHERE ParentTenantID = $community) AND Sale = 'Y' ";
             }
             else
-                $startEnd = " CreateDate >= 'CURDATE() 00:00:00' AND CreateDate < 'CURDATE() 11:59:59' AND AgentID =".$agentID ." AND NortonSold != ''";
+                $startEnd = " CreateDate >= 'CURDATE() 00:00:00' AND CreateDate < 'CURDATE() 11:59:59' AND AgentID =".$agentID ." AND Sale = 'Y' ";
 
             $sql = "SELECT sum(if(NortonSold like 'Y',1,0)) as exp, sum(RowID) AS totalOrders FROM calldata WHERE ".$startEnd;
 
@@ -294,10 +296,10 @@ class AgentRate extends Component
         public function getscheduleInstallCollection($skillType,$agentID,$community=null){
             if($community)
             {
-                $startEnd = " CreateDate >= '".$this->startTime()."' AND CreateDate < '".$this->endTime()."' AND AgentID in(SELECT AgentID FROM tblagent WHERE ParentTenantID = $community)";
+                $startEnd = " CreateDate >= '".$this->startTime()."' AND CreateDate < '".$this->endTime()."' AND AgentID in(SELECT AgentID FROM tblagent WHERE ParentTenantID = $community) AND Sale = 'Y' ";
             }
             else
-                $startEnd = " CreateDate >= 'CURDATE() 00:00:00' AND CreateDate < 'CURDATE() 11:59:59' AND AgentID =".$agentID ." ";
+                $startEnd = " CreateDate >= 'CURDATE() 00:00:00' AND CreateDate < 'CURDATE() 11:59:59' AND AgentID =".$agentID ." AND Sale = 'Y' ";
 
             $sql = "SELECT sum(if(ScheduleAttempted like '1',1,0)) as exp, sum(RowID) AS totalOrders FROM calldata WHERE ".$startEnd;
 
@@ -318,12 +320,12 @@ class AgentRate extends Component
         public function getCurrentConnection($skillType,$agentID,$community=null){
             if($community)
             {
-                $startEnd = " CreateDate >= '".$this->startTime()."' AND CreateDate < '".$this->endTime()."' AND AgentID in(SELECT AgentID FROM tblagent WHERE ParentTenantID = $community) AND Connection != ''";
+                $startEnd = " CreateDate >= '".$this->startTime()."' AND CreateDate < '".$this->endTime()."' AND AgentID in(SELECT AgentID FROM tblagent WHERE ParentTenantID = $community) AND Sale = 'Y' ";
             }
             else
-                $startEnd = " CreateDate >= 'CURDATE() 00:00:00' AND CreateDate < 'CURDATE() 11:59:59' AND AgentID =".$agentID ." AND Connection != ''";
+                $startEnd = " CreateDate >= 'CURDATE() 00:00:00' AND CreateDate < 'CURDATE() 11:59:59' AND AgentID =".$agentID ." AND Sale = 'Y' ";
 
-            $sql = "SELECT sum(if(Connection NOT LIKE 'no internet',1,0)) as exp, sum(RowID) AS totalOrders FROM calldata WHERE ".$startEnd;
+            $sql = "SELECT sum(if(Connection NOT LIKE 'no internet' AND Connection != '',1,0)) as exp, sum(RowID) AS totalOrders FROM calldata WHERE ".$startEnd;
 
             $command = Yii::$app->db->createCommand($sql);
 
