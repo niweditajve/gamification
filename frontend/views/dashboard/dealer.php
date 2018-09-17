@@ -7,7 +7,10 @@ use yii\widgets\FileInput;
 
 $this->title = 'RM Factory';
 
-$agentId = Yii::$app->agentcomponent->getAgentId();
+$agent = Yii::$app->agentcomponent->getAgentId();
+
+$agentId = $agent['AgentID']; 
+$parentTenantID = $agent['ParentTenantID'];
 ?>
 <style>
 .jumbotron .btn{
