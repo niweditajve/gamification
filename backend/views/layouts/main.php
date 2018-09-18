@@ -28,7 +28,7 @@ AppAsset::register($this);
         <div class="wrap">
             <?php
             if (Yii::$app->controller->action->id !== 'rundashboard') {
-
+                
                 NavBar::begin([
                     'brandLabel' => Html::img('@web/images/image.png', ['alt'=>Yii::$app->params['name']]),
                     'brandUrl' => Yii::$app->homeUrl,
@@ -44,6 +44,7 @@ AppAsset::register($this);
                 } else {
                     $navItems = [
                         ['label' => 'Home', 'url' => ['/site/index']],
+                        ['label' => 'Manage Categories', 'url' => ['/categories/index'], 'visible' => Yii::$app->user->can('admin')],
                         ['label' => 'IVR', 'url' => ['#'],
                             'items' => [
                                 ['label' => 'TFN Media', 'url' => ['/tfn-media/index'], 'visible' => Yii::$app->user->can('admin_cc')],
