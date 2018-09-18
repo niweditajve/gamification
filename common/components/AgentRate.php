@@ -15,7 +15,7 @@ class AgentRate extends Component
          * Return - Returns agentID if agent found in tblagent table else return false.
          */
 	public function getAgentId(){
-		
+            
 	$agent = Agent::find()
             ->select('AgentID,ParentTenantID')
             ->where(['Login' => Yii::$app->user->identity->email])
@@ -27,6 +27,19 @@ class AgentRate extends Component
         	return false;
 
 	}
+        
+        public function getTableName(){
+           
+            if($_SERVER['SERVER_NAME'])
+            {
+                $tablename = "calldata";
+            }
+            else{
+                $tablename = "callData";
+            }
+            
+            return $tablename;
+        }
         
         /*
          * Function Name - getSkillCondition()
@@ -82,7 +95,7 @@ class AgentRate extends Component
             
             $communityCondition = $this->getCommunityCondition($community,$agentID);
 
-            $sql = "SELECT sum(if(OrderID !='',1,0)) as answered,sum(RowID) as offered FROM `calldata` WHERE ". $communityCondition . $skillCondition;
+            $sql = "SELECT sum(if(OrderID !='',1,0)) as answered,sum(RowID) as offered FROM ".$this->getTableName()." WHERE ". $communityCondition . $skillCondition;
             
             $command = Yii::$app->db->createCommand($sql);
 
@@ -159,7 +172,7 @@ class AgentRate extends Component
             
             $communityCondition = $this->getCommunityCondition($community,$agentID);
 
-            $sql = "SELECT sum(if(OrderID !='',1,0)) as answered,sum(RowID) as offered FROM `calldata` WHERE ". $communityCondition . " AND MediaType = '$mediaType'";
+            $sql = "SELECT sum(if(OrderID !='',1,0)) as answered,sum(RowID) as offered FROM ".$this->getTableName()." WHERE ". $communityCondition . " AND MediaType = '$mediaType'";
 
             $command = Yii::$app->db->createCommand($sql);
 
@@ -263,7 +276,7 @@ class AgentRate extends Component
             
             $skillCondition = $this->getSkillCondition($skillType);
             
-            $sql = "SELECT $selectColumns as validOrders, sum(RowID) AS totalOrders FROM `calldata` WHERE ". $communityCondition . $skillCondition ;
+            $sql = "SELECT $selectColumns as validOrders, sum(RowID) AS totalOrders FROM ".$this->getTableName()." WHERE ". $communityCondition . $skillCondition ;
             
             if($onBehalf == "EmailAddress")
                 $sql .=" AND `EmailAddress` NOT LIKE '%@hughes.com%'";
@@ -309,7 +322,7 @@ class AgentRate extends Component
             
             $skillCondition = $this->getSkillCondition($skillType);
             
-            $sql = "SELECT sum(if(OrderID !='',1,0)) as answered,sum(RowID) as orders FROM `calldata` WHERE CreateDate >= 'CURDATE() 00:00:00' AND CreateDate < 'CURDATE() 11:59:59' AND AgentID =".$agentID . $skillCondition;
+            $sql = "SELECT sum(if(OrderID !='',1,0)) as answered,sum(RowID) as orders FROM ".$this->getTableName()." WHERE CreateDate >= 'CURDATE() 00:00:00' AND CreateDate < 'CURDATE() 11:59:59' AND AgentID =".$agentID . $skillCondition;
 
             $command = Yii::$app->db->createCommand($sql);
 
@@ -320,7 +333,26 @@ class AgentRate extends Component
             return $validOrders;
             
         }
+        
+        /*
+         * Function Name - getTotalCalls()
+         * Parameters used - $agentID
+         * Description - Get call answered and total orders from calldata table.
+         * Return - Return color for bar graphs.
+         */
+        public function getTodaysPoints($agentID,$wkd = null){
+            
+            $sql = "SELECT sum(point) as ponits FROM `agentpoints` WHERE created_at >= 'CURDATE() 00:00:00' AND created_at < 'CURDATE() 11:59:59' AND AgentID =".$agentID ;
 
+            $command = Yii::$app->db->createCommand($sql);
+
+            $result = $command->queryAll();
+
+            $validOrders = $result[0]['ponits'];
+            
+            return $validOrders;
+            
+        }
 
  
 }
