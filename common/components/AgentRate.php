@@ -173,7 +173,7 @@ class AgentRate extends Component
             $totalCall = $result[0]['offered'];
 
             if($answeredCall && $totalCall)
-                return ( $totalCall / $answeredCall);
+                return number_format((float)($totalCall/$answeredCall),2, '.', '');
             else
                 return 0;
 
@@ -302,7 +302,27 @@ class AgentRate extends Component
                 return "green";
         }
         
-       
+       /*
+         * Function Name - getTotalCalls()
+         * Parameters used - $agentID
+         * Description - Get call answered and total orders from calldata table.
+         * Return - Return color for bar graphs.
+         */
+        public function getTotalCalls($agentID,$skillType){
+            
+            $skillCondition = $this->getSkillCondition($skillType);
+            
+            $sql = "SELECT sum(if(OrderID !='',1,0)) as answered,sum(RowID) as orders FROM `calldata` WHERE CreateDate >= 'CURDATE() 00:00:00' AND CreateDate < 'CURDATE() 11:59:59' AND AgentID =".$agentID . $skillCondition;
+
+            $command = Yii::$app->db->createCommand($sql);
+
+            $result = $command->queryAll();
+
+            $validOrders = $result[0];
+            
+            return $validOrders;
+            
+        }
 
 
  
