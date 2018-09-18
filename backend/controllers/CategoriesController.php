@@ -3,8 +3,8 @@
 namespace backend\controllers;
 
 use Yii;
-use backend\models\Categories;
-use backend\models\categoriesSearch;
+use common\models\Categories;
+use common\models\CategoriesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -48,7 +48,7 @@ class CategoriesController extends Controller
     public function actionIndex()
     {
         echo "ds";
-        $searchModel = new categoriesSearch();
+        $searchModel = new CategoriesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
