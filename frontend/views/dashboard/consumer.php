@@ -94,9 +94,9 @@ $parentTenantID = $agent['ParentTenantID'];
 
             <div class="col-md-12" style="margin-top: 20px; ">
                 <div class="col-md-4">
-                    
-                    My calls <br>
-                    My Orders <br>
+                     <?php $calls = Yii::$app->agentcomponent->getTotalCalls($agentId,$skillType); ?>
+                    My calls <?php echo $calls['answered'] ? $calls['answered'] :0; ?><br>
+                    My Orders <?php echo $calls['orders'] ? $calls['orders'] : 0; ?><br>
                     Point leader count <br>
                     <br>
                     <br>
