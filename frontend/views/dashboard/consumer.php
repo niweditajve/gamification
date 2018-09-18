@@ -115,8 +115,8 @@ $parentTenantID = $agent['ParentTenantID'];
                 <div class="col-md-3">
                     TV Close Rate
                     <?php 
-                    $tv = Yii::$app->agentcomponent->closeRate($skillType,$agentId,"TV");
-                    $CommunityTV = Yii::$app->agentcomponent->closeRate($skillType,$agentId,"TV",1);
+                    $tv = Yii::$app->agentcomponent->closeRate($agentId,"TV");
+                    $CommunityTV = Yii::$app->agentcomponent->closeRate($agentId,"TV",1);
                     ?>
                         <div class="container vertical rounded" style="margin-left:40px;">
                           
@@ -140,8 +140,8 @@ $parentTenantID = $agent['ParentTenantID'];
                 <div class="col-md-3">
                     Direct Mail Close Rate
                     <?php
-                    $mail = Yii::$app->agentcomponent->closeRate($skillType,$agentId,"directMail");
-                    $directMail = Yii::$app->agentcomponent->closeRate($skillType,$agentId,"directMail",1);
+                    $mail = Yii::$app->agentcomponent->closeRate($agentId,"directMail");
+                    $directMail = Yii::$app->agentcomponent->closeRate($agentId,"directMail",1);
                     ?>
                     <div class="container vertical rounded" style="margin-left:40px;">
                           
@@ -165,8 +165,8 @@ $parentTenantID = $agent['ParentTenantID'];
                 <div class="col-md-3">
                     Web Close Rate
                     <?php
-                    $web = Yii::$app->agentcomponent->closeRate($skillType,$agentId,"web");
-                    $communityWeb = Yii::$app->agentcomponent->closeRate($skillType,$agentId,"web",1);
+                    $web = Yii::$app->agentcomponent->closeRate($agentId,"web");
+                    $communityWeb = Yii::$app->agentcomponent->closeRate($agentId,"web",1);
                     ?>
                     <div class="container vertical rounded" style="margin-left:40px;">
                           <div class="progress-bar">
@@ -189,8 +189,8 @@ $parentTenantID = $agent['ParentTenantID'];
                 <div class="col-md-3">
                     Transfers Close Rate
                     <?php 
-                    $transfer = Yii::$app->agentcomponent->closeRate($skillType,$agentId,"transfer");
-                    $CommunityTransfer = Yii::$app->agentcomponent->closeRate($skillType,$agentId,"transfer",1);
+                    $transfer = Yii::$app->agentcomponent->closeRate($agentId,"transfer");
+                    $CommunityTransfer = Yii::$app->agentcomponent->closeRate($agentId,"transfer",1);
                     ?>
                     <div class="container vertical rounded" style="margin-left:40px;">
                           
