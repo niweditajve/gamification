@@ -94,9 +94,9 @@ $parentTenantID = $agent['ParentTenantID'];
 
             <div class="col-md-12" style="margin-top: 20px; ">
                 <div class="col-md-4">
-                    
-                    My calls <br>
-                    My Orders <br>
+                    <?php $calls = Yii::$app->agentcomponent->getTotalCalls($agentId,$skillType); ?>
+                    My calls <?php echo $calls['answered'] ? $calls['answered'] :0; ?><br>
+                    My Orders <?php echo $calls['orders'] ? $calls['orders'] : 0; ?><br>
                     Point leader count <br>
                     <br>
                     <br>
@@ -112,129 +112,7 @@ $parentTenantID = $agent['ParentTenantID'];
            
 
             <div class="col-md-12" style="margin-top:20px;">
-                <div class="col-md-3">
-                    Consumer Transfer Close Rate
-                    <?php 
-                    $tv = Yii::$app->agentcomponent->closeRate($skillType,$agentId,"TV");
-                    $CommunityTV = Yii::$app->agentcomponent->closeRate($skillType,$agentId,"TV",1);
-                    ?>
-                        <div class="container vertical rounded" style="margin-left:40px;">
-                          
-                          <div class="progress-bar">
-                            <div class="progress-track">
-                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor("tv", $tv); ?>">
-                                <span><?php echo $tv; ?>%</span>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="progress-bar">
-                            <div class="progress-track">
-                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor("tv", $CommunityTV); ?>">
-                                <span><?php echo $CommunityTV; ?>%</span>
-                              </div>
-                            </div>
-                          </div>
-                      </div>
-                </div>
-
-                <div class="col-md-3">
-                    Direct mail Close Rate
-                    <?php
-                    $mail = Yii::$app->agentcomponent->closeRate($skillType,$agentId,"directMail");
-                    $directMail = Yii::$app->agentcomponent->closeRate($skillType,$agentId,"directMail",1);
-                    ?>
-                    <div class="container vertical rounded" style="margin-left:40px;">
-                          
-                          <div class="progress-bar">
-                            <div class="progress-track">
-                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor("mail", $mail); ?>">
-                                <span><?php echo $mail; ?>%</span>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="progress-bar">
-                            <div class="progress-track">
-                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor("mail", $directMail); ?>">
-                                <span><?php echo $directMail; ?>%</span>
-                              </div>
-                            </div>
-                          </div>
-                      </div>
-                </div>
-
-                <div class="col-md-3">
-                    Web Close Rate
-                    <?php
-                    $web = Yii::$app->agentcomponent->closeRate($skillType,$agentId,"web");
-                    $communityWeb = Yii::$app->agentcomponent->closeRate($skillType,$agentId,"web",1);
-                    ?>
-                    <div class="container vertical rounded" style="margin-left:40px;">
-                          <div class="progress-bar">
-                            <div class="progress-track">
-                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor("web", $web); ?>">
-                                <span><?php echo $web; ?>%</span>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="progress-bar">
-                            <div class="progress-track">
-                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor("web", $communityWeb); ?>">
-                                <span><?php echo $communityWeb; ?>%</span>
-                              </div>
-                            </div>
-                          </div>
-                      </div>
-                </div>
-
-                <div class="col-md-3">
-                    Callback Close Rate
-                    <?php 
-                    $transfer = Yii::$app->agentcomponent->closeRate($skillType,$agentId,"transfer");
-                    $CommunityTransfer = Yii::$app->agentcomponent->closeRate($skillType,$agentId,"transfer",1);
-                    ?>
-                    <div class="container vertical rounded" style="margin-left:40px;">
-                          
-                          <div class="progress-bar">
-                            <div class="progress-track">
-                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor("voice", $transfer); ?>">
-                                <span><?php echo $transfer; ?>%</span>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="progress-bar">
-                            <div class="progress-track">
-                              <div class="progress-fill  <?php echo Yii::$app->agentcomponent->getColor("voice", $CommunityTransfer); ?>">
-                                <span><?php echo $CommunityTransfer; ?>%</span>
-                              </div>
-                            </div>
-                          </div>
-                      </div>
-                </div>
-            </div>
-
-            <div class="col-md-12" style="margin-top:20px;">
-                <div class="col-md-3">
-                    Webforms Close Rate
-                    
-                        <div class="container vertical rounded" style="margin-left:40px;">
-                          
-                          <div class="progress-bar">
-                            <div class="progress-track">
-                              <div class="progress-fill green">
-                                <span>90%</span>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="progress-bar">
-                            <div class="progress-track">
-                              <div class="progress-fill yellow">
-                                <span>35%</span>
-                              </div>
-                            </div>
-                          </div>
-                      </div>
-
-                </div>
+               
 
                 <div class="col-md-3">
                     Voice Attachment
@@ -309,10 +187,7 @@ $parentTenantID = $agent['ParentTenantID'];
                           </div>
                       </div>
                 </div>
-            </div>
-
-
-            <div class="col-md-12" style="margin-top:20px;">
+            
                 <div class="col-md-3">
                     Valid Email Address Collection
                     <?php $validEmail = Yii::$app->agentcomponent->getRate($skillType,$agentId,"EmailAddress"); 
@@ -335,6 +210,10 @@ $parentTenantID = $agent['ParentTenantID'];
                           </div>
                       </div>
                 </div>
+                </div>
+
+
+            <div class="col-md-12" style="margin-top:20px;">
 
                  <div class="col-md-3">
                     Mobile Phone Collection

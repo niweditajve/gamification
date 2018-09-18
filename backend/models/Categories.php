@@ -8,8 +8,7 @@ use Yii;
  * This is the model class for table "categories".
  *
  * @property int $id
- * @property string $title
- * @property string $content
+ * @property string $title 
  * @property double $point
  * @property string $created_at
  * @property string $updated_at
@@ -33,7 +32,7 @@ class Categories extends \yii\db\ActiveRecord
             [['title'], 'required'],
             [['point'], 'number'],
             [['created_at', 'updated_at'], 'safe'],
-            [['title', 'content'], 'string', 'max' => 255],
+            [['title'], 'string', 'max' => 255],
         ];
     }
 
@@ -45,7 +44,6 @@ class Categories extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'title' => 'Title',
-            'content' => 'Content',
             'point' => 'Point',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',

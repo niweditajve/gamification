@@ -153,16 +153,13 @@ class AgentRate extends Component
          * Description - get close rate for agent and community.
          * Return - Returns percnetage value of totalcall and answered call.
          */
-	public function closeRate($skillType,$agentID,$onBehalf,$community=null){
-
-            if($community)
-                $startEnd = " Start >= ".$this->startTimestamp()." AND Start < ".$this->endTimestamp();
-            else
-                $startEnd = " Start BETWEEN 1480546800 AND 1482274799 AND AgentID =".$agentID;
+	public function closeRate($agentID,$onBehalf,$community=null){
 
             $mediaType = $this->getRateText($onBehalf);
+            
+            $communityCondition = $this->getCommunityCondition($community,$agentID);
 
-            $sql = "SELECT sum(if(LastState=19 or LastState=16 or (LastState=17 and Transfer!=1),1,0)) as offered,sum(if(LastState=19,1,0)) as answered from billing_summaries where $startEnd and DNIS in (select inContactTFN from tfnMedia where mediaType in ($mediaType)) AND LastQueue = '".$skillType."' ";
+            $sql = "SELECT sum(if(OrderID !='',1,0)) as answered,sum(RowID) as offered FROM `calldata` WHERE ". $communityCondition . " AND MediaType = '$mediaType'";
 
             $command = Yii::$app->db->createCommand($sql);
 
@@ -191,16 +188,16 @@ class AgentRate extends Component
 
             switch($onBehalf){
                 case "TV":
-                    $str = "'Broadcast','Broadcast2'";
+                    $str = "Broadcast";
                     return $str;
                 case "directMail":
-                    $str = "'Campaigns','Direct Mail'";
+                    $str = "Campaigns";
                     return $str;
                 case "web":
-                    $str = "'Web','Web Managed'";
+                    $str = "Web";
                     return $str;
                 case "transfer":
-                    $str = "'Callback','Other'";
+                    $str = "Broadcast";
                     return $str;
                 default:
                     return $str;	
@@ -280,7 +277,7 @@ class AgentRate extends Component
             $totalOrder = $result[0]['totalOrders'];
 
              if($validOrders && $totalOrder)
-                return ($totalOrder/$validOrders);
+                return number_format((float)(($totalOrder/$validOrders)),2, '.', '');
             else
                 return 0;
             
