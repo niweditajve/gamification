@@ -115,8 +115,8 @@ $parentTenantID = $agent['ParentTenantID'];
                 <div class="col-md-3">
                     Voice Attachment
                     <?php 
-                    $voices = Yii::$app->agentcomponent->getVoiceAttachement($skillType,$agentId);
-                    $voiceCommunity = Yii::$app->agentcomponent->getVoiceAttachement($skillType,$agentId,1);
+                    $voices = Yii::$app->agentcomponent->getRate($skillType,$agentId,"voice");
+                    $voiceCommunity = Yii::$app->agentcomponent->getRate($skillType,$agentId,"voice",$parentTenantID);
                     ?>
                     <div class="container vertical rounded" style="margin-left:40px;">
                           
@@ -140,8 +140,8 @@ $parentTenantID = $agent['ParentTenantID'];
                 <div class="col-md-3">
                     Express Repair
                     <?php 
-                    $exp = Yii::$app->agentcomponent->getExpRepairSold($skillType,$agentId);
-                    $expCommunity = Yii::$app->agentcomponent->getExpRepairSold($skillType,$agentId,$parentTenantID);
+                    $exp = Yii::$app->agentcomponent->getRate($skillType,$agentId,"ExpRepairSold");
+                    $expCommunity = Yii::$app->agentcomponent->getRate($skillType,$agentId,"ExpRepairSold",$parentTenantID);
                     ?>
                     <div class="container vertical rounded" style="margin-left:40px;">
                           <div class="progress-bar">
@@ -164,8 +164,8 @@ $parentTenantID = $agent['ParentTenantID'];
                 <div class="col-md-3">
                     Norton Attachment
                     <?php 
-                        $norton = Yii::$app->agentcomponent->getNortonSold($skillType,$agentId);
-                        $nortonCommunity = Yii::$app->agentcomponent->getNortonSold($skillType,$agentId,$parentTenantID);
+                        $norton = Yii::$app->agentcomponent->getRate($skillType,$agentId,"NortonSold");
+                        $nortonCommunity = Yii::$app->agentcomponent->getRate($skillType,$agentId,"NortonSold",$parentTenantID);
                     ?>
                     <div class="container vertical rounded" style="margin-left:40px;">
                           <div class="progress-bar">
@@ -188,8 +188,8 @@ $parentTenantID = $agent['ParentTenantID'];
                 <div class="col-md-3">
                     PCE Attachment
                     <?php 
-                        $pce = Yii::$app->agentcomponent->getPCESold($skillType,$agentId);
-                        $pceCommunity = Yii::$app->agentcomponent->getPCESold($skillType,$agentId,$parentTenantID);
+                        $pce = Yii::$app->agentcomponent->getRate($skillType,$agentId,"PCESold");
+                        $pceCommunity = Yii::$app->agentcomponent->getRate($skillType,$agentId,"PCESold",$parentTenantID);
                     ?>
                     <div class="container vertical rounded" style="margin-left:40px;">
                           
@@ -216,8 +216,8 @@ $parentTenantID = $agent['ParentTenantID'];
                 <div class="col-md-3">
                     Credit Card Orders
                     <?php 
-                    $ccorders = Yii::$app->agentcomponent->getCCOrders($skillType,$agentId);
-                    $ccordersCommunity = Yii::$app->agentcomponent->getCCOrders($skillType,$agentId,$parentTenantID);
+                    $ccorders = Yii::$app->agentcomponent->getRate($skillType,$agentId,"CCNumber");
+                    $ccordersCommunity = Yii::$app->agentcomponent->getRate($skillType,$agentId,"CCNumber",$parentTenantID);
                     ?>
                     <div class="container vertical rounded" style="margin-left:40px;">
                           
@@ -241,8 +241,8 @@ $parentTenantID = $agent['ParentTenantID'];
 
                 <div class="col-md-3">
                     Valid email address collection
-                    <?php $validEmail = Yii::$app->agentcomponent->getValidEmailCollection($skillType,$agentId); 
-                    $communityEmail = Yii::$app->agentcomponent->getValidEmailCollection($skillType,$agentId,1);
+                    <?php $validEmail = Yii::$app->agentcomponent->getRate($skillType,$agentId,"EmailAddress"); 
+                    $communityEmail = Yii::$app->agentcomponent->getRate($skillType,$agentId,"EmailAddress",$parentTenantID);
                     ?>
                     <div class="container vertical rounded" style="margin-left:40px;">
                           
@@ -266,8 +266,8 @@ $parentTenantID = $agent['ParentTenantID'];
                 <div class="col-md-3">
                     Mobile Phone Collection
                     <?php 
-                    $validPhones = Yii::$app->agentcomponent->getValidPhoneCollection($skillType,$agentId); 
-                    $communityPhones = Yii::$app->agentcomponent->getValidPhoneCollection($skillType,$agentId);
+                    $validPhones = Yii::$app->agentcomponent->getRate($skillType,$agentId,"PhoneNumber"); 
+                    $communityPhones = Yii::$app->agentcomponent->getRate($skillType,$agentId,"PhoneNumber",$parentTenantID);
                     ?>
                     <div class="container vertical rounded" style="margin-left:40px;">
                           <div class="progress-bar">
@@ -290,8 +290,8 @@ $parentTenantID = $agent['ParentTenantID'];
                 <div class="col-md-3">
                     Scheduled Installation at Safe
                     <?php 
-                        $scheduleInstall = Yii::$app->agentcomponent->getscheduleInstallCollection($skillType,$agentId); 
-                        $scheduleInstallCommunity = Yii::$app->agentcomponent->getscheduleInstallCollection($skillType,$agentId,$parentTenantID);
+                        $scheduleInstall = Yii::$app->agentcomponent->getRate($skillType,$agentId,"ScheduleAttempted"); 
+                        $scheduleInstallCommunity = Yii::$app->agentcomponent->getRate($skillType,$agentId,"ScheduleAttempted",$parentTenantID);
                     ?>
                     <div class="container vertical rounded" style="margin-left:40px;">
                           <div class="progress-bar">
@@ -317,8 +317,8 @@ $parentTenantID = $agent['ParentTenantID'];
                 <div class="col-md-3">
                     Current Internet Connection
                     <?php 
-                        $currentConnection = Yii::$app->agentcomponent->getCurrentConnection($skillType,$agentId); 
-                        $currentConnectionCommunity = Yii::$app->agentcomponent->getCurrentConnection($skillType,$agentId,$parentTenantID);
+                        $currentConnection = Yii::$app->agentcomponent->getRate($skillType,$agentId,"Connection"); 
+                        $currentConnectionCommunity = Yii::$app->agentcomponent->getRate($skillType,$agentId,"Connection",$parentTenantID);
                     ?>
                     <div class="container vertical rounded" style="margin-left:40px;">
                           
