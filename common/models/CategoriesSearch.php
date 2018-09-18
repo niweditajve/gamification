@@ -15,6 +15,14 @@ class CategoriesSearch extends Categories
     /**
      * {@inheritdoc}
      */
+    
+    public static function tableName()
+    {
+        $parent = get_parent_class();
+        return $parent::tableName();
+    }
+    
+    
     public function rules()
     {
         return [
