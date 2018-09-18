@@ -38,6 +38,8 @@ class AgentRate extends Component
                 $tablename = "callData";
             }
             
+            echo $tablename; exit;
+            
             return $tablename;
         }
         
