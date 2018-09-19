@@ -15,6 +15,15 @@ class TrophyimagesSearch extends Trophyimages
     /**
      * {@inheritdoc}
      */
+    
+    public static function tableName()
+    {
+        $parent = get_parent_class();
+        return $parent::tableName();
+    }
+    /**
+     * {@inheritdoc}
+     */
     public function rules()
     {
         return [

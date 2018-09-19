@@ -347,7 +347,7 @@ class AgentRate extends Component
             
             $dateCondition = $this->getDateCondition($wkd);
             
-            $sql = "SELECT sum(point) as ponits FROM `agentpoints` WHERE $dateCondition AND AgentID =".$agentID ;
+            $sql = "SELECT sum(point) as ponits FROM `gamification_agentpoints` WHERE $dateCondition AND AgentID =".$agentID ;
 
             $command = Yii::$app->db->createCommand($sql);
 
@@ -384,7 +384,7 @@ class AgentRate extends Component
             
             $getSkills = $this->getLeaderSkills($skillType);
             
-            $sql = "SELECT max(point) as maxPonits FROM `agentpoints` WHERE created_at >= '".date('Y-m-d')." 00:00:00' AND created_at < '".date('Y-m-d')." 11:59:59'" . $getSkills ;
+            $sql = "SELECT max(point) as maxPonits FROM `gamification_agentpoints` WHERE created_at >= '".date('Y-m-d')." 00:00:00' AND created_at < '".date('Y-m-d')." 11:59:59'" . $getSkills ;
             
             $command = Yii::$app->db->createCommand($sql);
 

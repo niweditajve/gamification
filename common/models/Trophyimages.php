@@ -19,7 +19,7 @@ class Trophyimages extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'trophyimages';
+        return 'gamification_trophyimages';
     }
 
     /**

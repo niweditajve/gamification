@@ -20,7 +20,7 @@ class Agentpoints extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'agentpoints';
+        return 'gamification_agentpoints';
     }
 
     /**

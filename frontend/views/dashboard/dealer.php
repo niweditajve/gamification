@@ -105,7 +105,31 @@ $parentTenantID = $agent['ParentTenantID'];
                     You Vs. Your Center! <br>
                 </div>
                 <div class="col-md-8">
-                        <img src="<?php echo Yii::$app->request->baseUrl ?>/images/images.png" height="180px" width="550px">
+                        <?php
+                    
+                     $sliderArray = array();
+                     
+                     for($i =0; $i<count($trophy); $i++){
+                         $slider = array();
+                         if($i ==0)
+                         {
+                             $slider['active'] = true;
+                         }else{
+                            // $slider['active'] = true;
+                         }
+                            $slider['src'] = "slider/".$trophy[$i]['filename'];
+                            $slider['title'] = $trophy[$i]['title'];
+                            $sliderArray[] = $slider;
+                     }
+                   
+                    echo \aki\imageslider\ImageSlider::widget([
+                        'baseUrl' => Yii::getAlias('@web/images'),
+                        'nextPerv' => true,
+                        'indicators' => false,
+                        'height' => '170px',
+                        'classes' => 'img-rounded',
+                        'images' => $sliderArray                        
+                    ]); ?>
                 </div>
             </div>
 

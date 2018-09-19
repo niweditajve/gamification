@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model backend\models\Trophyimages */
 
 $this->title = $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Trophyimages', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Trophy Images', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="trophyimages-view">

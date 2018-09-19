@@ -20,7 +20,7 @@ class Categories extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'categories';
+        return 'gamification_categories';
     }
 
     /**

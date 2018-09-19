@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Trophyimages */
 
-$this->title = 'Update Trophyimages: ' . $model->title;
-$this->params['breadcrumbs'][] = ['label' => 'Trophyimages', 'url' => ['index']];
+$this->title = 'Update Trophy Images: ' . $model->title;
+$this->params['breadcrumbs'][] = ['label' => 'Trophy Images', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->title, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>

@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Trophyimages */
 
-$this->title = 'Create Trophyimages';
+$this->title = 'Create Trophy Images';
 $this->params['breadcrumbs'][] = ['label' => 'Trophyimages', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
