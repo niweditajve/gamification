@@ -44,7 +44,13 @@ AppAsset::register($this);
                 } else {
                     $navItems = [
                         ['label' => 'Home', 'url' => ['/site/index']],
-                        ['label' => 'Manage Categories', 'url' => ['/categories/index'], 'visible' => Yii::$app->user->can('admin')],
+                        ['label' => 'Manage', 'url' => ['#'],
+                            'items' => [
+                                ['label' => 'Categories', 'url' => ['/categories/index'], 'visible' => Yii::$app->user->can('admin')],
+                                ['label' => 'Trophy Images', 'url' => ['/trophy/index'], 'visible' => Yii::$app->user->can('admin')],
+                            ],
+                            'visible' => Yii::$app->user->can('admin')
+                        ],
                         ['label' => 'IVR', 'url' => ['#'],
                             'items' => [
                                 ['label' => 'TFN Media', 'url' => ['/tfn-media/index'], 'visible' => Yii::$app->user->can('admin_cc')],
