@@ -20,7 +20,8 @@
         "omnilight/yii2-scheduling": "*",
         "yiisoft/yii2-redis": "~2.0.0",
         "symfony/yaml": "^4.1",
-        "2amigos/yii2-file-upload-widget": "~1.0"
+        "2amigos/yii2-file-upload-widget": "~1.0",
+        "aki/yii2-image-slider": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
