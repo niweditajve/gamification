@@ -8,6 +8,7 @@ use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use common\models\User;
+use common\models\Trophyimages;
 use common\models\UploadForm;
 use common\models\uploadImage;
 use yii\web\UploadedFile;
@@ -43,6 +44,8 @@ class DashboardController extends Controller
       $this->checkUser();
 
       $model = new User();
+      
+      $trophy = new Trophyimages();
 
       $skillType = "Business";
 
@@ -55,6 +58,7 @@ class DashboardController extends Controller
           'model'               => $model,
           'profile'             => $profile['profile_pic'] ,
           'skillType'           => $skillType,
+          'trophy'              => $trophy,
       ]);
     }
 
@@ -64,7 +68,9 @@ class DashboardController extends Controller
         $this->checkUser();
 
         $model = new User();
-
+        
+        $trophy = Trophyimages::find()->all();
+        
         $skillType = "Consumer";
 
         $profile = User::find()
@@ -76,6 +82,7 @@ class DashboardController extends Controller
             'model'               => $model,
             'profile'             => $profile['profile_pic'] ,
             'skillType'           => $skillType,
+            'trophy'              => $trophy,
         ]);
     }
 
