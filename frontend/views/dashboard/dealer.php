@@ -84,25 +84,25 @@ $parentTenantID = $agent['ParentTenantID'];
                 </div>
                 <div class="col-md-2">
                     Today's Points Earned
-                    <div class="demo-3" data-percent="90"></div>
+                    <div class="demo-3" data-percent="<?php echo Yii::$app->agentcomponent->getTodaysPoints($agentId); ?>"></div>
                 </div>
                 <div class="col-md-2">
                     WTD Points
-                    <div class="demo-1" data-percent="10"></div>
+                    <div class="demo-1" data-percent="<?php echo Yii::$app->agentcomponent->getTodaysPoints($agentId,1); ?>"></div>
                 </div>
             </div>
 
             <div class="col-md-12" style="margin-top: 20px; ">
                 <div class="col-md-4">
                     <?php $calls = Yii::$app->agentcomponent->getTotalCalls($agentId,$skillType); ?>
-                    My calls <?php echo $calls['answered'] ? $calls['answered'] :0; ?><br>
-                    My Orders <?php echo $calls['orders'] ? $calls['orders'] : 0; ?><br>
-                    Point leader count <br>
+                    <?php echo $calls['answered'] ? $calls['answered'] :0; ?> My calls <br>
+                    <?php echo $calls['orders'] ? $calls['orders'] : 0; ?> My Orders <br>
+                    <?php echo Yii::$app->agentcomponent->getLeaderPoints(); ?> Point leader count <br>
                     <br>
                     <br>
                     <br>
                     <br>
-                    Your Center! <br>
+                    You Vs. Your Center! <br>
                 </div>
                 <div class="col-md-8">
                         <img src="<?php echo Yii::$app->request->baseUrl ?>/images/images.png" height="180px" width="550px">
