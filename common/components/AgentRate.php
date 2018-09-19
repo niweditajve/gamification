@@ -280,6 +280,9 @@ class AgentRate extends Component
             
             if($onBehalf == "EmailAddress")
                 $sql .=" AND `EmailAddress` NOT LIKE '%@hughes.com%'";
+            
+            if($onBehalf == "CCNumber")
+                $sql .=" AND OrderID !='' ";
 
             $command = Yii::$app->db->createCommand($sql);
 
@@ -342,7 +345,9 @@ class AgentRate extends Component
          */
         public function getTodaysPoints($agentID,$wkd = null){
             
-            $sql = "SELECT sum(point) as ponits FROM `agentpoints` WHERE created_at >= 'CURDATE() 00:00:00' AND created_at < 'CURDATE() 11:59:59' AND AgentID =".$agentID ;
+            $dateCondition = $this->getDateCondition($wkd);
+            
+            $sql = "SELECT sum(point) as ponits FROM `agentpoints` WHERE $dateCondition AND AgentID =".$agentID ;
 
             $command = Yii::$app->db->createCommand($sql);
 
@@ -352,6 +357,40 @@ class AgentRate extends Component
             
             return $validOrders;
             
+        }
+        
+        
+        public function getDateCondition($wkd){
+
+            if(empty($wkd)){
+                $text = "created_at >= '".date('Y-m-d h').":00:00' AND created_at < '".date('Y-m-d h').":59:59'";
+            }
+            else{
+                
+                $monday = strtotime("last monday");
+                $monday = date('w', $monday)==date('w') ? $monday+7*86400 : $monday;
+
+                $sunday = strtotime(date("Y-m-d",$monday)." +5 days");
+
+                $this_week_sd = date("Y-m-d",$monday);
+                $this_week_ed = date("Y-m-d",$sunday);
+
+                $text = "created_at >= '".$this_week_sd." 00:00:00' AND created_at < '".$this_week_ed." 11:59:59'";
+            }
+            return $text;
+        }
+        
+        public function getLeaderPoints(){
+            
+            $sql = "SELECT max(point) as maxPonits FROM `agentpoints` WHERE created_at >= '".date('Y-m-d')." 00:00:00' AND created_at < '".date('Y-m-d')." 11:59:59'" ;
+            
+            $command = Yii::$app->db->createCommand($sql);
+
+            $result = $command->queryAll();
+
+            $maxPonits = $result[0]['maxPonits'];
+            
+            return $maxPonits;
         }
 
  
