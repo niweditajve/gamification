@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel backend\models\TrophyimagesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Trophyimages';
+$this->title = 'Trophy Images';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="trophyimages-index">
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Trophyimages', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Trophy Images', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
