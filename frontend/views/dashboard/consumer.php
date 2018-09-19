@@ -3,7 +3,6 @@
 use dosamigos\fileupload\FileUpload;
  // or yii\helpers\Html
 // or yii\widgets\ActiveForm
-use yii\widgets\FileInput;
 
 $this->title = 'RM Factory';
 
@@ -28,7 +27,7 @@ $parentTenantID = $agent['ParentTenantID'];
 <div class="site-index">
 
     <div class="jumbotron">
-
+        
 
         <?php if (Yii::$app->user->isGuest): ?>
             You must login.
@@ -105,7 +104,29 @@ $parentTenantID = $agent['ParentTenantID'];
                     You Vs. Your Center! <br>
                 </div>
                 <div class="col-md-8">
-                        <img src="<?php echo Yii::$app->request->baseUrl ?>/images/images.png" height="180px" width="550px">
+                    <?php
+                   
+                    $array = array(
+                        array(
+                            'active' => true,
+                            'src' => 'image/download.JPG',
+                            'title' => 'image'
+                            ),
+                        array(
+                            'src' => 'image/images.png',
+                                'title' => 'image'
+                            )
+                    );
+                    
+                    echo \aki\imageslider\ImageSlider::widget([
+                        'baseUrl' => Yii::getAlias('@web/images'),
+                        'nextPerv' => true,
+                        'indicators' => false,
+                        'height' => '170px',
+                        'classes' => 'img-rounded',
+                        'images' => $array                        
+                    ]); ?>
+                   <!--<img src="<?php echo Yii::$app->request->baseUrl ?>/images/images.png" height="180px" width="550px"> -->
                 </div>
             </div>
 
