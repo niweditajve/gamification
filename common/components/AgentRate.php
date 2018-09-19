@@ -380,9 +380,11 @@ class AgentRate extends Component
             return $text;
         }
         
-        public function getLeaderPoints(){
+        public function getLeaderPoints($skillType){
             
-            $sql = "SELECT max(point) as maxPonits FROM `agentpoints` WHERE created_at >= '".date('Y-m-d')." 00:00:00' AND created_at < '".date('Y-m-d')." 11:59:59'" ;
+            $getSkills = $this->getLeaderSkills($skillType);
+            
+            $sql = "SELECT max(point) as maxPonits FROM `agentpoints` WHERE created_at >= '".date('Y-m-d')." 00:00:00' AND created_at < '".date('Y-m-d')." 11:59:59'" . $getSkills ;
             
             $command = Yii::$app->db->createCommand($sql);
 
@@ -391,6 +393,21 @@ class AgentRate extends Component
             $maxPonits = $result[0]['maxPonits'];
             
             return $maxPonits;
+        }
+        
+        public function getLeaderSkills($skillType){
+            
+            if($skillType == "Consumer"){
+                return " AND id IN (2,3,4,5,6,7,8,9,10,11,12,13)";
+            }
+            
+            if($skillType == "Business"){
+                return " AND id IN (6,7,10,11,12,13)";
+            }
+            
+            if($skillType == "Dealer SalesOnCall"){
+                return " AND id IN (6,7,8,9,10,11,12,13)";
+            }
         }
 
  
