@@ -43,12 +43,20 @@ AppAsset::register($this);
                     ];
                 } else {
                     $navItems = [
-                        ['label' => 'Home', 'url' => ['/site/index']],
+                        ['label' => 'Home', 'url' => ['/site/index']],                        
                         ['label' => 'Manage', 'url' => ['#'],
                             'items' => [
                                 ['label' => 'Categories', 'url' => ['/categories/index'], 'visible' => Yii::$app->user->can('admin')],
                                 ['label' => 'Trophy Images', 'url' => ['/trophy/index'], 'visible' => Yii::$app->user->can('admin')],
                                 ['label' => 'Certificates', 'url' => ['/certificate/index'], 'visible' => Yii::$app->user->can('admin')],
+                            ],
+                            'visible' => Yii::$app->user->can('admin')
+                        ],
+                        ['label' => 'Reports', 'url' => ['#'],
+                            'items' => [
+                                ['label' => 'Last Login Report ', 'url' => ['/report/agents'], 'visible' => Yii::$app->user->can('admin')],
+                                ['label' => 'Point Certifacte Report', 'url' => ['/report/certificates'], 'visible' => Yii::$app->user->can('admin')],
+                                ['label' => 'Cert Earned report', 'url' => ['/report/cert'], 'visible' => Yii::$app->user->can('admin')],
                             ],
                             'visible' => Yii::$app->user->can('admin')
                         ],
