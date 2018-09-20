@@ -45,8 +45,6 @@ class DashboardController extends Controller
 
       $model = new User();
       
-      $trophy = new Trophyimages();
-
       $skillType = "Business";
 
       $profile = User::find()
@@ -58,7 +56,6 @@ class DashboardController extends Controller
           'model'               => $model,
           'profile'             => $profile['profile_pic'] ,
           'skillType'           => $skillType,
-          'trophy'              => $trophy,
       ]);
     }
 
@@ -68,8 +65,6 @@ class DashboardController extends Controller
         $this->checkUser();
 
         $model = new User();
-        
-        $trophy = Trophyimages::find()->all();
         
         $skillType = "Consumer";
 
@@ -82,7 +77,6 @@ class DashboardController extends Controller
             'model'               => $model,
             'profile'             => $profile['profile_pic'] ,
             'skillType'           => $skillType,
-            'trophy'              => $trophy,
         ]);
     }
 
@@ -102,7 +96,7 @@ class DashboardController extends Controller
       return $this->render('business', [
           'model'               => $model,
           'profile'             => $profile['profile_pic'] ,
-          'skillType'           => $skillType,          
+          'skillType'           => $skillType,
       ]);
     }
 
@@ -118,7 +112,7 @@ class DashboardController extends Controller
            ->select('profile_pic')
             ->where(['id' => Yii::$app->user->id])
            ->one();
-
+      
       return $this->render('dealer', [
           'model'               => $model,
           'profile'             => $profile['profile_pic'] ,
