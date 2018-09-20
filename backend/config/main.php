@@ -68,7 +68,7 @@ return [
         // front-end
         'urlManagerF' => [
                 'class' => 'yii\web\urlManager',
-                'baseUrl'=>$params['frontendserver'],
+                'baseUrl'=>$params['frontendurl'],
                 'enablePrettyUrl' => true,
                 'showScriptName' => false,
                 'rules' => [
