@@ -83,11 +83,11 @@ $parentTenantID = $agent['ParentTenantID'];
                 </div>
                 <div class="col-md-2">
                     Today's Points Earned
-                    <div class="demo-3" data-percent="<?php echo Yii::$app->agentcomponent->getTodaysPoints($agentId); ?>"></div>
+                    <div class="demo-3" data-percent="<?php echo Yii::$app->agentcomponent->getTodaysPoints($agentId); ?>" data-nopercentage="1"></div>
                 </div>
                 <div class="col-md-2">
                     WTD Points
-                    <div class="demo-1" data-percent="<?php echo Yii::$app->agentcomponent->getTodaysPoints($agentId,1); ?>"></div>
+                    <div class="demo-1" data-percent="<?php echo Yii::$app->agentcomponent->getTodaysPoints($agentId,1); ?>" data-nopercentage="1"></div>
                 </div>
             </div>
 
