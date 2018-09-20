@@ -1,0 +1,40 @@
+<?php
+
+use yii\helpers\Html;
+use yii\grid\GridView;
+
+/* @var $this yii\web\View */
+/* @var $searchModel backend\models\CertificatesSearch */
+/* @var $dataProvider yii\data\ActiveDataProvider */
+
+$this->title = 'Certificates';
+$this->params['breadcrumbs'][] = $this->title;
+?>
+<div class="certificates-index">
+
+    <h1><?= Html::encode($this->title) ?></h1>
+    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+
+    <p>
+        <?= Html::a('Create Certificates', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
+
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+            [
+                'header' => 'Points',
+                'attribute' => 'point',
+                'format' => ['decimal', 2],
+            ],
+            [
+                'header' => 'Trophy',
+                'attribute' => 'trohpyImage.title',
+            ],
+            
+            ['class' => 'yii\grid\ActionColumn'],
+        ],
+    ]); ?>
+</div>

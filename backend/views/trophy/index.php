@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-
+use yii\helpers\Url;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\TrophyimagesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -26,7 +26,20 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
 
             'title',
-            'filename',
+            //'filename',
+            
+            [
+            'attribute' => 'filename',
+                'format' => 'raw',
+                'label' => 'Trophy',
+                'value' => function ($data) {
+       
+                $urls = Yii::$app->urlManagerF->createUrl('') .'images/slider' ."/". $data['filename'];
+                
+                return Html::img($urls ,['width' => '100px'],['height' => '100px'] ,['alt'=>'yii']);
+               },
+            ],
+            
            
             ['class' => 'yii\grid\ActionColumn'],
         ],

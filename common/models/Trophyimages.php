@@ -45,4 +45,9 @@ class Trophyimages extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
         ];
     }
+    
+    public function getImageurl()
+    {
+        return Yii::getAlias('@frontend/web/images/slider') .'/'.$this->filename;
+    }
 }
