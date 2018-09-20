@@ -30,7 +30,12 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             
             'title',
-            'filename',
+                       
+                [
+                    'attribute'=>'Trophy',
+                    'value'=> Yii::$app->urlManagerF->createUrl('') .'images/slider' ."/". $model->filename,
+                    'format' => ['image',['width'=>'100','height'=>'100']],
+                 ],
             
         ],
     ]) ?>
