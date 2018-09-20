@@ -49,4 +49,9 @@ class Categories extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
         ];
     }
+    
+    public static function primaryKey()
+    {
+        return ['id'];
+    }
 }
