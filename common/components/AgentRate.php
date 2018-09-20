@@ -4,7 +4,9 @@ namespace common\components;
 use Yii;
 use yii\base\Component;
 use common\models\Agent;
-use yii\base\InvalidConfigException;
+use common\models\Certificates;
+use common\models\Trophyimages;
+//use yii\base\InvalidConfigException;
  
 class AgentRate extends Component
 {
@@ -357,6 +359,54 @@ class AgentRate extends Component
             
             return $validOrders;
             
+        }
+        
+        public function getTrophies($agentID){
+            
+            $agentWkPoints = $this->getTodaysPoints($agentID,1);
+            
+            $model = Certificates::find()->select('trohpy_image_id')->where('point < :ponits', [':ponits' => $agentWkPoints])->all();
+           
+            $trophies = array();
+            
+            $i =0;
+            
+            foreach($model as $modelkey){
+                
+                $modelkey->trohpy_image_id;
+                
+                $trophyResult;
+                
+                $trophy = array();
+                
+                $trophyResult = Trophyimages::find()->select('title,filename')->where('id > :id', [':id' => $modelkey->trohpy_image_id])->One();
+               
+                if($i ==0)
+                {
+                    $trophy['active'] = true;
+                }
+                
+                $trophy['title'] = $trophyResult['title'];
+                
+                $trophy['src'] = "slider/".$trophyResult['filename'];
+                
+                $trophies[] = $trophy;
+                
+                $i++;
+            }
+            
+            if(count($trophies) <= 0 ){
+                
+                $trophy['active'] = true;
+                
+                $trophy['title'] = "Trophy";
+                
+                $trophy['src'] = "image/images.png";
+                
+                $trophies[] = $trophy;
+            }
+            
+            return $trophies;
         }
         
         

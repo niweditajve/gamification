@@ -106,20 +106,7 @@ $parentTenantID = $agent['ParentTenantID'];
                 <div class="col-md-8">
                     <?php
                     
-                     $sliderArray = array();
-                     
-                     for($i =0; $i<count($trophy); $i++){
-                         $slider = array();
-                         if($i ==0)
-                         {
-                             $slider['active'] = true;
-                         }else{
-                            // $slider['active'] = true;
-                         }
-                            $slider['src'] = "slider/".$trophy[$i]['filename'];
-                            $slider['title'] = $trophy[$i]['title'];
-                            $sliderArray[] = $slider;
-                     }
+                    $sliderArray = Yii::$app->agentcomponent->getTrophies($agentId);
                    
                     echo \aki\imageslider\ImageSlider::widget([
                         'baseUrl' => Yii::getAlias('@web/images'),
