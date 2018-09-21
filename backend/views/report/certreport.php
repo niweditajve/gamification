@@ -2,8 +2,8 @@
 /* @var $this yii\web\View */
  // or yii\helpers\Html
 // or yii\widgets\ActiveForm
-use yii\grid\GridView;
 
+use fedemotta\datatables\DataTables;
 $this->title = 'RM Factory';
 
 $gridColumns = [
@@ -34,9 +34,9 @@ $gridColumns = [
             <div class="row">
            
             
-                CERT Reports
+                <h3>Cert Earned report</h3>
                 
-                <?= GridView::widget([
+                <?= DataTables::widget([
                     'dataProvider' => $dataProvider,
                     //'filterModel' => $searchModel,
                     // ... more code here

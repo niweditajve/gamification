@@ -3,7 +3,6 @@
  // or yii\helpers\Html
 // or yii\widgets\ActiveForm
 use yii\helpers\Html;
-use yii\grid\GridView;
 use dosamigos\datepicker\DateRangePicker;
 use yii\widgets\ActiveForm;
 use fedemotta\datatables\DataTables;
@@ -36,7 +35,7 @@ $gridColumns = [
         <?php else: ?>
             <div class="row">
                 <div class="col-md-12">
-                    <h3>Certificates Reports</h3>
+                    <h3>Point Certificate Report</h3>
                 </div>
                 <div class="col-md-2">
                 </div>
