@@ -4,6 +4,7 @@
 // or yii\widgets\ActiveForm
 
 use fedemotta\datatables\DataTables;
+use kartik\export\ExportMenu;
 $this->title = 'RM Factory';
 
 $gridColumns = [
@@ -21,6 +22,22 @@ $gridColumns = [
         'value' => function($model) { return $model['points'] ? $model['points'] : "" ;},
     ],
 ];
+        
+$exportColumns = [
+    [
+        'header' => 'Name',
+        'value' => function($model) { return $model['FirstName']  . " " . $model['LastName'] . ", " . $model['Login'] ;},
+    ],
+    [
+        'header' => 'Last Login Date',
+        'value' => 'CreateDate',
+    ],
+    [
+        'header' => 'Points',
+        'value' => function($model) { return $model['points'] ? $model['points'] : "" ;},
+    ],
+];
+
 ?>
 
 <div class="site-index">
@@ -35,6 +52,13 @@ $gridColumns = [
            
             
                 <h3>Cert Earned report</h3>
+                
+                <?php
+                echo ExportMenu::widget([
+                    'dataProvider' => $dataProvider,
+                    'columns' => $exportColumns
+                ]);
+                ?>
                 
                 <?= DataTables::widget([
                     'dataProvider' => $dataProvider,

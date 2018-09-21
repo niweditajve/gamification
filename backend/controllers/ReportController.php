@@ -61,16 +61,21 @@ class ReportController extends Controller
         
         if ($request->isPost) {
             
-           $from = $request->post()['date_from'];
+            if(isset($request->post()['export_type']) && $request->post()['export_type'] == "Csv" ){
+                
+            }else{
+                $from = $request->post()['date_from'];
            
-           $to = $request->post()['date_to'];
+                $to = $request->post()['date_to'];
+
+                $date_from = date("Y-m-d", strtotime($from)) . " 00:00:00";
+
+                $date_to = date("Y-m-d", strtotime($to)) ." 00:00:00";
+
+                if($from && $to)
+                     $sql .= " AND (gamification_agentpoints.created_at BETWEEN '$date_from' AND  '$date_to')";
+            }
            
-           $date_from = date("Y-m-d", strtotime($from)) . " 00:00:00";
-           
-           $date_to = date("Y-m-d", strtotime($to)) ." 00:00:00";
-           
-           if($from && $to)
-                $sql .= " AND (gamification_agentpoints.created_at BETWEEN '$date_from' AND  '$date_to')";
            
         }
         /*else{
@@ -136,6 +141,7 @@ class ReportController extends Controller
         $sql .=" GROUP BY `tblAgent`.`AgentID`";
         
         $connection=Yii::$app->db;
+        
         $command=$connection->createCommand($sql);
         
         $rowCount=$command->execute();
@@ -169,7 +175,7 @@ class ReportController extends Controller
             'fullExportType'=> 'csv', //can change to html,xls,csv and so on
             'grid_mode' => 'export',
             'columns' => [               
-                ['class' => 'yii\grid\SerialColumn'],
+                //['class' => 'yii\grid\SerialColumn'],
                         [
                             'header' => 'Name',
                             'value' => function($model) { return $model->FirstName  . " " . $model->LastName . " " . $model->Login ;},
