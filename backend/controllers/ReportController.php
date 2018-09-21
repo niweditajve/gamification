@@ -45,7 +45,7 @@ class ReportController extends Controller
       
         $model = new Agent();
         
-        $totalCount = Yii::$app->db->createCommand('SELECT COUNT(*) FROM tblAgent WHERE `Active`=1')->queryScalar();
+        ///$totalCount = Yii::$app->db->createCommand('SELECT COUNT(*) FROM tblAgent WHERE `Active`=1')->queryScalar();
 
         $sql = "SELECT `tblAgent`.`AgentID`, `tblAgent`.`FirstName`, `tblAgent`.`LastName`,`tblAgent`. `Login`, `CreateDate`,AVG(`gamification_agentpoints`.`point`) as points 
                 FROM `tblAgent`
@@ -65,9 +65,9 @@ class ReportController extends Controller
            
            $to = $request->post()['date_to'];
            
-           $date_from = $from . " 00:00:00";
+           $date_from = date("Y-m-d", strtotime($from)) . " 00:00:00";
            
-           $date_to = $to ." 00:00:00";
+           $date_to = date("Y-m-d", strtotime($to)) ." 00:00:00";
            
            if($from && $to)
                 $sql .= " AND (gamification_agentpoints.created_at BETWEEN '$date_from' AND  '$date_to')";
@@ -85,10 +85,16 @@ class ReportController extends Controller
         
         $sql .=" GROUP BY `tblAgent`.`AgentID`";
         
+        $connection=Yii::$app->db;
+        
+        $command=$connection->createCommand($sql);
+        
+        $rowCount=$command->execute();
+        
         $dataProvider = new SqlDataProvider([
             'db' => Yii::$app->db,
             'sql' => $sql,
-            'totalCount' => $totalCount,
+            'totalCount' => $rowCount,
             'sort' =>false,
             'pagination' => [
                 'pageSize' => 10,
@@ -105,9 +111,50 @@ class ReportController extends Controller
    
    public function actionCert(){
        
-       return $this->render('certreport', [
-          
+        $model = new Agent();
+        
+        $previous_week = strtotime("-1 week +1 day");
+
+        $start_week = strtotime("last sunday midnight",$previous_week);
+        
+        $end_week = strtotime("next saturday",$start_week);
+
+        $start_week = date("Y-m-d",$start_week) . " 00:00:00";
+        
+        $end_week = date("Y-m-d",$end_week). " 00:00:00";
+        
+        $totalCount = Yii::$app->db->createCommand('SELECT COUNT(*) FROM tblAgent WHERE `Active`=1')->queryScalar();
+
+        $sql = "SELECT `tblAgent`.`AgentID`, `tblAgent`.`FirstName`, `tblAgent`.`LastName`,`tblAgent`. `Login`, `CreateDate`,SUM(`gamification_agentpoints`.`point`) as points 
+                FROM `tblAgent`
+                LEFT JOIN `gamification_agentpoints` ON `tblAgent`.AgentID = `gamification_agentpoints`.agentId
+                WHERE 
+                tblAgent.`Active`=1 ";
+        
+        $sql .= " AND (gamification_agentpoints.created_at BETWEEN '$start_week' AND  '$end_week')";
+
+        $sql .=" GROUP BY `tblAgent`.`AgentID`";
+        
+        $connection=Yii::$app->db;
+        $command=$connection->createCommand($sql);
+        
+        $rowCount=$command->execute();
+        
+        $dataProvider = new SqlDataProvider([
+            'db' => Yii::$app->db,
+            'sql' => $sql,
+            'totalCount' => $rowCount,
+            'sort' =>false,
+            'pagination' => [
+                'pageSize' => 10,
+            ],
+        ]);
+        
+        return $this->render('certreport', [
+          'dataProvider' => $dataProvider,
+          'model' => $model,
       ]);
+       
    }
    
    public function actionExport() {
