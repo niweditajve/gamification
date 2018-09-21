@@ -13,7 +13,7 @@
         "kartik-v/yii2-krajee-base": "dev-master",
         "kartik-v/yii2-mpdf": "*",
         "kartik-v/yii2-widgets": "*",
-        "kartik-v/yii2-export": "^1.2.9",
+        "kartik-v/yii2-export": "*",
         "kartik-v/yii2-field-range": "dev-master",
         "linslin/yii2-curl": "*",
         "true/punycode": "~2.0",
