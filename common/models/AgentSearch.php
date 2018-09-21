@@ -6,6 +6,7 @@ use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use common\models\Agent;
+use common\models\Agentpoints;
 
 /**
  * AgentSearch represents the model behind the search form about `common\models\Agent`.
@@ -104,4 +105,80 @@ class AgentSearch extends Agent
 
         return $dataProvider;
     }
+    
+    
+     public function searchActive($params)
+    {
+        $query = Agent::find();
+
+        // add conditions that should always apply here
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+
+        $this->load($params);
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            // $query->where('0=1');
+            return $dataProvider;
+        }
+
+        // grid filtering conditions
+        $query->andFilterWhere([
+            'Active' => "1",
+            
+        ]);
+
+        $query->andFilterWhere(['like', 'FirstName', $this->FirstName])
+            ->andFilterWhere(['like', 'LastName', $this->LastName])
+            ->andFilterWhere(['like', 'Login', $this->Login])
+            ;
+        
+        return $dataProvider;
+    }
+    
+    
+    public function searchAgentCertificates($params)
+    { 
+        
+        //echo "sdf"; exit;
+        $query = Agent::find()
+                ->select(["AgentID",
+                    "FirstName",
+                    "LastName",
+                    "Login",
+                    "CreateDate",
+                    'points' => Agentpoints::find()
+                        ->select(['AVG(point)'])
+                        ->where('gamification_agentpoints.agentId = tblAgent.AgentID'),
+                    //"(SELECT AVG(point) from gamification_agentpoints where gamification_agentpoints.agentId  = tblAgent.AgentID) as points"
+                    ]
+                    );
+
+        // add conditions that should always apply here
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $query,
+        ]);
+        //print_r($dataProvider); exit;
+        $this->load($params);
+
+        if (!$this->validate()) {
+            // uncomment the following line if you do not want to return any records when validation fails
+            $query->where('Active=1');
+            return $dataProvider;
+        }
+
+        $query->where('Active=1');
+        
+        /*$query->andFilterWhere(['like', 'FirstName', $this->FirstName])
+            ->andFilterWhere(['like', 'LastName', $this->LastName])
+            ->andFilterWhere(['like', 'Login', $this->Login])
+            ;*/
+       // print_r($dataProvider); exit;
+        return $dataProvider;
+    }
+    
 }

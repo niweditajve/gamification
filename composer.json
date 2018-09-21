@@ -21,7 +21,9 @@
         "yiisoft/yii2-redis": "~2.0.0",
         "symfony/yaml": "^4.1",
         "2amigos/yii2-file-upload-widget": "~1.0",
-        "aki/yii2-image-slider": "*"
+        "aki/yii2-image-slider": "*",
+        "2amigos/yii2-date-picker-widget": "*",
+        "fedemotta/yii2-widget-datatables": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
