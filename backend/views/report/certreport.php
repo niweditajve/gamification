@@ -17,7 +17,7 @@ $gridColumns = [
         'value' => 'CreateDate',
     ],
     [
-        'header' => 'Ponits',
+        'header' => 'Points',
         'value' => function($model) { return $model['points'] ? $model['points'] : "" ;},
     ],
 ];
