@@ -3,10 +3,9 @@
  // or yii\helpers\Html
 // or yii\widgets\ActiveForm
 use yii\helpers\Html;
-use yii\grid\GridView;
 use dosamigos\datepicker\DateRangePicker;
 use yii\widgets\ActiveForm;
-
+use fedemotta\datatables\DataTables;
 $this->title = 'RM Factory';
 
 $gridColumns = [
@@ -20,7 +19,7 @@ $gridColumns = [
         'value' => 'CreateDate',
     ],
     [
-        'header' => 'Ponits',
+        'header' => 'Points',
         'value' => function($model) { return $model['points'] ? $model['points'] : "" ;},
     ],
 ];
@@ -35,11 +34,12 @@ $gridColumns = [
             You must login.
         <?php else: ?>
             <div class="row">
-           
-            
-                Certificates Reports
-                
-                
+                <div class="col-md-12">
+                    <h3>Point Certificate Report</h3>
+                </div>
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-7">
                 <?php $form = ActiveForm::begin(); ?>
                 <?php 
                  $d1= $date_from ;//? $date_from : date('Y-m-d',strtotime('today - 30 days'));
@@ -52,19 +52,22 @@ $gridColumns = [
                     'nameTo' => 'date_to',
                     'valueTo' => $d2
                 ]);?>
-                <div class="form-group">
-                    <?= Html::submitButton('filter', ['class' => 'btn btn-success']) ?>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <?= Html::submitButton('filter', ['class' => 'btn btn-success btn-sm', 'style' => 'font-size: 18px; padding: 2px 22px;']) ?>
+                    </div>
                 </div>
                 <?php ActiveForm::end(); ?>
-            
-                <?= GridView::widget([
+                <div class="col-md-12">
+                <?= DataTables::widget([
                     'dataProvider' => $dataProvider,
                     //'filterModel' => $searchModel,
                     // ... more code here
                     'columns' => $gridColumns
                 ]); ?>
             
-
+                </div>
         </div>
             
         <?php endif; ?>
