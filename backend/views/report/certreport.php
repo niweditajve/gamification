@@ -2,9 +2,25 @@
 /* @var $this yii\web\View */
  // or yii\helpers\Html
 // or yii\widgets\ActiveForm
-
+use yii\grid\GridView;
 
 $this->title = 'RM Factory';
+
+$gridColumns = [
+    ['class' => 'yii\grid\SerialColumn'],
+    [
+        'header' => 'Name',
+        'value' => function($model) { return $model['FirstName']  . " " . $model['LastName'] . ", " . $model['Login'] ;},
+    ],
+    [
+        'header' => 'Last Login Date',
+        'value' => 'CreateDate',
+    ],
+    [
+        'header' => 'Ponits',
+        'value' => function($model) { return $model['points'] ? $model['points'] : "" ;},
+    ],
+];
 ?>
 
 <div class="site-index">
@@ -18,9 +34,14 @@ $this->title = 'RM Factory';
             <div class="row">
            
             
-                Cert reports
-            
-            
+                CERT Reports
+                
+                <?= GridView::widget([
+                    'dataProvider' => $dataProvider,
+                    //'filterModel' => $searchModel,
+                    // ... more code here
+                    'columns' => $gridColumns
+                ]); ?>
             
 
         </div>
