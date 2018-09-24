@@ -20,6 +20,10 @@ $gridColumns = [
         'value' => 'CreateDate',
     ],
     [
+        'header' => 'Number of certificate',
+        'value' => 'certificates',
+    ],
+    [
         'header' => 'Points',
         'value' => function($model) { return $model['points'] ? $model['points'] : "" ;},
     ],
@@ -34,6 +38,10 @@ $exportColumns = [
     [
         'header' => 'Last Login Date',
         'value' => 'CreateDate',
+    ],
+    [
+        'header' => 'Number of certificate',
+        'value' => 'certificates',
     ],
     [
         'header' => 'Points',

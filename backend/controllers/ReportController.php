@@ -44,20 +44,16 @@ class ReportController extends Controller
    public function actionCertificates(){
       
         $model = new Agent();
-        
-        ///$totalCount = Yii::$app->db->createCommand('SELECT COUNT(*) FROM tblAgent WHERE `Active`=1')->queryScalar();
-
-        $sql = "SELECT `tblAgent`.`AgentID`, `tblAgent`.`FirstName`, `tblAgent`.`LastName`,`tblAgent`. `Login`, `CreateDate`,AVG(`gamification_agentpoints`.`point`) as points 
-                FROM `tblAgent`
-                LEFT JOIN `gamification_agentpoints` ON `tblAgent`.AgentID = `gamification_agentpoints`.agentId
-                WHERE 
-                tblAgent.`Active`=1 ";
      
         $request = \Yii::$app->request;
         
         $from ='';
         
         $to ='';
+        
+        $postsql = '';
+        
+        $postcertificate = '';
         
         if ($request->isPost) {
             
@@ -72,21 +68,23 @@ class ReportController extends Controller
 
                 $date_to = date("Y-m-d", strtotime($to)) ." 00:00:00";
 
-                if($from && $to)
-                     $sql .= " AND (gamification_agentpoints.created_at BETWEEN '$date_from' AND  '$date_to')";
-            }
-           
+                if($from && $to){
+                    $postsql = " AND (gamification_agentpoints.created_at BETWEEN '$date_from' AND  '$date_to')";
+                
+                    $postcertificate = " AND (gamification_agentcertificates.created_at BETWEEN '$date_from' AND '$date_to' )";
+
+                }
+           }
            
         }
-        /*else{
-           $from = date('Y-m-d',strtotime('today - 30 days'));
-           $to = date('Y-m-d',strtotime('today'));
-           
-           $date_from = $from . " 00:00:00";
-           $date_to = $to ." 00:00:00";
-           
-           $sql .= " AND (gamification_agentpoints.created_at BETWEEN '$date_from' AND  '$date_to')";
-        }*/
+       
+        
+        $sql = "SELECT `tblAgent`.`AgentID`, `tblAgent`.`FirstName`, `tblAgent`.`LastName`,`tblAgent`. `Login`, `CreateDate`,AVG(`gamification_agentpoints`.`point`) as points ,
+                (SELECT count(gamification_agentcertificates.id) FROM gamification_agentcertificates WHERE gamification_agentcertificates.agent_id = `tblAgent`.`AgentID` ". $postcertificate .") as certificates
+                FROM `tblAgent`
+                LEFT JOIN `gamification_agentpoints` ON `tblAgent`.AgentID = `gamification_agentpoints`.agentId
+                WHERE 
+                tblAgent.`Active`=1 " . $postsql;
         
         $sql .=" GROUP BY `tblAgent`.`AgentID`";
         
@@ -128,17 +126,15 @@ class ReportController extends Controller
         
         $end_week = date("Y-m-d",$end_week). " 00:00:00";
         
-        $totalCount = Yii::$app->db->createCommand('SELECT COUNT(*) FROM tblAgent WHERE `Active`=1')->queryScalar();
-
-        $sql = "SELECT `tblAgent`.`AgentID`, `tblAgent`.`FirstName`, `tblAgent`.`LastName`,`tblAgent`. `Login`, `CreateDate`,SUM(`gamification_agentpoints`.`point`) as points 
-                FROM `tblAgent`
-                LEFT JOIN `gamification_agentpoints` ON `tblAgent`.AgentID = `gamification_agentpoints`.agentId
-                WHERE 
-                tblAgent.`Active`=1 ";
+        $sql = "SELECT `gamification_agentcertificates`.`agent_id`, `tblAgent`.`FirstName`, `tblAgent`.`LastName`,`tblAgent`. `Login`,max(gamification_agentcertificates.agent_points) as points, certificate_name 
+            FROM `gamification_agentcertificates` 
+            LEFT JOIN `tblAgent` ON `gamification_agentcertificates`.agent_id = `tblAgent`.AgentID
+             WHERE
+            ";
         
-        $sql .= " AND (gamification_agentpoints.created_at BETWEEN '$start_week' AND  '$end_week')";
+        $sql .= "  (gamification_agentcertificates.created_at BETWEEN '$start_week' AND  '$end_week')";
 
-        $sql .=" GROUP BY `tblAgent`.`AgentID`";
+        $sql .="  GROUP BY `gamification_agentcertificates`.`agent_id` ";
         
         $connection=Yii::$app->db;
         
