@@ -14,8 +14,8 @@ $gridColumns = [
         'value' => function($model) { return $model['FirstName']  . " " . $model['LastName'] . ", " . $model['Login'] ;},
     ],
     [
-        'header' => 'Last Login Date',
-        'value' => 'CreateDate',
+        'header' => 'Certificate Earned',
+        'value' => 'certificate_name',
     ],
     [
         'header' => 'Points',
@@ -29,8 +29,8 @@ $exportColumns = [
         'value' => function($model) { return $model['FirstName']  . " " . $model['LastName'] . ", " . $model['Login'] ;},
     ],
     [
-        'header' => 'Last Login Date',
-        'value' => 'CreateDate',
+        'header' => 'Certificate Earned',
+        'value' => 'certificate_name',
     ],
     [
         'header' => 'Points',

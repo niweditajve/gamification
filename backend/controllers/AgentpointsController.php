@@ -13,6 +13,7 @@ use Yii;
 use yii\web\Controller;
 use common\models\Agentpoints;
 use common\models\Categories;
+use common\models\Agentcertificates;
 
 /**
  * This command echoes the first argument that you have entered.
@@ -129,17 +130,53 @@ class AgentpointsController extends Controller {
         }
     }
     
-    public function get(){
-        $sql = "SELECT sum(RowID) as totalOrders, AgentID ,(sum(RowID) DIV sum(if(VoIPSold like 'Y',1,0))) as voice,"
-                . " ( sum(RowID) DIV sum(if(ExpRepairSold like 'Y',1,0))) as exp,"
-                . " ( sum(RowID) DIV sum(if(NortonSold like 'Y',1,0))) as norton,"
-                . " ( sum(RowID) DIV sum(if(PCESold like 'Y',1,0))) as pce, "
-                . " ( sum(RowID) DIV sum(if(`EmailAddress` AND `EmailAddress` NOT LIKE '%@hughes.com%',1,0))) as email,"
-                . " ( sum(RowID) DIV sum(if(`PhoneNumber` and `PhoneNumber` REGEXP '[0-9]{10}',1,0))) as phones,"
-                . " ( sum(RowID) DIV sum(if(ScheduleAttempted like '1',1,0))) as ScheduleAttempted ,"
-                . " ( sum(RowID) DIV sum(if(Connection != '',1,0))) as connection FROM `calldata` WHERE AgentID !=0 v"
-                //. "AND CreateDate >= 'CURDATE() 00:00:00' AND CreateDate < 'CURDATE() 11:59:59'"
-                . " GROUP BY AgentID";
+    public function actionAgentcertificate(){
+        
+        $dateCondition = "created_at >= '".date('Y-m-d')." 00:00:00' AND created_at < '".date('Y-m-d')." 11:59:59'";
+        
+        $sql = "SELECT sum(point) as ponits,agentId FROM `gamification_agentpoints` WHERE $dateCondition GROUP BY AgentID ";
+        
+        $queryCommand = Yii::$app->db->createCommand($sql);
+
+        $result = $queryCommand->queryAll();
+        
+        foreach($result as $key){
+           
+            $query = new \yii\db\Query;
+            
+            $query->select(['gamification_certificates.id', 'gamification_certificates.trohpy_image_id','gamification_certificates.point','gamification_trophyimages.title'])  
+                ->from('gamification_certificates')
+                ->leftJoin('gamification_trophyimages', 'gamification_trophyimages.id = gamification_certificates.trohpy_image_id')
+                ->where('gamification_certificates.point < :ponits', [':ponits' => $key['ponits']]);
+
+            $command = $query->createCommand();
+            
+            $data = $command->queryAll();
+            
+            if(count($data) > 0){
+                
+                foreach($data as $dataKey){
+                      
+                    $certificate_id       = $dataKey['id'];
+                    $agent_id             = $key['agentId'];
+                    $agent_points         = $key['ponits'];
+                    $certificate_point    = $dataKey['point'];
+                    $certificate_name     = $dataKey['title'];
+                      
+                    $certificate = new Agentcertificates;
+                    $certificate->agent_id = $agent_id;
+                    $certificate->agent_points = $agent_points;
+                    $certificate->certificate_id = $certificate_id;
+                    $certificate->certificate_name = $certificate_name;
+                    $certificate->certificate_point = $certificate_point;
+                    $certificate->save();
+                      
+                }
+                
+            }
+            
+            
+        }
     }
     
 }

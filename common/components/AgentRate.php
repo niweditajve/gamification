@@ -375,13 +375,11 @@ class AgentRate extends Component
                 
                 $modelkey->trohpy_image_id;
                 
-                $trophyResult;
-                
                 $trophy = array();
                 
                 $trophyResult = Trophyimages::find()->select('title,filename')->where('id = :id', [':id' => $modelkey->trohpy_image_id])->One();
                
-                if($i ==0)
+                if($i ==0 )
                 {
                     $trophy['active'] = true;
                 }
