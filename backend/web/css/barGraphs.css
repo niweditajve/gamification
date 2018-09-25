@@ -1,7 +1,21 @@
+div.dataTables_filter label {
+    /*position: relative*/
+}
 
+div.dataTables_filter label:before {
+  content: 'Search';
+ /* position: absolute;*/
+  left: 12px;
+  top: 2px;
+  /*color: #bbb; */
+}
 
+p {text-indent:-999999em;}
+p:after{ content:'replacement string'; display:  block; text-indent:0 ;  }
 
-
+.margin-top15{
+    padding-top:15px;
+}
 
 .horizontal .progress-bar {
   float: left;
@@ -44,6 +58,7 @@
   height: 100px;
   width: 40px;
   margin-right: 25px;
+  margin-left: 40;
 }
 
 .vertical .progress-track {

@@ -17,7 +17,7 @@ $gridColumns = [
     ],
     [
         'header' => 'Last Login Date',
-        'value' => 'CreateDate',
+        'value' => function($model) { return $model['lastlogin']  ? $model['lastlogin'] : "" ;},
     ],
     [
         'header' => 'Number of certificate',
@@ -37,7 +37,7 @@ $exportColumns = [
     ],
     [
         'header' => 'Last Login Date',
-        'value' => 'CreateDate',
+        'value' => function($model) { return $model['lastlogin']  ? $model['lastlogin'] : "" ;},
     ],
     [
         'header' => 'Number of certificate',
@@ -55,7 +55,7 @@ $exportColumns = [
 
 <div class="site-index">
 
-    <div class="jumbotron">
+    <div class="container">
 
 
         <?php if (Yii::$app->user->isGuest): ?>
@@ -65,9 +65,20 @@ $exportColumns = [
                 <div class="col-md-12">
                     <h3>Point Certificate Report</h3>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-4">
+                    <?php
+                    echo ExportMenu::widget([
+                        'dataProvider' => $dataProvider,
+                        'columns' => $exportColumns,
+                        'exportConfig' => [
+                            ExportMenu::FORMAT_TEXT => false,
+                            ExportMenu::FORMAT_PDF => false,
+                            ExportMenu::FORMAT_HTML => false,
+                            ],
+                    ]);
+                    ?>
                 </div>
-                <div class="col-md-7">
+                <div class="col-md-6">
                 <?php $form = ActiveForm::begin(); ?>
                 <?php 
                  $d1= $date_from ;//? $date_from : date('Y-m-d',strtotime('today - 30 days'));
@@ -81,19 +92,14 @@ $exportColumns = [
                     'valueTo' => $d2
                 ]);?>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="form-group">
                         <?= Html::submitButton('filter', ['class' => 'btn btn-success btn-sm', 'style' => 'font-size: 18px; padding: 2px 22px;']) ?>
                     </div>
                 </div>
                 <?php ActiveForm::end(); ?>
                 <div class="col-md-12">
-                    <?php
-                    echo ExportMenu::widget([
-                        'dataProvider' => $dataProvider,
-                        'columns' => $exportColumns
-                    ]);
-                    ?>
+                    
                 <?= DataTables::widget([
                     'dataProvider' => $dataProvider,
                     //'filterModel' => $searchModel,
