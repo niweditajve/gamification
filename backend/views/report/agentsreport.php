@@ -10,11 +10,11 @@ $gridColumns = [
     ['class' => 'yii\grid\SerialColumn'],
     [
         'header' => 'Name',
-        'value' => function($model) { return $model->FirstName  . " " . $model->LastName . ", " . $model->Login ;},
+        'value' => function($model) { return $model['FirstName']  . " " . $model['LastName'] . ", " . $model['Login'] ;},
     ],
     [
         'header' => 'Last Login Date',
-        'value' => 'CreateDate',
+        'value' => function($model) { return $model['lastlogin']  ? $model['lastlogin'] : "" ;},
     ],
 ];
   
@@ -22,11 +22,11 @@ $gridColumns = [
 $exportColumns = [
     [
         'header' => 'Name',
-        'value' => function($model) { return $model->FirstName  . " " . $model->LastName . ", " . $model->Login ;},
+        'value' => function($model) { return $model['FirstName']  . " " . $model['LastName'] . ", " . $model['Login'] ;},
     ],
     [
         'header' => 'Last Login Date',
-        'value' => 'CreateDate',
+        'value' => function($model) { return $model['lastlogin']  ? $model['lastlogin'] : "" ;},
     ],
 ];
        

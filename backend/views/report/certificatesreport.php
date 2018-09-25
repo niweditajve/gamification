@@ -17,7 +17,7 @@ $gridColumns = [
     ],
     [
         'header' => 'Last Login Date',
-        'value' => 'CreateDate',
+        'value' => function($model) { return $model['lastlogin']  ? $model['lastlogin'] : "" ;},
     ],
     [
         'header' => 'Number of certificate',
@@ -37,7 +37,7 @@ $exportColumns = [
     ],
     [
         'header' => 'Last Login Date',
-        'value' => 'CreateDate',
+        'value' => function($model) { return $model['lastlogin']  ? $model['lastlogin'] : "" ;},
     ],
     [
         'header' => 'Number of certificate',

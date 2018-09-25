@@ -32,13 +32,31 @@ class ReportController extends Controller
 
    public function actionAgents(){
        
-        $searchModel = new AgentSearch();
-        $dataProvider = $searchModel->searchActive(Yii::$app->request->queryParams);
+        $model = new Agent();
+        
+        $sql = "SELECT `tblAgent`.`FirstName`, `tblAgent`.`LastName`,`tblAgent`. `Login` ,
+                (SELECT CreateDate FROM callData WHERE agentID = `tblAgent`.`AgentID` ORDER BY rowid DESC LIMIT 1) as lastlogin
+                FROM `tblAgent` 
+                WHERE `tblAgent`.Active = 1
+                ";
+        
+        $connection=Yii::$app->db;
+        
+        $command=$connection->createCommand($sql);
+        
+        $rowCount=$command->execute();
+        
+        $dataProvider = new SqlDataProvider([
+            'db' => Yii::$app->db,
+            'sql' => $sql,
+            'totalCount' => $rowCount,
+            
+        ]);
        
-       return $this->render('agentsreport', [
-          'searchModel' => $searchModel,
-          'dataProvider' => $dataProvider,
-      ]);
+        return $this->render('agentsreport', [
+           'dataProvider' => $dataProvider,
+           'model' => $model,
+       ]);
    }
    
    public function actionCertificates(){
@@ -80,7 +98,8 @@ class ReportController extends Controller
        
         
         $sql = "SELECT `tblAgent`.`AgentID`, `tblAgent`.`FirstName`, `tblAgent`.`LastName`,`tblAgent`. `Login`, `CreateDate`,AVG(`gamification_agentpoints`.`point`) as points ,
-                (SELECT count(gamification_agentcertificates.id) FROM gamification_agentcertificates WHERE gamification_agentcertificates.agent_id = `tblAgent`.`AgentID` ". $postcertificate .") as certificates
+                (SELECT count(gamification_agentcertificates.id) FROM gamification_agentcertificates WHERE gamification_agentcertificates.agent_id = `tblAgent`.`AgentID` ". $postcertificate .") as certificates,
+                (SELECT CreateDate FROM callData WHERE agentID = `tblAgent`.`AgentID` ORDER BY rowid DESC LIMIT 1) as lastlogin
                 FROM `tblAgent`
                 LEFT JOIN `gamification_agentpoints` ON `tblAgent`.AgentID = `gamification_agentpoints`.agentId
                 WHERE 
@@ -126,15 +145,15 @@ class ReportController extends Controller
         
         $end_week = date("Y-m-d",$end_week). " 00:00:00";
         
-        $sql = "SELECT `gamification_agentcertificates`.`agent_id`, `tblAgent`.`FirstName`, `tblAgent`.`LastName`,`tblAgent`. `Login`,max(gamification_agentcertificates.agent_points) as points, certificate_name 
+        $sql = "SELECT `gamification_agentcertificates`.`agent_id`, `tblAgent`.`FirstName`, `tblAgent`.`LastName`,`tblAgent`. `Login`,max(gamification_agentcertificates.agent_points) as points, certificate_name
             FROM `gamification_agentcertificates` 
             LEFT JOIN `tblAgent` ON `gamification_agentcertificates`.agent_id = `tblAgent`.AgentID
-             WHERE
+            WHERE
             ";
         
-        $sql .= "  (gamification_agentcertificates.created_at BETWEEN '$start_week' AND  '$end_week')";
+        $sql .=" (gamification_agentcertificates.created_at BETWEEN '$start_week' AND  '$end_week')";
 
-        $sql .="  GROUP BY `gamification_agentcertificates`.`agent_id` "; 
+        $sql .=" GROUP BY `gamification_agentcertificates`.`agent_id` "; 
         
         $connection=Yii::$app->db;
         
