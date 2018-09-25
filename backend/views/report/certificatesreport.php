@@ -74,6 +74,7 @@ $exportColumns = [
                             ExportMenu::FORMAT_TEXT => false,
                             ExportMenu::FORMAT_PDF => false,
                             ExportMenu::FORMAT_HTML => false,
+                            ExportMenu::FORMAT_EXCEL  => false,
                             ],
                     ]);
                     ?>
