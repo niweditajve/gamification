@@ -174,6 +174,7 @@ class AgentRate extends Component
             $communityCondition = $this->getCommunityCondition($community,$agentID);
 
             $sql = "SELECT sum(if(OrderID !='',1,0)) as answered,sum(RowID) as offered FROM ".$this->getTableName()." WHERE ". $communityCondition . " AND MediaType = '$mediaType'";
+            
 
             $command = Yii::$app->db->createCommand($sql);
 
