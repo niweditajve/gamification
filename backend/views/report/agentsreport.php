@@ -36,31 +36,47 @@ $exportColumns = [
 
 <div class="site-index">
 
-    <div class="jumbotron">
+    <div class="container">
 
 
         <?php if (Yii::$app->user->isGuest): ?>
             You must login.
         <?php else: ?>
             <div class="row">
+                <div class="col-md-12">
+                    <h3>Last Login  Report</h3>
+                </div>
                 
-                <h3>Last Login  Report</h3>
-            
+                <div class="col-md-2">
                 <?php
                    // Renders a export dropdown menu
                     echo ExportMenu::widget([
                         'dataProvider' => $dataProvider,
-                        'columns' => $exportColumns
+                        'columns' => $exportColumns,
+                        'exportConfig' => [
+                            ExportMenu::FORMAT_TEXT => false,
+                            ExportMenu::FORMAT_PDF => false,
+                            ExportMenu::FORMAT_HTML => false,
+                            ],
                     ]);
                 ?>
+                </div>
+            </div>
+            <div class="margin-top15"></div>
+            <div class="row">
+                <div class="col-md-12">
                 <?= DataTables::widget([
                     'dataProvider' => $dataProvider,
                    // 'filterModel' => $searchModel,
                     'columns' => $gridColumns,
-                    
+                    'clientOptions' => [
+                     "lengthMenu"=> [[20,-1], [20,Yii::t('app',"All")]],
+                        "info"=>false,
+                        "responsive"=>true, 
+                        ],
                 ]);?>
             
-
+                </div>
         </div>
             
         <?php endif; ?>

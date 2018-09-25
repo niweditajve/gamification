@@ -42,7 +42,7 @@ $exportColumns = [
 
 <div class="site-index">
 
-    <div class="jumbotron">
+    <div class="container">
 
 
         <?php if (Yii::$app->user->isGuest): ?>
@@ -56,9 +56,16 @@ $exportColumns = [
                 <?php
                 echo ExportMenu::widget([
                     'dataProvider' => $dataProvider,
-                    'columns' => $exportColumns
-                ]);
+                    'columns' => $exportColumns,
+                    'exportConfig' => [
+                        ExportMenu::FORMAT_TEXT => false,
+                        ExportMenu::FORMAT_PDF => false,
+                        ExportMenu::FORMAT_HTML => false,
+                        ],
+                        ]);
                 ?>
+                
+                <div class="margin-top15"></div>
                 
                 <?= DataTables::widget([
                     'dataProvider' => $dataProvider,

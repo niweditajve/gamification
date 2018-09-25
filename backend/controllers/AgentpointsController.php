@@ -37,7 +37,7 @@ class AgentpointsController extends Controller {
     }
     
     public function getSelectStatement($catId){
-        
+        $str = '';
         switch($catId){
                 case "2":
                     $str = "sum(if(OrderID !='',1,0))";
@@ -98,11 +98,11 @@ class AgentpointsController extends Controller {
             
             $selectStatement = $this->getSelectStatement($categoryId);
             
-           $query = "SELECT sum(RowID) as totalOrders, AgentID ,$selectStatement as answered"
+            $query = "SELECT sum(RowID) as totalOrders, AgentID ,$selectStatement as answered"
                 . " FROM `calldata` WHERE AgentID !=0 "
                 . "AND CreateDate >= '".date('Y-m-d h').":00:00' AND CreateDate < '".date('Y-m-d h').":59:59'"
                 ."";
-           
+          
             $queryCommand = Yii::$app->db->createCommand($query);
 
             $result = $queryCommand->queryAll();
@@ -152,7 +152,7 @@ class AgentpointsController extends Controller {
             $command = $query->createCommand();
             
             $data = $command->queryAll();
-            
+           
             if(count($data) > 0){
                 
                 foreach($data as $dataKey){

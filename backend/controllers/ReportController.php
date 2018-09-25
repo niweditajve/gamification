@@ -134,7 +134,7 @@ class ReportController extends Controller
         
         $sql .= "  (gamification_agentcertificates.created_at BETWEEN '$start_week' AND  '$end_week')";
 
-        $sql .="  GROUP BY `gamification_agentcertificates`.`agent_id` ";
+        $sql .="  GROUP BY `gamification_agentcertificates`.`agent_id` "; 
         
         $connection=Yii::$app->db;
         
