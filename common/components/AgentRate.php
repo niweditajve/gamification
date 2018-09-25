@@ -31,13 +31,12 @@ class AgentRate extends Component
 	}
         
         public function getTableName(){
-           
-            if($_SERVER['SERVER_NAME'])
+            
+            $tablename = "callData";
+          
+            if($_SERVER['SERVER_NAME'] == "localhost")
             {
-                $tablename = "calldata";
-            }
-            else{
-                $tablename = "callData";
+               // $tablename = "calldata";
             }
             
             return $tablename;
