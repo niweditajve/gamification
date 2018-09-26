@@ -77,7 +77,7 @@ class AgentRate extends Component
             $startEnd = "";
             
             if($community)
-                $startEnd = " CreateDate >= '".$this->startTime()."' AND CreateDate < '".$this->endTime()."' AND AgentID in(SELECT AgentID FROM tblagent WHERE ParentTenantID = $community)";
+                $startEnd = " CreateDate >= '".$this->startTime()."' AND CreateDate < '".$this->endTime()."' AND AgentID in(SELECT AgentID FROM tblAgent WHERE ParentTenantID = $community)";
             else
                 $startEnd = " CreateDate >= 'CURDATE() 00:00:00' AND CreateDate < 'CURDATE() 11:59:59' AND AgentID =".$agentID;
             
@@ -190,6 +190,28 @@ class AgentRate extends Component
                 return 0;
 
 	}
+        
+        public function getTransferCloseRate($agentID,$community=null){
+            
+            $communityCondition = $this->getCommunityCondition($community,$agentID);
+
+            $sql = "SELECT sum(if(OrderID !='',1,0)) as answered,sum(RowID) as offered FROM ".$this->getTableName()." WHERE ". $communityCondition . " AND"
+                    . " DispositionCode IN ('Transfer to Business','Transfer to Government','Transfer to Enterprise','Transfer to Consumer','Transfer To Another Business Agent')";
+
+            $command = Yii::$app->db->createCommand($sql);
+
+            $result = $command->queryAll();
+
+            $answeredCall = $result[0]['answered'];
+
+            $totalCall = $result[0]['offered'];
+
+            if($answeredCall && $totalCall)
+                return number_format((float)($totalCall/$answeredCall),2, '.', '');
+            else
+                return 0;
+
+        }
         
         /*
          * Function Name - getRateText()
