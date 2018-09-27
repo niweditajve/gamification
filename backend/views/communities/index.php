@@ -9,6 +9,7 @@ use yii\grid\GridView;
 
 $this->title = 'Communities';
 $this->params['breadcrumbs'][] = $this->title;
+$base_url = Yii::$app->homeUrl;
 ?>
 <div class="community-index">
 
@@ -29,9 +30,9 @@ $this->params['breadcrumbs'][] = $this->title;
         echo "<td>".$key['id']."</td>";
         echo "<td>".$key['skill']."</td>";
         echo "<td>";
-        echo '<a href="/projects/gamification/backend/web/communities/view?id='.$key['id'].'" title="View" aria-label="View" data-pjax="0"><span class="glyphicon glyphicon-eye-open"></span></a>';
+        echo '<a href='.$base_url.'communities/view?id='.$key['id'].' title="View" aria-label="View" data-pjax="0"><span class="glyphicon glyphicon-eye-open"></span></a>';
         echo "&nbsp;";
-        echo '<a href="/projects/gamification/backend/web/communities/update?id='.$key['id'].'" title="Update" aria-label="Update" data-pjax="0"><span class="glyphicon glyphicon-pencil"></span></a>';
+        echo '<a href='.$base_url.'communities/update?id='.$key['id'].' title="Update" aria-label="Update" data-pjax="0"><span class="glyphicon glyphicon-pencil"></span></a>';
         echo "</td>";
         echo "</tr>";
         
