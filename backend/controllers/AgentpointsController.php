@@ -98,21 +98,28 @@ class AgentpointsController extends Controller {
             
             $selectStatement = $this->getSelectStatement($categoryId);
             
-            $query = "SELECT sum(RowID) as totalOrders, AgentID ,$selectStatement as answered"
+            $query = "SELECT count(RowID) as totalOrders, AgentID ,$selectStatement as answered"
                 . " FROM `calldata` WHERE AgentID !=0 "
-                . "AND CreateDate >= '".date('Y-m-d h').":00:00' AND CreateDate < '".date('Y-m-d h').":59:59'"
+                . "AND CreateDate >= '".date('Y-m-d')." 00:00:00' AND CreateDate < '".date('Y-m-d')." 11:59:59'"
                 ."";
           
             $queryCommand = Yii::$app->db->createCommand($query);
 
             $result = $queryCommand->queryAll();
-
            
-            $AgentID= $result[0]['AgentID'];
-            $answered= $result[0]['answered'];
+            foreach ($result as $resultKey){
+                $AgentID= $resultKey['AgentID'];
+                $answered= $resultKey['answered'];
+                $totalOrders= $resultKey['totalOrders'];
 
-            if($answered)
-                $this->updateAgentPoint($AgentID,$categoryId,$pointValue);
+                if($answered && $totalOrders){
+                    if( $totalOrders / $answered)
+                        $this->updateAgentPoint($AgentID,$categoryId,$pointValue);
+                }
+            }
+
+            
+                
         }
         
     }

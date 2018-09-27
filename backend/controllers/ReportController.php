@@ -97,7 +97,7 @@ class ReportController extends Controller
         }
        
         
-        $sql = "SELECT `tblAgent`.`AgentID`, `tblAgent`.`FirstName`, `tblAgent`.`LastName`,`tblAgent`. `Login`, `CreateDate`,AVG(`gamification_agentpoints`.`point`) as points ,
+        $sql = "SELECT `tblAgent`.`AgentID`, `tblAgent`.`FirstName`, `tblAgent`.`LastName`,`tblAgent`. `Login`, `CreateDate`,sum(`gamification_agentpoints`.`point`) as points ,
                 (SELECT count(gamification_agentcertificates.id) FROM gamification_agentcertificates WHERE gamification_agentcertificates.agent_id = `tblAgent`.`AgentID` ". $postcertificate .") as certificates,
                 (SELECT CreateDate FROM callData WHERE agentID = `tblAgent`.`AgentID` ORDER BY rowid DESC LIMIT 1) as lastlogin
                 FROM `tblAgent`
@@ -153,7 +153,7 @@ class ReportController extends Controller
         
         $sql .=" (gamification_agentcertificates.created_at BETWEEN '$start_week' AND  '$end_week')";
 
-        $sql .=" GROUP BY `gamification_agentcertificates`.`agent_id` "; 
+        $sql .=" GROUP BY `gamification_agentcertificates`.`agent_id` ";
         
         $connection=Yii::$app->db;
         
