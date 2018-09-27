@@ -49,7 +49,7 @@ AppAsset::register($this);
                                 ['label' => 'Categories', 'url' => ['/categories/index'], 'visible' => Yii::$app->user->can('admin')],
                                 ['label' => 'Trophy Images', 'url' => ['/trophy/index'], 'visible' => Yii::$app->user->can('admin')],
                                 ['label' => 'Certificates', 'url' => ['/certificate/index'], 'visible' => Yii::$app->user->can('admin')],
-                                ['label' => 'Coomunity Define', 'url' => ['/community/index'], 'visible' => Yii::$app->user->can('admin')],
+                                ['label' => 'Coomunity Define', 'url' => ['/communities/index'], 'visible' => Yii::$app->user->can('admin')],
                             ],
                             'visible' => Yii::$app->user->can('admin')
                         ],
