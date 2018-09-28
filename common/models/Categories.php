@@ -12,6 +12,8 @@ use Yii;
  * @property double $point
  * @property string $created_at
  * @property string $updated_at
+ * @property int $redCutOff
+ * @property int $yellowCutOff
  */
 class Categories extends \yii\db\ActiveRecord
 {
@@ -29,12 +31,16 @@ class Categories extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title'], 'required'],
+            [['title','redCutOff','yellowCutOff'], 'required'],
             [['point'], 'number'],
+            [['redCutOff','yellowCutOff'], 'number'],
+            [['redCutOff','yellowCutOff'], 'string', 'max' => 2],
+            [['yellowCutOff'],'compare','compareAttribute'=>'redCutOff','operator'=>'>','message'=>'Yellow Cut Off must be greater than Red Cut Off'],
             [['created_at', 'updated_at'], 'safe'],
             [['title'], 'string', 'max' => 255],
         ];
     }
+    
 
     /**
      * {@inheritdoc}
@@ -45,6 +51,9 @@ class Categories extends \yii\db\ActiveRecord
             'id' => 'ID',
             'title' => 'Title',
             'point' => 'Point',
+            'dashboardName' => 'Dashboar Display Name',
+            'redCutOff' => 'Red Cut Off Maximum Value',
+            'yellowCutOff' => 'Yellow Cut Off Maximum Value',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

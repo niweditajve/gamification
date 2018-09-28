@@ -100,22 +100,68 @@ class AgentpointsController extends Controller {
             
             $query = "SELECT count(RowID) as totalOrders, AgentID ,$selectStatement as answered"
                 . " FROM `calldata` WHERE AgentID !=0 "
-                . "AND CreateDate >= '".date('Y-m-d')." 00:00:00' AND CreateDate < '".date('Y-m-d')." 11:59:59'"
+                . "AND CreateDate >= '".date('Y-m-d h').":00:00' AND CreateDate < '".date('Y-m-d h').":59:59'"
                 ."";
+            
+            if($categoryId == "2"){
+                $sql .= " AND MediaType = 'Broadcast'";
+            }
+            
+            if($categoryId == "3"){
+                $sql .= " AND MediaType = 'Campaigns'";
+            }
+            
+            if($categoryId == "4"){
+                $sql .= " AND MediaType = 'Web'";
+            }
+            
+            if($categoryId == "5"){
+                $sql .= " DispositionCode IN ('Transfer to Business','Transfer to Government','Transfer to Enterprise','Transfer to Consumer','Transfer To Another Business Agent')";
+            }
+            
           
             $queryCommand = Yii::$app->db->createCommand($query);
 
             $result = $queryCommand->queryAll();
            
             foreach ($result as $resultKey){
+                
                 $AgentID= $resultKey['AgentID'];
+                
                 $answered= $resultKey['answered'];
+                
                 $totalOrders= $resultKey['totalOrders'];
+                
+                $agentrate = number_format((float)( ( ($answered/$totalOrders)* 100)),2, '.', ''); 
+                
+                if($agentrate){
+                    
+                    $agentParentTenantID = Yii::$app->agentcomponent->getAgentTenantId($AgentID);
+                    
+                    $communityQuery = "SELECT count(RowID) as totalOrders, AgentID ,$selectStatement as answered"
+                        . " FROM `calldata` WHERE "
+                        . "CreateDate >= '".date('Y-m-d h').":00:00' AND CreateDate < '".date('Y-m-d h').":59:59'"
+                        ." AND AgentID in (SELECT AgentID FROM tblAgent WHERE ParentTenantID = $agentParentTenantID)";
+                    
+                    $communityCommand = Yii::$app->db->createCommand($communityQuery);
 
-                if($answered && $totalOrders){
+                    $communityResult = $communityCommand->queryAll();
+                    
+                    $communityAnswered= $communityResult[0]['answered'];
+                
+                    $communityTotalOrders= $communityResult[0]['totalOrders'];
+
+                    $communityRate = number_format((float)( ( ($communityAnswered/$communityTotalOrders)* 100)),2, '.', '');
+                    
+                    if($agentrate > $communityRate)
+                          $this->updateAgentPoint($AgentID,$categoryId,$pointValue);
+                }
+                
+                
+                /*if($answered && $totalOrders){
                     if( $totalOrders / $answered)
                         $this->updateAgentPoint($AgentID,$categoryId,$pointValue);
-                }
+                } */
             }
 
             

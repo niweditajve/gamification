@@ -23,9 +23,32 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             
-            'title',
+           
+            
+            
+            
+            [
+                'attribute' => 'Dashboard Display Name',
+                'value' => $model->title,
+            ],
             
             'point',
+            
+            [
+                'attribute' => 'Red Color Bar Range',
+                'value' => "0% - ".$model->redCutOff . "%",
+            ],
+            
+            [
+                'attribute' => 'Yellow Color Bar Range',
+                'value' => $model->redCutOff + 1 ."% - ".  $model->yellowCutOff."%",
+            ],
+            
+            [
+                'attribute' => 'Green Color Bar Range',
+                'value' => $model->yellowCutOff + 1 . "% - 100%",
+            ],
+            
             
         ],
     ]) ?>
