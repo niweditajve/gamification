@@ -10,8 +10,8 @@ div.dataTables_filter label:before {
   /*color: #bbb; */
 }
 
-p {text-indent:-999999em;}
-p:after{ content:'replacement string'; display:  block; text-indent:0 ;  }
+/*p {text-indent:-999999em;} */
+/*p:after{ content:'replacement string'; display:  block; text-indent:0 ;  }*/
 
 .margin-top15{
     padding-top:15px;
