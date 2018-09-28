@@ -357,13 +357,13 @@ class AgentRate extends Component
          * Description - Get color for bar graphs.
          * Return - Return color for bar graphs.
          */
-        public function getColor($type,$value){
+        public function getColor($redCutOff,$yellowCutOff,$value){
             
-            if( $value >=0 && $value < 30)
+            if( $value >=0 && $value <= $redCutOff)
                 return "red";
-            elseif($value >= 30 && $value < 60)
+            elseif($value > $redCutOff && $value <= $yellowCutOff)
                 return "yellow";
-            elseif($value >= 60)
+            elseif($value > $yellowCutOff)
                 return "green";
         }
         

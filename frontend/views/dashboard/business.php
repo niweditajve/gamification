@@ -79,7 +79,7 @@ $parentTenantID = $agent['ParentTenantID'];
                     <div class="demo-1" data-percent="<?php echo Yii::$app->agentcomponent->getTodaysCloseRate($skillType,$agentId); ?>"></div>
               </div>
                 <div class="col-md-2">
-                    Today's Community Close Rate <?php echo Yii::$app->agentcomponent->getTodaysCloseRate($skillType,$agentId,$parentTenantID); ?>
+                    Today's Community Close Rate 
                     <div class="demo-2" data-percent="<?php echo Yii::$app->agentcomponent->getTodaysCloseRate($skillType,$agentId,$parentTenantID); ?>"></div>
                 </div>
                 <div class="col-md-2">
@@ -95,8 +95,15 @@ $parentTenantID = $agent['ParentTenantID'];
             <div class="col-md-12" style="margin-top: 20px; ">
                 <div class="col-md-4">
                     <?php $calls = Yii::$app->agentcomponent->getTotalCalls($agentId,$skillType); ?>
-                    <?php echo $calls['answered'] ? $calls['answered'] :0; ?> My calls <br>
-                    <?php echo $calls['orders'] ? $calls['orders'] : 0; ?> My Orders <br>
+                    <?php 
+                    echo $calls['answered'] ? $calls['answered'] :0; 
+                    echo $category["orders"]["title"];
+                    ?>  <br>
+                    <?php 
+                    echo $calls['orders'] ? $calls['orders'] : 0; 
+                    echo $category["allOrders"]["title"];
+                    ?> 
+                    <br>
                     <?php echo Yii::$app->agentcomponent->getLeaderPoints($skillType) ? Yii::$app->agentcomponent->getLeaderPoints($skillType) : 0; ?> Point leader count <br>
                     <br>
                     <br>
@@ -127,8 +134,9 @@ $parentTenantID = $agent['ParentTenantID'];
                
 
                 <div class="col-md-3">
-                    Voice Attachment
+                    
                     <?php 
+                    echo $category["voice"]["title"];
                     $voices = Yii::$app->agentcomponent->getRate($skillType,$agentId,"voice");
                     $voiceCommunity = Yii::$app->agentcomponent->getRate($skillType,$agentId,"voice",$parentTenantID);
                     ?>
@@ -136,14 +144,14 @@ $parentTenantID = $agent['ParentTenantID'];
                           
                           <div class="progress-bar">
                             <div class="progress-track">
-                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor("voice", $voices); ?>">
+                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor($category["voice"]["redCutOff"],$category["voice"]["yellowCutOff"], $voices); ?>">
                                 <span><?php echo $voices; ?>%</span> You 
                               </div>
                             </div>
                           </div>
                           <div class="progress-bar">
                             <div class="progress-track">
-                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor("voice", $voiceCommunity); ?>">
+                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor($category["voice"]["redCutOff"],$category["voice"]["yellowCutOff"], $voiceCommunity); ?>">
                                 <span><?php echo $voiceCommunity; ?>%</span> Community
                               </div>
                             </div>
@@ -152,22 +160,23 @@ $parentTenantID = $agent['ParentTenantID'];
                 </div>
 
                 <div class="col-md-3">
-                    Express Repair
+                    
                     <?php 
+                    echo $category["ExpRepairSold"]["title"];
                     $exp = Yii::$app->agentcomponent->getRate($skillType,$agentId,"ExpRepairSold");
                     $expCommunity = Yii::$app->agentcomponent->getRate($skillType,$agentId,"ExpRepairSold",$parentTenantID);
                     ?>
                     <div class="container vertical rounded" style="margin-left:40px;">
                           <div class="progress-bar">
                             <div class="progress-track">
-                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor("exp", $exp); ?>">
+                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor($category["ExpRepairSold"]["redCutOff"],$category["ExpRepairSold"]["yellowCutOff"], $exp); ?>">
                                 <span><?php echo $exp; ?>%</span> You
                               </div>
                             </div>
                           </div>
                           <div class="progress-bar">
                             <div class="progress-track">
-                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor("exp", $expCommunity); ?>">
+                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor($category["ExpRepairSold"]["redCutOff"],$category["ExpRepairSold"]["yellowCutOff"], $expCommunity); ?>">
                                 <span><?php echo $expCommunity; ?>%</span> Community
                               </div>
                             </div>
@@ -176,8 +185,9 @@ $parentTenantID = $agent['ParentTenantID'];
                 </div>
 
                 <div class="col-md-3">
-                    Credit Card Orders
+                   
                     <?php 
+                    echo $category["CCNumber"]["title"];
                     $ccorders = Yii::$app->agentcomponent->getRate($skillType,$agentId,"CCNumber");
                     $ccordersCommunity = Yii::$app->agentcomponent->getRate($skillType,$agentId,"CCNumber",$parentTenantID);
                     ?>
@@ -185,14 +195,14 @@ $parentTenantID = $agent['ParentTenantID'];
                           
                           <div class="progress-bar">
                             <div class="progress-track">
-                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor("ccorders", $ccorders); ?>">
+                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor($category["CCNumber"]["redCutOff"],$category["CCNumber"]["yellowCutOff"], $ccorders); ?>">
                                 <span><?php echo $ccorders; ?>%</span> You
                               </div>
                             </div>
                           </div>
                           <div class="progress-bar">
                             <div class="progress-track">
-                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor("ccorders", $ccordersCommunity); ?>">
+                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor($category["CCNumber"]["redCutOff"],$category["CCNumber"]["yellowCutOff"], $ccordersCommunity); ?>">
                                 <span><?php echo $ccordersCommunity; ?>%</span> Community
                               </div>
                             </div>
@@ -201,21 +211,23 @@ $parentTenantID = $agent['ParentTenantID'];
                 </div>
             
                 <div class="col-md-3">
-                    Valid Email Address Collection
-                    <?php $validEmail = Yii::$app->agentcomponent->getValidEmail($skillType,$agentId); 
+                   
+                    <?php
+                    echo $category["email"]["title"];
+                    $validEmail = Yii::$app->agentcomponent->getValidEmail($skillType,$agentId); 
                     $communityEmail = Yii::$app->agentcomponent->getValidEmail($skillType,$agentId,$parentTenantID);
                     ?>
                         <div class="container vertical rounded" style="margin-left:40px;">
                           <div class="progress-bar">
                             <div class="progress-track">
-                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor("Email", $validEmail); ?>">
+                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor($category["email"]["redCutOff"],$category["email"]["yellowCutOff"], $validEmail); ?>">
                                 <span><?php echo $validEmail; ?>%</span> You
                               </div>
                             </div>
                           </div>
                           <div class="progress-bar">
                             <div class="progress-track">
-                              <div class="progress-fill  <?php echo Yii::$app->agentcomponent->getColor("Email", $communityEmail); ?>">
+                              <div class="progress-fill  <?php echo Yii::$app->agentcomponent->getColor($category["email"]["redCutOff"],$category["email"]["yellowCutOff"], $communityEmail); ?>">
                                 <span><?php echo $communityEmail; ?>%</span> Community
                               </div>
                             </div>
@@ -228,22 +240,23 @@ $parentTenantID = $agent['ParentTenantID'];
             <div class="col-md-12" style="margin-top:20px; padding-bottom: 25px;">
 
                  <div class="col-md-3">
-                    Mobile Phone Collection
+                    
                     <?php 
+                    echo $category["PhoneNumber"]["title"];
                     $validPhones = Yii::$app->agentcomponent->getRate($skillType,$agentId,"PhoneNumber"); 
                     $communityPhones = Yii::$app->agentcomponent->getRate($skillType,$agentId,"PhoneNumber",$parentTenantID);
                     ?>
                     <div class="container vertical rounded" style="margin-left:40px;">
                           <div class="progress-bar">
                             <div class="progress-track">
-                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor("phone", $validPhones); ?>">
+                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor($category["PhoneNumber"]["redCutOff"],$category["PhoneNumber"]["yellowCutOff"], $validPhones); ?>">
                                 <span><?php echo $validPhones;?>%</span> You
                               </div>
                             </div>
                           </div>
                           <div class="progress-bar">
                             <div class="progress-track">
-                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor("phone", $communityPhones); ?>">
+                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor($category["PhoneNumber"]["redCutOff"],$category["PhoneNumber"]["yellowCutOff"], $communityPhones); ?>">
                                 <span><?php echo $communityPhones;?>%</span> Community
                               </div>
                             </div>
@@ -252,22 +265,23 @@ $parentTenantID = $agent['ParentTenantID'];
                 </div> 
 
                 <div class="col-md-3">
-                    Scheduled Installation at Safe
+                    
                     <?php 
+                        echo $category["ScheduleAttempted"]["title"];
                         $scheduleInstall = Yii::$app->agentcomponent->getRate($skillType,$agentId,"ScheduleAttempted"); 
                         $scheduleInstallCommunity = Yii::$app->agentcomponent->getRate($skillType,$agentId,"ScheduleAttempted",$parentTenantID);
                     ?>
                     <div class="container vertical rounded" style="margin-left:40px;">
                           <div class="progress-bar">
                             <div class="progress-track">
-                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor("install", $scheduleInstall); ?>">
+                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor($category["ScheduleAttempted"]["redCutOff"],$category["ScheduleAttempted"]["yellowCutOff"], $scheduleInstall); ?>">
                                 <span><?php echo $scheduleInstall;?>%</span> You
                               </div>
                             </div>
                           </div>
                           <div class="progress-bar">
                             <div class="progress-track">
-                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor("install", $scheduleInstallCommunity); ?>">
+                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor($category["ScheduleAttempted"]["redCutOff"],$category["ScheduleAttempted"]["yellowCutOff"], $scheduleInstallCommunity); ?>">
                                 <span><?php echo $scheduleInstallCommunity;?>%</span> Community
                               </div>
                             </div>
@@ -276,8 +290,9 @@ $parentTenantID = $agent['ParentTenantID'];
                 </div>
 
                 <div class="col-md-3">
-                    Current Internet Connection
+                   
                     <?php 
+                    echo $category["Connection"]["title"];
                         $currentConnection = Yii::$app->agentcomponent->getRate($skillType,$agentId,"Connection"); 
                         $currentConnectionCommunity = Yii::$app->agentcomponent->getRate($skillType,$agentId,"Connection",$parentTenantID);
                     ?>
@@ -285,14 +300,14 @@ $parentTenantID = $agent['ParentTenantID'];
                           
                           <div class="progress-bar">
                             <div class="progress-track">
-                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor("connection", $currentConnection); ?>">
+                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor($category["Connection"]["redCutOff"],$category["Connection"]["yellowCutOff"], $currentConnection); ?>">
                                 <span><?php echo $currentConnection;?>%</span> You
                               </div>
                             </div>
                           </div>
                           <div class="progress-bar">
                             <div class="progress-track">
-                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor("connection", $currentConnectionCommunity); ?>">
+                              <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor($category["Connection"]["redCutOff"],$category["Connection"]["yellowCutOff"], $currentConnectionCommunity); ?>">
                                 <span><?php echo $currentConnectionCommunity;?>%</span> Community
                               </div>
                             </div>

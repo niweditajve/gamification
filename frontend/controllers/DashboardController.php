@@ -15,6 +15,7 @@ use yii\web\UploadedFile;
 use yii\helpers\FileHelper;
 use yii\helpers\Json;
 use yii\helpers\Url;
+use common\models\Categories;
 
 class DashboardController extends Controller
 {
@@ -61,62 +62,73 @@ class DashboardController extends Controller
 
     public function actionConsumer()
     {
-
-        $this->checkUser();
-
         $model = new User();
         
         $skillType = "Consumer";
 
+        return $this->render('consumer', [
+            'model'               => $model,
+            'profile'             =>  $this->getProfilePic(),
+            'skillType'           => $skillType,
+            'category'            => $this->getCategories(),
+        ]);
+    }
+    
+    
+    public function getCategories(){
+        
+        $categories = Categories::find()->all();
+        
+        $category = array();
+
+        foreach($categories as $catKey){
+
+            $category[$catKey['categoeryKey']] = array(
+              "title"           =>   $catKey['title'],
+              "redCutOff"       =>   $catKey['redCutOff'],
+              "yellowCutOff"    =>   $catKey['yellowCutOff'],
+            );
+        }
+        
+        return $category;
+    }
+    
+    
+    public function getProfilePic(){
+        
         $profile = User::find()
             ->select('profile_pic')
             ->where(['id' => Yii::$app->user->id])
             ->one();
-
-        return $this->render('consumer', [
-            'model'               => $model,
-            'profile'             => $profile['profile_pic'] ,
-            'skillType'           => $skillType,
-        ]);
+        
+        return $profile['profile_pic'];
     }
 
     public function actionBusiness(){
-
-      $this->checkUser();
 
       $model = new User();
 
       $skillType = "Business";
 
-      $profile = User::find()
-           ->select('profile_pic')
-            ->where(['id' => Yii::$app->user->id])
-           ->one();
-
       return $this->render('business', [
-          'model'               => $model,
-          'profile'             => $profile['profile_pic'] ,
-          'skillType'           => $skillType,
+            'model'               => $model,
+            'profile'             =>  $this->getProfilePic(),
+            'skillType'           => $skillType,
+            'category'            => $this->getCategories(),
       ]);
     }
 
     public function actionDealer(){
 
-      $this->checkUser();
-
       $model = new User();
 
       $skillType = "Dealer SalesOnCall";
 
-      $profile = User::find()
-           ->select('profile_pic')
-            ->where(['id' => Yii::$app->user->id])
-           ->one();
-      
       return $this->render('dealer', [
-          'model'               => $model,
-          'profile'             => $profile['profile_pic'] ,
-          'skillType'           => $skillType,
+            'model'               => $model,
+            'profile'             =>  $this->getProfilePic(),
+            'skillType'           => $skillType,
+            'category'            => $this->getCategories(),
       ]);
     }
 
