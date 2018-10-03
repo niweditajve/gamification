@@ -107,8 +107,8 @@ class AgentRate extends Component
             $totalCall = $result[0]['offered'];
 
             if($answeredCall && $totalCall)
-                return number_format((float)( ( ($answeredCall/$totalCall)* 100)),2, '.', '');
-                //return ($totalCall/$answeredCall);
+               // return number_format((float)( ( ($answeredCall/$totalCall)* 100)),2, '.', '');
+                return number_format((float)($totalCall/$answeredCall),2, '.', '');
             else
                 return 0;
 
@@ -184,8 +184,10 @@ class AgentRate extends Component
 
             $totalCall = $result[0]['offered'];
 
-            if($answeredCall && $totalCall)
-                return number_format((float)(($answeredCall/$totalCall) * 100),2, '.', '');
+            if($answeredCall && $totalCall){
+                //return number_format((float)(($answeredCall/$totalCall) * 100),2, '.', '');
+                return number_format((float)($totalCall/$answeredCall),2, '.', '');
+            }
             else
                 return 0; 
 
@@ -197,7 +199,7 @@ class AgentRate extends Component
 
             $sql = "SELECT count(OrderID) as answered,count(RowID) as offered FROM ".$this->getTableName()." WHERE ". $communityCondition . " AND"
                     . " DispositionCode IN ('Transfer to Business','Transfer to Government','Transfer to Enterprise','Transfer to Consumer','Transfer To Another Business Agent')";
-
+            
             $command = Yii::$app->db->createCommand($sql);
 
             $result = $command->queryAll();
@@ -206,8 +208,10 @@ class AgentRate extends Component
 
             $totalCall = $result[0]['offered'];
 
-            if($answeredCall && $totalCall)
-                return number_format((float)(($answeredCall / $totalCall) * 100),2, '.', '');
+            if($answeredCall && $totalCall){
+                //return number_format((float)(($answeredCall/$totalCall) * 100),2, '.', '');
+                return number_format((float)($totalCall/$answeredCall),2, '.', '');
+            }
             else
                 return 0;
 
@@ -232,9 +236,6 @@ class AgentRate extends Component
                     return $str;
                 case "web":
                     $str = "Web";
-                    return $str;
-                case "transfer":
-                    $str = "Broadcast";
                     return $str;
                 default:
                     return $str;	
@@ -304,9 +305,7 @@ class AgentRate extends Component
             
             if($onBehalf == "CCNumber")
                 $sql .=" AND OrderID !='' ";
-            
-           //echo $sql;
-
+           
             $command = Yii::$app->db->createCommand($sql);
 
             $result = $command->queryAll();
@@ -315,8 +314,10 @@ class AgentRate extends Component
             
             $totalOrder = $result[0]['totalOrders'];
 
-             if($validOrders && $totalOrder)
-                return number_format((float)((($validOrders/$totalOrder) * 100)),2, '.', '');
+             if($validOrders && $totalOrder){
+                //return number_format((float)((($validOrders/$totalOrder) * 100)),2, '.', '');
+                return number_format((float)($totalOrder/$validOrders),2, '.', '');
+             }
             else
                 return 0;
             
@@ -346,8 +347,10 @@ class AgentRate extends Component
             $allOrders = $allOrders[0]['allOrders'];
             
 
-             if($validEmails && $allOrders)
-                return number_format((float)((($validEmails/$allOrders) * 100)),2, '.', '');
+             if($validEmails && $allOrders){
+                   //return number_format((float)((($validEmails/$allOrders) * 100)),2, '.', '');
+                   return number_format((float)($allOrders/$validEmails),2, '.', '');
+             }
             else
                 return 0;
         }
