@@ -108,6 +108,7 @@ class AgentRate extends Component
 
             if($answeredCall && $totalCall)
                 return number_format((float)( ( ($answeredCall/$totalCall)* 100)),2, '.', '');
+                //return ($totalCall/$answeredCall);
             else
                 return 0;
 
@@ -358,13 +359,14 @@ class AgentRate extends Component
          * Return - Return color for bar graphs.
          */
         public function getColor($redCutOff,$yellowCutOff,$value){
-            
+            $str = "";
             if( $value >=0 && $value <= $redCutOff)
-                return "red";
+                $str= "red";
             elseif($value > $redCutOff && $value <= $yellowCutOff)
-                return "yellow";
+                $str= "yellow";
             elseif($value > $yellowCutOff)
-                return "green";
+                $str= "green";
+            return $str;
         }
         
        /*
