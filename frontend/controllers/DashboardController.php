@@ -16,6 +16,7 @@ use yii\helpers\FileHelper;
 use yii\helpers\Json;
 use yii\helpers\Url;
 use common\models\Categories;
+use common\models\Skills;
 
 class DashboardController extends Controller
 {
@@ -68,9 +69,10 @@ class DashboardController extends Controller
 
         return $this->render('consumer', [
             'model'               => $model,
-            'profile'             =>  $this->getProfilePic(),
+            'profile'             => $this->getProfilePic(),
             'skillType'           => $skillType,
             'category'            => $this->getCategories(),
+            'community'           => $this->getCommunity("Consumer"),
         ]);
     }
     
@@ -91,6 +93,20 @@ class DashboardController extends Controller
         }
         
         return $category;
+    }
+    
+    
+    public function getCommunity($skillType){
+        
+        $skillType = strtolower($skillType);
+        
+        $skills = Skills::find()->where(["skill"=>$skillType])->one();
+        
+        $skillArray= json_decode($skills['salesSourceId']);
+        
+        return implode(",",$skillArray);
+        
+        
     }
     
     
@@ -115,6 +131,7 @@ class DashboardController extends Controller
             'profile'             =>  $this->getProfilePic(),
             'skillType'           => $skillType,
             'category'            => $this->getCategories(),
+            'community'           => $this->getCommunity("Business"),
       ]);
     }
 
@@ -129,6 +146,7 @@ class DashboardController extends Controller
             'profile'             =>  $this->getProfilePic(),
             'skillType'           => $skillType,
             'category'            => $this->getCategories(),
+            'community'           => $this->getCommunity("Dealer"),
       ]);
     }
 

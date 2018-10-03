@@ -10,7 +10,7 @@ $this->title = 'RM Factory';
 $agent = Yii::$app->agentcomponent->getAgentId();
 
 $agentId = $agent['AgentID']; 
-$parentTenantID = $agent['ParentTenantID'];
+
 ?>
 <style>
 .jumbotron .btn{
@@ -80,7 +80,7 @@ $parentTenantID = $agent['ParentTenantID'];
               </div>
                 <div class="col-md-2">
                     Today's Community Close Rate 
-                    <div class="demo-2" data-percent="<?php echo Yii::$app->agentcomponent->getTodaysCloseRate($skillType,$agentId,$parentTenantID); ?>"></div>
+                    <div class="demo-2" data-percent="<?php echo Yii::$app->agentcomponent->getTodaysCloseRate($skillType,$agentId,$community); ?>"></div>
                 </div>
                 <div class="col-md-2">
                     Today's Points Earned
@@ -138,7 +138,7 @@ $parentTenantID = $agent['ParentTenantID'];
                     <?php 
                     echo $category["voice"]["title"];
                     $voices = Yii::$app->agentcomponent->getRate($skillType,$agentId,"voice");
-                    $voiceCommunity = Yii::$app->agentcomponent->getRate($skillType,$agentId,"voice",$parentTenantID);
+                    $voiceCommunity = Yii::$app->agentcomponent->getRate($skillType,$agentId,"voice",$community);
                     ?>
                     <div class="container vertical rounded" style="margin-left:40px;">
                           
@@ -164,7 +164,7 @@ $parentTenantID = $agent['ParentTenantID'];
                     <?php 
                     echo $category["ExpRepairSold"]["title"];
                     $exp = Yii::$app->agentcomponent->getRate($skillType,$agentId,"ExpRepairSold");
-                    $expCommunity = Yii::$app->agentcomponent->getRate($skillType,$agentId,"ExpRepairSold",$parentTenantID);
+                    $expCommunity = Yii::$app->agentcomponent->getRate($skillType,$agentId,"ExpRepairSold",$community);
                     ?>
                     <div class="container vertical rounded" style="margin-left:40px;">
                           <div class="progress-bar">
@@ -189,7 +189,7 @@ $parentTenantID = $agent['ParentTenantID'];
                     <?php 
                     echo $category["CCNumber"]["title"];
                     $ccorders = Yii::$app->agentcomponent->getRate($skillType,$agentId,"CCNumber");
-                    $ccordersCommunity = Yii::$app->agentcomponent->getRate($skillType,$agentId,"CCNumber",$parentTenantID);
+                    $ccordersCommunity = Yii::$app->agentcomponent->getRate($skillType,$agentId,"CCNumber",$community);
                     ?>
                     <div class="container vertical rounded" style="margin-left:40px;">
                           
@@ -215,7 +215,7 @@ $parentTenantID = $agent['ParentTenantID'];
                     <?php
                     echo $category["email"]["title"];
                     $validEmail = Yii::$app->agentcomponent->getValidEmail($skillType,$agentId); 
-                    $communityEmail = Yii::$app->agentcomponent->getValidEmail($skillType,$agentId,$parentTenantID);
+                    $communityEmail = Yii::$app->agentcomponent->getValidEmail($skillType,$agentId,$community);
                     ?>
                         <div class="container vertical rounded" style="margin-left:40px;">
                           <div class="progress-bar">
@@ -244,7 +244,7 @@ $parentTenantID = $agent['ParentTenantID'];
                     <?php 
                     echo $category["PhoneNumber"]["title"];
                     $validPhones = Yii::$app->agentcomponent->getRate($skillType,$agentId,"PhoneNumber"); 
-                    $communityPhones = Yii::$app->agentcomponent->getRate($skillType,$agentId,"PhoneNumber",$parentTenantID);
+                    $communityPhones = Yii::$app->agentcomponent->getRate($skillType,$agentId,"PhoneNumber",$community);
                     ?>
                     <div class="container vertical rounded" style="margin-left:40px;">
                           <div class="progress-bar">
@@ -269,7 +269,7 @@ $parentTenantID = $agent['ParentTenantID'];
                     <?php 
                         echo $category["ScheduleAttempted"]["title"];
                         $scheduleInstall = Yii::$app->agentcomponent->getRate($skillType,$agentId,"ScheduleAttempted"); 
-                        $scheduleInstallCommunity = Yii::$app->agentcomponent->getRate($skillType,$agentId,"ScheduleAttempted",$parentTenantID);
+                        $scheduleInstallCommunity = Yii::$app->agentcomponent->getRate($skillType,$agentId,"ScheduleAttempted",$community);
                     ?>
                     <div class="container vertical rounded" style="margin-left:40px;">
                           <div class="progress-bar">
@@ -294,7 +294,7 @@ $parentTenantID = $agent['ParentTenantID'];
                     <?php 
                     echo $category["Connection"]["title"];
                         $currentConnection = Yii::$app->agentcomponent->getRate($skillType,$agentId,"Connection"); 
-                        $currentConnectionCommunity = Yii::$app->agentcomponent->getRate($skillType,$agentId,"Connection",$parentTenantID);
+                        $currentConnectionCommunity = Yii::$app->agentcomponent->getRate($skillType,$agentId,"Connection",$community);
                     ?>
                     <div class="container vertical rounded" style="margin-left:40px;">
                           

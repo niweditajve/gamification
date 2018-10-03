@@ -76,8 +76,10 @@ class AgentRate extends Component
             
             $startEnd = "";
             
-            if($community)
-                $startEnd = " CreateDate >= '".$this->startTime()."' AND CreateDate < '".$this->endTime()."' AND AgentID in(SELECT AgentID FROM tblAgent WHERE ParentTenantID = $community)";
+            if($community){
+                //$startEnd = " CreateDate >= '".$this->startTime()."' AND CreateDate < '".$this->endTime()."' AND AgentID in(SELECT AgentID FROM tblAgent WHERE ParentTenantID = $community)";
+                $startEnd = " CreateDate >= '".$this->startTime()."' AND CreateDate < '".$this->endTime()."' AND DomainCode in(".$community.")";
+            }
             else
                 $startEnd = " (CreateDate >= '".date("Y-m-d")." 00:00:00' AND CreateDate < '".date("Y-m-d")." 11:59:59') AND AgentID =".$agentID;
             
@@ -97,7 +99,7 @@ class AgentRate extends Component
             $communityCondition = $this->getCommunityCondition($community,$agentID);
 
             $sql = "SELECT count(OrderID) as answered,count(RowID) as offered FROM ".$this->getTableName()." WHERE ". $communityCondition . $skillCondition;
-            
+
             $command = Yii::$app->db->createCommand($sql);
 
             $result = $command->queryAll();
@@ -311,7 +313,7 @@ class AgentRate extends Component
             $result = $command->queryAll();
 
             $validOrders = $result[0]['validOrders'];
-            
+
             $totalOrder = $result[0]['totalOrders'];
 
              if($validOrders && $totalOrder){
