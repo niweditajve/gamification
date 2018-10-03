@@ -74,14 +74,13 @@ class AgentRate extends Component
          */
         public function getCommunityCondition($community,$agentID){
             
-            $startEnd = "";
+            $startEnd = " (CreateDate >= '".date("Y-m-d")." 00:00:00' AND CreateDate < '".date("Y-m-d")." 11:59:59') ";
             
             if($community){
-                //$startEnd = " CreateDate >= '".$this->startTime()."' AND CreateDate < '".$this->endTime()."' AND AgentID in(SELECT AgentID FROM tblAgent WHERE ParentTenantID = $community)";
-                $startEnd = " CreateDate >= '".$this->startTime()."' AND CreateDate < '".$this->endTime()."' AND DomainCode in(".$community.")";
+                $startEnd .=" AND DomainCode in(".$community.")";
             }
             else
-                $startEnd = " (CreateDate >= '".date("Y-m-d")." 00:00:00' AND CreateDate < '".date("Y-m-d")." 11:59:59') AND AgentID =".$agentID;
+                $startEnd .=" AND AgentID =".$agentID;
             
             return $startEnd;
         }
@@ -109,8 +108,7 @@ class AgentRate extends Component
             $totalCall = $result[0]['offered'];
 
             if($answeredCall && $totalCall)
-               // return number_format((float)( ( ($answeredCall/$totalCall)* 100)),2, '.', '');
-                return number_format((float)($totalCall/$answeredCall),2, '.', '');
+                return number_format((float)(($answeredCall/$totalCall)* 100),2, '.', '');
             else
                 return 0;
 
@@ -187,8 +185,7 @@ class AgentRate extends Component
             $totalCall = $result[0]['offered'];
 
             if($answeredCall && $totalCall){
-                //return number_format((float)(($answeredCall/$totalCall) * 100),2, '.', '');
-                return number_format((float)($totalCall/$answeredCall),2, '.', '');
+                return number_format((float)(($answeredCall/$totalCall) * 100),2, '.', '');
             }
             else
                 return 0; 
@@ -211,8 +208,7 @@ class AgentRate extends Component
             $totalCall = $result[0]['offered'];
 
             if($answeredCall && $totalCall){
-                //return number_format((float)(($answeredCall/$totalCall) * 100),2, '.', '');
-                return number_format((float)($totalCall/$answeredCall),2, '.', '');
+                return number_format((float)(($answeredCall/$totalCall) * 100),2, '.', '');
             }
             else
                 return 0;
@@ -317,8 +313,7 @@ class AgentRate extends Component
             $totalOrder = $result[0]['totalOrders'];
 
              if($validOrders && $totalOrder){
-                //return number_format((float)((($validOrders/$totalOrder) * 100)),2, '.', '');
-                return number_format((float)($totalOrder/$validOrders),2, '.', '');
+                return number_format((float)(($validOrders/$totalOrder) * 100),2, '.', '');
              }
             else
                 return 0;
@@ -350,8 +345,7 @@ class AgentRate extends Component
             
 
              if($validEmails && $allOrders){
-                   //return number_format((float)((($validEmails/$allOrders) * 100)),2, '.', '');
-                   return number_format((float)($allOrders/$validEmails),2, '.', '');
+                   return number_format((float)(($validEmails/$allOrders) * 100),2, '.', '');
              }
             else
                 return 0;
