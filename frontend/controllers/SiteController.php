@@ -68,17 +68,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-    	/*$model = new User();
-
-    	$profile = User::find()
-           ->select('profile_pic')
-          	->where(['id' => Yii::$app->user->id])
-           ->one();*/
-           //print_r($profile['profile_pic']);  exit;
-
-        return $this->render('index'/*, [
-            'model' => $model, 'profile' => $profile['profile_pic']
-        ]*/);
+        return $this->render('index');
     }
 
     /**
@@ -120,6 +110,7 @@ class SiteController extends Controller
 	    $imageFile = UploadedFile::getInstance($model, 'profile_pic');
 
 	    $directory = Yii::getAlias('@frontend/web/images/user') . DIRECTORY_SEPARATOR;
+            
 	    if (!is_dir($directory)) {
 	        FileHelper::createDirectory($directory);
 	    }
@@ -128,15 +119,14 @@ class SiteController extends Controller
 	        $uid = uniqid(time(), true);
 	        $fileName = $uid . '.' . $imageFile->extension;
 	        $filePath = $directory . $fileName;
-            $userid = \Yii::$app->user->identity->id;
-
+                
 	        if ($imageFile->saveAs($filePath)) {
 	            
 	            $path = Url::base(true)  . '/images/user/' . DIRECTORY_SEPARATOR . $fileName;
 
-                $user = User::findOne(Yii::$app->user->id);
-                $user->profile_pic = $fileName;
-                $user->save(false);
+                    $user = User::findOne(Yii::$app->user->id);
+                    $user->profile_pic = $fileName;
+                    $user->save(false);
 	            
 	            return Json::encode([
 	                'files' => [
