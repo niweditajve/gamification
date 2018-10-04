@@ -440,5 +440,25 @@ class AgentRate extends Component {
             return " AND id IN (6,7,8,9,10,11,12,13)";
         }
     }
+    
+    /*
+         * Function Name - getAgentId()
+         * Parameters used - 
+         * Description - Query to find agent id of logged in user.
+         * Return - Returns agentID if agent found in tblagent table else return false.
+         */
+	public function getAgentTenantId($agentId){
+            
+	$agent = Agent::find()
+            ->select('ParentTenantID')
+            ->where(['AgentID' => $agentId])
+            ->one();
+       
+        if($agent)
+        	return $agent['ParentTenantID'];
+        else
+        	return false;
+
+	}
 
 }
