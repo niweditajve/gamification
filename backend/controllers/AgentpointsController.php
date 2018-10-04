@@ -81,6 +81,9 @@ class AgentpointsController extends Controller {
             case "15":
                 $str = "sum(if(OrderID !='',1,0))";
                 return $str;
+            case "16":
+                $str = "sum(if(OrderID !='',1,0))";
+                return $str;
             default:
                 return $str;
         }
@@ -91,38 +94,40 @@ class AgentpointsController extends Controller {
         $records = Categories::find()->all();
 
         foreach ($records as $key) {
+            
             $categoryId = $key['id'];
-
+            
             $pointValue = $key['point'];
 
             $selectStatement = $this->getSelectStatement($categoryId);
+            
 
             $query = "SELECT count(RowID) as totalOrders, AgentID ,$selectStatement as answered"
                     . " FROM `calldata` WHERE AgentID !=0 "
                     . "AND CreateDate >= '" . date('Y-m-d h') . ":00:00' AND CreateDate < '" . date('Y-m-d h') . ":59:59'"
                     . "";
 
-            if ($categoryId == "2") {
-                $sql .= " AND MediaType = 'Broadcast'";
+             if ($categoryId == "2") {
+                $query .= " AND MediaType = 'Broadcast'";
             }
 
             if ($categoryId == "3") {
-                $sql .= " AND MediaType = 'Campaigns'";
+                $query .= " AND MediaType = 'Campaigns'";
             }
 
             if ($categoryId == "4") {
-                $sql .= " AND MediaType = 'Web'";
+                $query .= " AND MediaType = 'Web'";
             }
 
             if ($categoryId == "5") {
-                $sql .= " DispositionCode IN ('Transfer to Business','Transfer to Government','Transfer to Enterprise','Transfer to Consumer','Transfer To Another Business Agent')";
+                $query .= " AND DispositionCode IN ('Transfer to Business','Transfer to Government','Transfer to Enterprise','Transfer to Consumer','Transfer To Another Business Agent')";
             }
 
             $queryCommand = Yii::$app->db->createCommand($query);
+            
+            $result = $queryCommand->queryAll(); 
 
-            $result = $queryCommand->queryAll();
-
-            foreach ($result as $resultKey) {
+             foreach ($result as $resultKey) {
 
                 $AgentID = $resultKey['AgentID'];
 
@@ -130,7 +135,8 @@ class AgentpointsController extends Controller {
 
                 $totalOrders = $resultKey['totalOrders'];
 
-                $agentrate = number_format((float) ( ( ($answered / $totalOrders) * 100)), 2, '.', '');
+                $agentrate = ($answered && $totalOrders) ? number_format((float) ( ( ($answered / $totalOrders) * 100)), 2, '.', '') : 0;
+                
 
                 if ($agentrate) {
 
@@ -154,7 +160,7 @@ class AgentpointsController extends Controller {
                     if ($agentrate > $communityRate)
                         $this->updateAgentPoint($AgentID, $categoryId, $pointValue);
                 }
-            }
+            } 
         }
     }
 
