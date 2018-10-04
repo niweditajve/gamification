@@ -44,7 +44,7 @@ class Certificates extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'point' => 'Point',
-            'trohpy_image_id' => 'Trohpy Image ID',
+            'trohpy_image_id' => 'Trohpy',
         ];
     }
 

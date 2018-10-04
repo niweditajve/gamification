@@ -77,20 +77,26 @@ class ReportController extends Controller
             if(isset($request->post()['export_type']) && $request->post()['export_type'] == "Csv" ){
                 
             }else{
-                $from = $request->post()['date_from'];
-           
-                $to = $request->post()['date_to'];
-
-                $date_from = date("Y-m-d", strtotime($from)) . " 00:00:00";
-
-                $date_to = date("Y-m-d", strtotime($to)) ." 00:00:00";
-
-                if($from && $to){
-                    $postsql = " AND (gamification_agentpoints.created_at BETWEEN '$date_from' AND  '$date_to')";
                 
-                    $postcertificate = " AND (gamification_agentcertificates.created_at BETWEEN '$date_from' AND '$date_to' )";
+                if(isset($request->post()['date_from']) && $request->post()['date_to']){
+                    
+                    $from = $request->post()['date_from'];
+           
+                    $to = $request->post()['date_to'];
 
+                    $date_from = date("Y-m-d", strtotime($from)) . " 00:00:00";
+
+                    $date_to = date("Y-m-d", strtotime($to)) ." 00:00:00";
+
+                    if($from && $to){
+                        $postsql = " AND (gamification_agentpoints.created_at BETWEEN '$date_from' AND  '$date_to')";
+
+                        $postcertificate = " AND (gamification_agentcertificates.created_at BETWEEN '$date_from' AND '$date_to' )";
+
+                    }
+                    
                 }
+                
            }
            
         }
