@@ -81,7 +81,7 @@ class TrophyController extends Controller
     {
         $model = new Trophyimages();
 
-        if ($model->load(Yii::$app->request->post()) ) {
+        if ($model->load(Yii::$app->request->post())) {
             
             $directory = Yii::getAlias('@frontend/web/images/slider') . DIRECTORY_SEPARATOR;
 
@@ -91,28 +91,31 @@ class TrophyController extends Controller
             }
 
             $imageFile = UploadedFile::getInstance($model, 'filename');
+            
+            if(!empty($imageFile)){
+                
+                if($imageFile->extension =="png" || $imageFile->extension == "jpg" || $imageFile->extension =="jpeg" || $imageFile->extension == "gif")
+                { 
+                    $fileName = time() . '.' . $imageFile->extension;
 
-            if($imageFile->extension =="png" || $imageFile->extension == "jpg" || $imageFile->extension =="jpeg" || $imageFile->extension == "gif")
-            { 
-                $fileName = time() . '.' . $imageFile->extension;
+                    $filePath = $directory . $fileName;
 
-                $filePath = $directory . $fileName;
+                    $imageFile->saveAs($filePath);
 
-                $imageFile->saveAs($filePath);
+                    $model->filename= $fileName;
 
-                $model->filename= $fileName;
+                    $model->created_at= date('Y-m-d h:i:s');
 
-                $model->created_at= date('Y-m-d h:i:s');
-
-                if($model->save()){
-                    return $this->redirect(['view', 'id' => $model->id]);
+                    if($model->save()){
+                        return $this->redirect(['view', 'id' => $model->id]);
+                    }
                 }
-            }
-            else{
-                Yii::$app->session->setFlash('error', "Only JPG, PNG, GIF images are allowed.");
-                return $this->render('create', [
-                'model' => $model,
-            ]);
+                else{
+                    Yii::$app->session->setFlash('error', "Only JPG, PNG, GIF images are allowed.");
+                    return $this->render('create', [
+                    'model' => $model,
+                ]);
+                }
             }
         }
 
@@ -132,7 +135,7 @@ class TrophyController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) ) {
+        if ($model->load(Yii::$app->request->post()) && $model->save() ) {
             
             $directory = Yii::getAlias('@frontend/web/images/slider') . DIRECTORY_SEPARATOR;
 
@@ -142,27 +145,29 @@ class TrophyController extends Controller
 
             $imageFile = UploadedFile::getInstance($model, 'filename');
             
-            if($imageFile->extension =="png" || $imageFile->extension == "jpg" || $imageFile->extension =="jpeg" || $imageFile->extension == "gif")
-            { 
+            if(!empty($imageFile)){
+                if($imageFile->extension =="png" || $imageFile->extension == "jpg" || $imageFile->extension =="jpeg" || $imageFile->extension == "gif")
+                {
+                    $fileName = time() . '.' . $imageFile->extension;
 
-                $fileName = time() . '.' . $imageFile->extension;
+                    $filePath = $directory . $fileName;
 
-                $filePath = $directory . $fileName;
+                    $imageFile->saveAs($filePath);
 
-                $imageFile->saveAs($filePath);
+                    $model->filename= $fileName;
 
-                $model->filename= $fileName;
-
-                if($model->save()){                    
-                    return $this->redirect(['view', 'id' => $model->id]);
+                    if($model->save()){                    
+                        return $this->redirect(['view', 'id' => $model->id]);
+                    }
+                }
+                else{
+                    Yii::$app->session->setFlash('error', "Only JPG, PNG, GIF images are allowed.");
+                    return $this->render('create', [
+                    'model' => $model,
+                ]);
                 }
             }
-            else{
-                Yii::$app->session->setFlash('error', "Only JPG, PNG, GIF images are allowed.");
-                return $this->render('create', [
-                'model' => $model,
-            ]);
-            }
+            
         }
 
         return $this->render('update', [

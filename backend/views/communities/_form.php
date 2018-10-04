@@ -20,10 +20,13 @@ use yii\helpers\ArrayHelper;
     
     $allSourceID = array(
                         "1" => 
+                        // Source ID's for Business
                             array("98055", "98237", "98223", "98219", "98214"),
-                        "2" => 
+                        "2" =>
+                        // Source ID's for Consumer
                             array("91505", "92323", "91851" ,"92152", "92019"),
                         "3" => 
+                        // Source ID's for Dealer
                             array("91505", "92323", "91851" ,"92152", "92019")
                         );
     

@@ -4,8 +4,10 @@
 // or yii\widgets\ActiveForm
 use fedemotta\datatables\DataTables;
 use kartik\export\ExportMenu;
+
 $this->title = 'RM Factory';
 $date = "11-12-2018";
+
 $gridColumns = [
     ['class' => 'yii\grid\SerialColumn'],
     [
@@ -52,7 +54,7 @@ $exportColumns = [
                    // Renders a export dropdown menu
                     echo ExportMenu::widget([
                         'dataProvider' => $dataProvider,
-                        'columns' => $exportColumns,
+                        'columns' => $gridColumns,
                         'exportConfig' => [
                             ExportMenu::FORMAT_TEXT => false,
                             ExportMenu::FORMAT_PDF => false,

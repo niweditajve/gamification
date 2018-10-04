@@ -32,7 +32,7 @@ class ReportController extends Controller
 
    public function actionAgents(){
        
-        $model = new Agent();
+        //$model = new Agent();
         
         $sql = "SELECT `tblAgent`.`FirstName`, `tblAgent`.`LastName`,`tblAgent`. `Login` ,
                 (SELECT CreateDate FROM callData WHERE agentID = `tblAgent`.`AgentID` ORDER BY rowid DESC LIMIT 1) as lastlogin
@@ -50,12 +50,11 @@ class ReportController extends Controller
             'db' => Yii::$app->db,
             'sql' => $sql,
             'totalCount' => $rowCount,
-            
         ]);
        
         return $this->render('agentsreport', [
            'dataProvider' => $dataProvider,
-           'model' => $model,
+           //'model' => $model,
        ]);
    }
    

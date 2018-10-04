@@ -56,7 +56,7 @@ $exportColumns = [
                 <?php
                 echo ExportMenu::widget([
                     'dataProvider' => $dataProvider,
-                    'columns' => $exportColumns,
+                    'columns' => $gridColumns,
                     'exportConfig' => [
                         ExportMenu::FORMAT_TEXT => false,
                         ExportMenu::FORMAT_PDF => false,
