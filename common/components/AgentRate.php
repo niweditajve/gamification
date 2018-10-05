@@ -415,7 +415,7 @@ class AgentRate extends Component {
 
         $getSkills = $this->getLeaderSkills($skillType);
 
-        $sql = "SELECT max(point) as maxPonits FROM `gamification_agentpoints` WHERE created_at >= '" . date('Y-m-d') . " 00:00:00' AND created_at < '" . date('Y-m-d') . " 11:59:59'" . $getSkills;
+        $sql = "SELECT max(point) as maxPonits FROM `gamification_agentpoints` WHERE created_at >= '" . date('Y-m-d') . " 00:00:00' AND created_at < '" . date('Y-m-d') . " 11:59:59'" ;//. $getSkills;
 
         $command = Yii::$app->db->createCommand($sql);
 
