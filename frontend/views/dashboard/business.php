@@ -72,7 +72,7 @@ $agentId = $agent['AgentID'];
                         <div class="demo-1" data-percent="<?php echo Yii::$app->agentcomponent->getTodaysCloseRate($skillType, $agentId); ?>"></div>
                     </div>
                     <div class="col-md-2">
-                        Today's Community Close Rate 
+                        Today's Community Close Rate  
                         <div class="demo-2" data-percent="<?php echo Yii::$app->agentcomponent->getTodaysCloseRate($skillType, $agentId, $community); ?>"></div>
                     </div>
                     <div class="col-md-2">

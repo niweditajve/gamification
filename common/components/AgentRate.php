@@ -395,7 +395,7 @@ class AgentRate extends Component {
     public function getDateCondition($wkd) {
 
         if (empty($wkd)) {
-            $text = "created_at >= '" . date('Y-m-d h') . ":00:00' AND created_at < '" . date('Y-m-d h') . ":59:59'";
+            $text = "created_at >= '" . date('Y-m-d') . " 00:00:00' AND created_at < '" . date('Y-m-d') . " 11:59:59'";
         } else {
 
             $monday = strtotime("last monday");

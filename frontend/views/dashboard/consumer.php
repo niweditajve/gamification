@@ -76,7 +76,7 @@ $agentId = $agent['AgentID'];
                         <div class="demo-2" data-percent="<?php echo Yii::$app->agentcomponent->getTodaysCloseRate($skillType, $agentId, $community); ?>"></div>
                     </div>
                     <div class="col-md-2">
-                        Today's Points Earned
+                        Today's Points Earned 
                         <div class="demo-3" data-percent="<?php echo Yii::$app->agentcomponent->getTodaysPoints($agentId); ?>" data-nopercentage="1"></div>
                     </div>
                     <div class="col-md-2">
