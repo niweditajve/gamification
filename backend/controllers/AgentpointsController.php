@@ -31,11 +31,6 @@ class AgentpointsController extends Controller {
      * @param string $message the message to be echoed.
      * @return int Exit code
      */
-    public function actionIndex($message = 'hello world') {
-        echo $message . "\n";
-
-        return ExitCode::OK;
-    }
 
     public function getSelectStatement($catId) {
         $str = '';
@@ -93,9 +88,7 @@ class AgentpointsController extends Controller {
     public function actionCheckforupdate() {
 
         $records = Categories::find()->all();
-        
-        echo "<pre>";
-        
+                
         $skills = array("Business","Consumer","Dealer");
         
         foreach ($records as $key) {
@@ -207,7 +200,7 @@ class AgentpointsController extends Controller {
 
         $dateCondition = "created_at >= '" . date('Y-m-d') . " 00:00:00' AND created_at < '" . date('Y-m-d') . " 11:59:59'";
 
-        $sql = "SELECT sum(point) as ponits,agentId FROM `gamification_agentpoints` WHERE $dateCondition GROUP BY AgentID ";
+        $sql = "SELECT sum(point) as points,agentId FROM `gamification_agentpoints` WHERE $dateCondition GROUP BY AgentID ";
 
         $queryCommand = Yii::$app->db->createCommand($sql);
 
@@ -220,7 +213,7 @@ class AgentpointsController extends Controller {
             $query->select(['gamification_certificates.id', 'gamification_certificates.trohpy_image_id', 'gamification_certificates.point', 'gamification_trophyimages.title'])
                     ->from('gamification_certificates')
                     ->leftJoin('gamification_trophyimages', 'gamification_trophyimages.id = gamification_certificates.trohpy_image_id')
-                    ->where('gamification_certificates.point < :ponits', [':ponits' => $key['ponits']]);
+                    ->where('gamification_certificates.point < :points', [':points' => $key['points']]);
 
             $command = $query->createCommand();
 
@@ -232,7 +225,7 @@ class AgentpointsController extends Controller {
 
                     $certificate_id = $dataKey['id'];
                     $agent_id = $key['agentId'];
-                    $agent_points = $key['ponits'];
+                    $agent_points = $key['points'];
                     $certificate_point = $dataKey['point'];
                     $certificate_name = $dataKey['title'];
 
