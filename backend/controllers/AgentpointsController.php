@@ -108,7 +108,7 @@ class AgentpointsController extends Controller {
             
 
             $query = "SELECT count(RowID) as totalOrders, AgentID ,$selectStatement as answered"
-                    . " FROM `calldata` WHERE AgentID !=0 "
+                    . " FROM `callData` WHERE AgentID !=0 "
                     . "AND CreateDate >= '" . date('Y-m-d h') . ":00:00' AND CreateDate < '" . date('Y-m-d h') . ":59:59'"
                     . "";
 
@@ -150,7 +150,7 @@ class AgentpointsController extends Controller {
                         $communities = $this->getCommunity($skillKey);
                         
                         $communityQuery = "SELECT count(RowID) as totalOrders, AgentID ,$selectStatement as answered"
-                            . " FROM `calldata` WHERE "
+                            . " FROM `callData` WHERE "
                             . "CreateDate >= '" . date('Y-m-d h') . ":00:00' AND CreateDate < '" . date('Y-m-d h') . ":59:59'";
                         
                         if($communities){
