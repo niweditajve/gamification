@@ -42,6 +42,7 @@ $agentId = $agent['AgentID'];
 
                         <div style="padding-top:4px;" class="user_image_button">
                             <?php
+                            // Widegt to change user image 
                             echo FileUpload::widget([
                                 'model' => $model,
                                 'attribute' => 'profile_pic',

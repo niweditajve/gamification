@@ -14,7 +14,18 @@ class DashboardController extends Controller {
      * @inheritdoc
      */
     public function behaviors() {
-        return [
+         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                //'only' => ['suggest', 'queue', 'delete', 'update'], //only be applied to
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['consumer', 'business', 'dealer'],
+                        'roles' => ['virtual_user'],
+                    ],
+                ],
+            ],
         ];
     }
 
@@ -39,7 +50,12 @@ class DashboardController extends Controller {
                     'skillType'     => $skillType,
         ]);
     }
-
+    
+    /**
+     * Dashboard for consumer skill.
+     * @param 
+     * @return mixed
+     */
     public function actionConsumer() {
         $model = new User();
 
@@ -53,7 +69,12 @@ class DashboardController extends Controller {
                     'community'     => $this->getCommunity("Consumer"),
         ]);
     }
-
+    
+    /**
+     * Get all categories.
+     * @param
+     * @return array of categories.
+     */
     public function getCategories() {
 
         $categories = Categories::find()->all();
@@ -71,7 +92,12 @@ class DashboardController extends Controller {
 
         return $category;
     }
-
+    
+    /**
+     * Get communities for a skill type.
+     * @param string $skillType
+     * @return array of communities.
+     */
     public function getCommunity($skillType) {
 
         $skills = Skills::find()->where(["skill" => $skillType])->one();
@@ -80,7 +106,12 @@ class DashboardController extends Controller {
 
         return implode(",", $skillArray);
     }
-
+    
+    /**
+     * Get Profile picture of logged in agent
+     * @param 
+     * @return filename of profile picture.
+     */
     public function getProfilePic() {
 
         $profile = User::find()
@@ -91,6 +122,11 @@ class DashboardController extends Controller {
         return $profile['profile_pic'];
     }
 
+    /**
+     * Dashboard for business skill.
+     * @param 
+     * @return mixed
+     */
     public function actionBusiness() {
 
         $model = new User();
@@ -105,7 +141,12 @@ class DashboardController extends Controller {
                     'community'     => $this->getCommunity("Business"),
         ]);
     }
-
+    
+    /**
+     * Dashboard for dealer skill.
+     * @param 
+     * @return mixed
+     */
     public function actionDealer() {
 
         $model = new User();
