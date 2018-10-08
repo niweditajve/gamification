@@ -138,7 +138,7 @@ class AgentpointsController extends Controller {
 
                 $totalOrders = $resultKey['totalOrders'];
 
-                $agentrate = ($answered && $totalOrders) ? number_format((float) ( ( ($answered / $totalOrders) * 100)), 2, '.', '') : 0;
+                $agentrate = ($answered && $totalOrders) ? number_format((float) ( ( ($answered / $totalOrders) * 100)), 2, '.') : 0;
                 
 
                 if ($agentrate) {
@@ -163,7 +163,7 @@ class AgentpointsController extends Controller {
 
                         $communityTotalOrders = $communityResult[0]['totalOrders'];
 
-                        $communityRate = number_format((float) ( ( ($communityAnswered / $communityTotalOrders) * 100)), 2, '.', '');
+                        $communityRate = number_format((float)( ($communityAnswered / $communityTotalOrders) * 100), 2, '.');
 
                         if ($agentrate > $communityRate){
                             
@@ -233,7 +233,7 @@ class AgentpointsController extends Controller {
             $query->select(['gamification_certificates.id', 'gamification_certificates.trohpy_image_id', 'gamification_certificates.point', 'gamification_trophyimages.title'])
                     ->from('gamification_certificates')
                     ->leftJoin('gamification_trophyimages', 'gamification_trophyimages.id = gamification_certificates.trohpy_image_id')
-                    ->where('gamification_certificates.point < :points', [':points' => $key['points']]);
+                    ->where('gamification_certificates.point <= :points', [':points' => $key['points']]);
 
             $command = $query->createCommand();
 
