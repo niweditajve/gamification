@@ -27,9 +27,9 @@ use common\models\Agentcertificates;
 class AgentpointsController extends Controller {
 
     /**
-     * This command echoes what you have entered as the message.
-     * @param string $message the message to be echoed.
-     * @return int Exit code
+     * Get statement for selecting values from database used in actionCheckforupdate().
+     * @param integer $catId the Category id.
+     * @return string Exit code
      */
 
     public function getSelectStatement($catId) {
@@ -84,7 +84,12 @@ class AgentpointsController extends Controller {
                 return $str;
         }
     }
-
+    
+    /**
+     * check for points to be updated in agentpoints tables on hourly basis.
+     * @param
+     * @return 
+     */
     public function actionCheckforupdate() {
 
         $records = Categories::find()->all();
@@ -174,6 +179,11 @@ class AgentpointsController extends Controller {
         }
     }
     
+    /**
+     * get list of communities based on skill type actionCheckforupdate().
+     * @param string $skillType.
+     * @return  array of communities.
+     */
     public function getCommunity($skillType) {
 
         $skills = Skills::find()->where(["skill" => $skillType])->one();
@@ -182,7 +192,12 @@ class AgentpointsController extends Controller {
 
         return implode(",", $skillArray);
     }
-
+    
+    /**
+     * Update agentpoints table.
+     * @param integer $agentID,integer $cat_id,integer $point.
+     * @return 
+     */
     public function updateAgentPoint($agentID, $cat_id, $point) {
 
         $agentPoints = new Agentpoints();
@@ -195,7 +210,12 @@ class AgentpointsController extends Controller {
             return $agentPoints;
         }
     }
-
+    
+    /**
+     * Check for certificates achieved by an agent.
+     * @param.
+     * @return 
+     */
     public function actionAgentcertificate() {
 
         $dateCondition = "created_at >= '" . date('Y-m-d') . " 00:00:00' AND created_at < '" . date('Y-m-d') . " 11:59:59'";
