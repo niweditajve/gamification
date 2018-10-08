@@ -1,4 +1,5 @@
 <?php
+
 namespace common\components;
 
 use Yii;
@@ -8,13 +9,13 @@ use common\models\Certificates;
 use common\models\Trophyimages;
 
 class AgentRate extends Component {
+    
     /*
      * Function Name - getAgentId()
      * Parameters used - 
      * Description - Query to find agent id of logged in user.
      * Return - Returns agentID if agent found in tblagent table else return false.
      */
-
     public function getAgentId() {
 
         $agent = Agent::find()
@@ -34,7 +35,6 @@ class AgentRate extends Component {
      * Description - find condition on behalf of using $skillType value.
      * Return - Returns $str if any matches found for $skillType else return false.
      */
-
     public function getSkillCondition($skillType) {
         $str = "";
 
@@ -59,7 +59,6 @@ class AgentRate extends Component {
      * Description - find condition on behalf of using $community value and $agentID.
      * Return - Returns text of conditions used in query for fecthing data.
      */
-
     public function getCommunityCondition($community, $agentID) {
 
         $startEnd = " (CreateDate >= '" . date("Y-m-d") . " 00:00:00' AND CreateDate < '" . date("Y-m-d") . " 11:59:59') ";
@@ -78,7 +77,6 @@ class AgentRate extends Component {
      * Description - query to get today's close rate of an agent or of a community.
      * Return - Returns percentage vlaue of totalCall and answeredCall.
      */
-
     public function getTodaysCloseRate($skillType, $agentID, $community = null) {
 
         $skillCondition = $this->getSkillCondition($skillType);
@@ -107,7 +105,6 @@ class AgentRate extends Component {
      * Description - get close rate for agent and community.
      * Return - Returns percnetage value of totalcall and answered call.
      */
-
     public function closeRate($agentID, $onBehalf, $community = null) {
 
         $mediaType = $this->getRateText($onBehalf);
@@ -130,6 +127,12 @@ class AgentRate extends Component {
             return 0;
     }
 
+    /*
+     * Function Name - getTransferCloseRate()
+     * Parameters used - $agentID : Id of logged in agent,$community : community values that belongs to particular skills
+     * Description - finds transfer close rate of an agent or community.
+     * Return - Returns transfer close rate.
+     */
     public function getTransferCloseRate($agentID, $community = null) {
 
         $communityCondition = $this->getCommunityCondition($community, $agentID);
@@ -157,7 +160,6 @@ class AgentRate extends Component {
      * Description - get condition text for closeRate() function .
      * Return - Returns text.
      */
-
     public function getRateText($onBehalf) {
 
         $str = "";
@@ -224,7 +226,7 @@ class AgentRate extends Component {
     /*
      * Function Name - getRate()
      * Parameters used - $skillType, $agentID, $onBehalf,$community
-     * Description - query to find rates for an agent or for a community .
+     * Description - query to find transfer close rate for an agent or for a community .
      * Return - Returns percnetage value of totalOrders and validOrders.
      */
 
@@ -255,6 +257,12 @@ class AgentRate extends Component {
             return 0;
     }
 
+     /*
+     * Function Name - getValidEmail()
+     * Parameters used - $skillType, $agentID,$community
+     * Description - query to vlaid email close rate for an agent or for a community .
+     * Return - Returns percnetage value of totalOrders and validOrders.
+     */
     public function getValidEmail($skillType, $agentID, $community = null) {
 
 
@@ -347,6 +355,12 @@ class AgentRate extends Component {
         return $validOrders;
     }
 
+    /*
+     * Function Name - getTrophies()
+     * Parameters used - $agentID
+     * Description - Get all trophies achieved by an agent.
+     * Return - Return trophies achieved by an agent.
+     */
     public function getTrophies($agentID) {
 
         $agentWkPoints = $this->getTodaysPoints($agentID, 1);
@@ -391,11 +405,17 @@ class AgentRate extends Component {
 
         return $trophies;
     }
-
+    
+    /*
+     * Function Name - getDateCondition()
+     * Parameters used - $wkd
+     * Description - Find date condition for getTodaysPoints().
+     * Return - Return date condition for getTodaysPoints().
+     */
     public function getDateCondition($wkd) {
 
         if (empty($wkd)) {
-            $text = "created_at >= '" . date('Y-m-d') . " 00:00:00' AND created_at < '" . date('Y-m-d') . " 11:59:59'";
+            $text = "created_at >= '" . date('Y-m-d h') . " 00:00:00' AND created_at < '" . date('Y-m-d') . " 11:59:59'";
         } else {
 
             $monday = strtotime("last monday");
@@ -411,11 +431,17 @@ class AgentRate extends Component {
         return $text;
     }
 
+    /*
+     * Function Name - getLeaderPoints()
+     * Parameters used - $skillType
+     * Description - Find maximum points earned by any agent for today.
+     * Return - Return maximum points earned by any agent for today.
+     */
     public function getLeaderPoints($skillType) {
 
         $getSkills = $this->getLeaderSkills($skillType);
 
-        $sql = "SELECT max(point) as maxPonits FROM `gamification_agentpoints` WHERE created_at >= '" . date('Y-m-d') . " 00:00:00' AND created_at < '" . date('Y-m-d') . " 11:59:59'" ;//. $getSkills;
+        $sql = "SELECT max(point) as maxPonits FROM `gamification_agentpoints` WHERE created_at >= '" . date('Y-m-d') . " 00:00:00' AND created_at < '" . date('Y-m-d') . " 11:59:59'"; //. $getSkills;
 
         $command = Yii::$app->db->createCommand($sql);
 
@@ -425,7 +451,13 @@ class AgentRate extends Component {
 
         return $maxPonits;
     }
-
+    
+    /*
+     * Function Name - getLeaderSkills()
+     * Parameters used - $skillType 
+     * Description - Find skills for getLeaderPoints()
+     * Return - Return skills.
+     */
     public function getLeaderSkills($skillType) {
 
         if ($skillType == "Consumer") {
@@ -440,25 +472,25 @@ class AgentRate extends Component {
             return " AND id IN (6,7,8,9,10,11,12,13)";
         }
     }
-    
-    /*
-         * Function Name - getAgentId()
-         * Parameters used - 
-         * Description - Query to find agent id of logged in user.
-         * Return - Returns agentID if agent found in tblagent table else return false.
-         */
-	public function getAgentTenantId($agentId){
-            
-	$agent = Agent::find()
-            ->select('ParentTenantID')
-            ->where(['AgentID' => $agentId])
-            ->one();
-       
-        if($agent)
-        	return $agent['ParentTenantID'];
-        else
-        	return false;
 
-	}
+    /*
+     * Function Name - getAgentId()
+     * Parameters used - 
+     * Description - Query to find agent id of logged in user.
+     * Return - Returns agentID if agent found in tblagent table else return false.
+     */
+
+    public function getAgentTenantId($agentId) {
+
+        $agent = Agent::find()
+                ->select('ParentTenantID')
+                ->where(['AgentID' => $agentId])
+                ->one();
+
+        if ($agent)
+            return $agent['ParentTenantID'];
+        else
+            return false;
+    }
 
 }

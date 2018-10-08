@@ -4,9 +4,10 @@ use dosamigos\fileupload\FileUpload;
 
 $this->title = 'Consumer';
 
+// find agent id of logged in user
 $agent = Yii::$app->agentcomponent->getAgentId();
-
 $agentId = $agent['AgentID'];
+
 ?>
 <style>
     .jumbotron .btn{
@@ -29,7 +30,7 @@ $agentId = $agent['AgentID'];
         <?php if (Yii::$app->user->isGuest): ?>
             You must login.
         <?php elseif (empty($agentId)): ?>
-            Sorry Agent not found
+            Sorry Agent not found!!
         <?php else: ?>
             <div class="row">
                 <div class="col-md-12">
@@ -45,15 +46,13 @@ $agentId = $agent['AgentID'];
                             echo FileUpload::widget([
                                 'model' => $model,
                                 'attribute' => 'profile_pic',
-                                'url' => ['site/upload', 'id' => $model->id], // your url, this is just for demo purposes,
-                                'options' => ['accept' => 'image/*'],
+                                'url' => ['site/upload', 'id' => $model->id], // Url,
+                                'options' => ['accept' => 'image/*'], // Allowed file types
                                 'clientOptions' => [
                                     'maxFileSize' => 2000000,
                                     'maxHeight' => 100,
                                     'maxWidth' => 100,
                                 ],
-                                // Also, you can specify jQuery-File-Upload events
-                                // see: https://github.com/blueimp/jQuery-File-Upload/wiki/Options#processing-callback-options
                                 'clientEvents' => [
                                     'fileuploaddone' => 'function(e, data) {
                                                var rt = JSON.parse(data.result);                                              
