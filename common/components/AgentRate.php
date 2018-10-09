@@ -61,7 +61,7 @@ class AgentRate extends Component {
      */
     public function getCommunityCondition($community, $agentID) {
 
-        $startEnd = " (CreateDate >= '" . date("Y-m-d") . " 00:00:00' AND CreateDate < '" . date("Y-m-d") . " 11:59:59') ";
+        $startEnd = " (CreateDate >= '" . date("Y-m-d") . " 00:00:00' AND CreateDate < '" . date("Y-m-d") . " 23:59:59') ";
 
         if ($community) {
             $startEnd .= " AND DomainCode in(" . $community . ")";
@@ -322,7 +322,7 @@ class AgentRate extends Component {
 
         $skillCondition = $this->getSkillCondition($skillType);
 
-        $sql = "SELECT count(OrderID) as answered,count(RowID) as orders FROM callData WHERE CreateDate >= '" . date("Y-m-d") . " 00:00:00' AND CreateDate < '" . date("Y-m-d") . " 11:59:59' AND AgentID =" . $agentID . $skillCondition;
+        $sql = "SELECT count(OrderID) as answered,count(RowID) as orders FROM callData WHERE CreateDate >= '" . date("Y-m-d") . " 00:00:00' AND CreateDate < '" . date("Y-m-d") . " 23:59:59' AND AgentID =" . $agentID . $skillCondition;
 
         $command = Yii::$app->db->createCommand($sql);
 
@@ -344,14 +344,14 @@ class AgentRate extends Component {
 
         $dateCondition = $this->getDateCondition($wkd);
 
-        $sql = "SELECT sum(point) as ponits FROM `gamification_agentpoints` WHERE $dateCondition AND AgentID =" . $agentID;
+        $sql = "SELECT sum(point) as points FROM `gamification_agentpoints` WHERE $dateCondition AND AgentID =" . $agentID;
 
         $command = Yii::$app->db->createCommand($sql);
 
         $result = $command->queryAll();
 
-        $validOrders = $result[0]['ponits'];
-
+        $validOrders = $result[0]['points'];
+        
         return $validOrders;
     }
 
@@ -407,7 +407,7 @@ class AgentRate extends Component {
     }
     
     /*
-     * Function Name - ()
+     * Function Name - getDateCondition()
      * Parameters used - $wkd
      * Description - Find date condition for getTodaysPoints().
      * Return - Return date condition for getTodaysPoints().
@@ -415,7 +415,7 @@ class AgentRate extends Component {
     public function getDateCondition($wkd) {
 
         if (empty($wkd)) {
-            $text = "created_at >= '" . date('Y-m-d') . " 00:00:00' AND created_at < '" . date('Y-m-d') . " 11:59:59'";
+            $text = "created_at >= '" . date('Y-m-d') . " 00:00:00' AND created_at < '" . date('Y-m-d') . " 23:59:59'";
         } else {
 
             $monday = strtotime("last monday");
@@ -426,7 +426,7 @@ class AgentRate extends Component {
             $this_week_sd = date("Y-m-d", $monday);
             $this_week_ed = date("Y-m-d", $sunday);
 
-            $text = "created_at >= '" . $this_week_sd . " 00:00:00' AND created_at < '" . $this_week_ed . " 11:59:59'";
+            $text = "created_at >= '" . $this_week_sd . " 00:00:00' AND created_at < '" . $this_week_ed . " 23:59:59'";
         }
         return $text;
     }
