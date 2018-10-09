@@ -68,19 +68,19 @@ $agentId = $agent['AgentID'];
                         </div>
                     </div>
                     <div class="col-md-2">
-                        Today's Close Rate
+                        <span class="top-text">Today's Close Rate</span>
                         <div class="demo-1" data-percent="<?php echo Yii::$app->agentcomponent->getTodaysCloseRate($skillType, $agentId); ?>"></div>
                     </div>
                     <div class="col-md-2">
-                        Today's Community Close Rate 
+                        <span class="top-text">Today's Community Close Rate </span>
                         <div class="demo-2" data-percent="<?php echo Yii::$app->agentcomponent->getTodaysCloseRate($skillType, $agentId, $community); ?>"></div>
                     </div>
                     <div class="col-md-2">
-                        Today's Points Earned 
+                        <span class="top-text"> Today's Points Earned  </span>
                         <div class="demo-3" data-percent="<?php echo Yii::$app->agentcomponent->getTodaysPoints($agentId); ?>" data-nopercentage="1"></div>
                     </div>
                     <div class="col-md-2">
-                        WTD Points
+                        <span class="top-text">WTD Points </span>
                         <div class="demo-1" data-percent="<?php echo Yii::$app->agentcomponent->getTodaysPoints($agentId, 1); ?>" data-nopercentage="1"></div>
                     </div>
                 </div>
@@ -125,9 +125,12 @@ $agentId = $agent['AgentID'];
 
                 <div class="col-md-12" style="margin-top:20px; padding-bottom: 25px;">
                     <div class="col-md-3">
-
+                        <span class="category-text"> 
+                            <?php
+                        echo $category["TV"]["title"]; ?>
+                        </span>
                         <?php
-                        echo $category["TV"]["title"];
+                        
                         $tv = Yii::$app->agentcomponent->closeRate($agentId, "TV");
                         $CommunityTV = Yii::$app->agentcomponent->closeRate($agentId, "TV", $community);
                         ?>
@@ -136,14 +139,14 @@ $agentId = $agent['AgentID'];
                             <div class="progress-bar">
                                 <div class="progress-track">
                                     <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor($category["TV"]["redCutOff"], $category["TV"]["yellowCutOff"], $tv); ?>">
-                                        <span><?php echo $tv; ?>%</span> You
+                                        <span><?php //echo $tv; ?>50%</span> You
                                     </div>
                                 </div>
                             </div>
                             <div class="progress-bar">
                                 <div class="progress-track">
                                     <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor($category["TV"]["redCutOff"], $category["TV"]["yellowCutOff"], $CommunityTV); ?>">
-                                        <span><?php echo $CommunityTV; ?>%</span> Community
+                                        <span><?php //echo $CommunityTV; ?>90%</span> Community
                                     </div>
                                 </div>
                             </div>
@@ -151,9 +154,10 @@ $agentId = $agent['AgentID'];
                     </div>
 
                     <div class="col-md-3">
-
+                        <span class="category-text"><?php
+                        echo $category["directMail"]["title"];?> </span>
                         <?php
-                        echo $category["directMail"]["title"];
+                        
                         $mail = Yii::$app->agentcomponent->closeRate($agentId, "directMail");
                         $directMail = Yii::$app->agentcomponent->closeRate($agentId, "directMail", $community);
                         ?>
@@ -177,9 +181,10 @@ $agentId = $agent['AgentID'];
                     </div>
 
                     <div class="col-md-3">
-
+                        <span class="category-text"><?php
+                        echo $category["web"]["title"]; ?> </span>
                         <?php
-                        echo $category["web"]["title"];
+                        
                         $web = Yii::$app->agentcomponent->closeRate($agentId, "web");
                         $communityWeb = Yii::$app->agentcomponent->closeRate($agentId, "web", $community);
                         ?>
@@ -202,9 +207,9 @@ $agentId = $agent['AgentID'];
                     </div>
 
                     <div class="col-md-3">
-
+                        <span class="category-text"><?php echo $category["transfer"]["title"]; ?></span>
                         <?php
-                        echo $category["transfer"]["title"];
+                        
                         $transfer = Yii::$app->agentcomponent->getTransferCloseRate($agentId);
                         $CommunityTransfer = Yii::$app->agentcomponent->getTransferCloseRate($agentId, $community);
                         ?>
@@ -230,9 +235,9 @@ $agentId = $agent['AgentID'];
 
                 <div class="col-md-12" style="margin-top:20px;  padding-bottom: 25px; ">
                     <div class="col-md-3">
-
+                        <span class="category-text"> <?php echo $category["voice"]["title"]; ?></span>
                         <?php
-                        echo $category["voice"]["title"];
+                       
                         $voices = Yii::$app->agentcomponent->getRate($skillType, $agentId, "voice");
                         $voiceCommunity = Yii::$app->agentcomponent->getRate($skillType, $agentId, "voice", $community);
                         ?>
@@ -257,9 +262,9 @@ $agentId = $agent['AgentID'];
                     </div>
 
                     <div class="col-md-3">
-
+                        <span class="category-text"><?php echo $category["ExpRepairSold"]["title"]; ?></span>
                         <?php
-                        echo $category["ExpRepairSold"]["title"];
+                        
                         $exp = Yii::$app->agentcomponent->getRate($skillType, $agentId, "ExpRepairSold");
                         $expCommunity = Yii::$app->agentcomponent->getRate($skillType, $agentId, "ExpRepairSold", $community);
                         ?>
@@ -283,9 +288,10 @@ $agentId = $agent['AgentID'];
                     </div>
 
                     <div class="col-md-3">
-
+                        <span class="category-text"><?php
+                        echo $category["NortonSold"]["title"]; ?></span>
                         <?php
-                        echo $category["NortonSold"]["title"];
+                       
                         $norton = Yii::$app->agentcomponent->getRate($skillType, $agentId, "NortonSold");
                         $nortonCommunity = Yii::$app->agentcomponent->getRate($skillType, $agentId, "NortonSold", $community);
                         ?>
@@ -308,9 +314,9 @@ $agentId = $agent['AgentID'];
                     </div>
 
                     <div class="col-md-3">
-
+                        <span class="category-text"><?php echo $category["PCESold"]["title"]; ?></span>
                         <?php
-                        echo $category["PCESold"]["title"];
+                        
                         $pce = Yii::$app->agentcomponent->getRate($skillType, $agentId, "PCESold");
                         $pceCommunity = Yii::$app->agentcomponent->getRate($skillType, $agentId, "PCESold", $community);
                         ?>
@@ -337,9 +343,9 @@ $agentId = $agent['AgentID'];
 
                 <div class="col-md-12" style="margin-top:20px; padding-bottom: 25px;">
                     <div class="col-md-3">
-
+                        <span class="category-text"><?php echo $category["email"]["title"]; ?></span>
                         <?php
-                        echo $category["email"]["title"];
+                        
                         $validEmail = Yii::$app->agentcomponent->getValidEmail($skillType, $agentId);
                         $communityEmail = Yii::$app->agentcomponent->getValidEmail($skillType, $agentId, $community);
                         ?>
@@ -362,9 +368,9 @@ $agentId = $agent['AgentID'];
                     </div>
 
                     <div class="col-md-3">
-
+                        <span class="category-text"><?php echo $category["PhoneNumber"]["title"]; ?></span>
                         <?php
-                        echo $category["PhoneNumber"]["title"];
+                        
                         $validPhones = Yii::$app->agentcomponent->getRate($skillType, $agentId, "PhoneNumber");
                         $communityPhones = Yii::$app->agentcomponent->getRate($skillType, $agentId, "PhoneNumber", $community);
                         ?>
@@ -387,9 +393,9 @@ $agentId = $agent['AgentID'];
                     </div> 
 
                     <div class="col-md-3">
-
+                        <span class="category-text"><?php echo $category["ScheduleAttempted"]["title"]; ?></span>
                         <?php
-                        echo $category["ScheduleAttempted"]["title"];
+                        
                         $scheduleInstall = Yii::$app->agentcomponent->getRate($skillType, $agentId, "ScheduleAttempted");
                         $scheduleInstallCommunity = Yii::$app->agentcomponent->getRate($skillType, $agentId, "ScheduleAttempted", $community);
                         ?>
@@ -412,9 +418,9 @@ $agentId = $agent['AgentID'];
                     </div>
 
                     <div class="col-md-3">
-
+                        <span class="category-text"><?php echo $category["Connection"]["title"]; ?></span>
                         <?php
-                        echo $category["Connection"]["title"];
+                        
                         $currentConnection = Yii::$app->agentcomponent->getRate($skillType, $agentId, "Connection");
                         $currentConnectionCommunity = Yii::$app->agentcomponent->getRate($skillType, $agentId, "Connection", $community);
                         ?>
@@ -430,9 +436,11 @@ $agentId = $agent['AgentID'];
                             <div class="progress-bar">
                                 <div class="progress-track">
                                     <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor($category["Connection"]["redCutOff"], $category["Connection"]["yellowCutOff"], $currentConnectionCommunity); ?>">
-                                        <span><?php echo $currentConnectionCommunity; ?>%</span> Community
+                                        <span><?php echo $currentConnectionCommunity; ?>%</span> 
                                     </div>
+                                    
                                 </div>
+                                Community
                             </div>
                         </div>
                     </div>

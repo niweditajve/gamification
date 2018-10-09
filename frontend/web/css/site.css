@@ -1,3 +1,23 @@
+span.category-text {
+    min-height: 50px;
+    display: block;
+    margin-top: 12px;
+    font-weight: 600;
+}
+.cir{position: relative!important;
+    top: 9px!important;
+    left: 9px!important;
+    text-align: center;
+    width: 81px!important;
+    height: 81px!important;
+    border-radius: 100%;
+    background-color: rgb(255, 255, 255);
+}
+span.top-text {
+    min-height: 48px!important;
+    display: block;
+    font-weight: 600;
+}
 html,
 body {
     height: 100%;
