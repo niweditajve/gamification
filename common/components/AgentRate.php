@@ -122,7 +122,7 @@ class AgentRate extends Component {
         $totalCall = $result[0]['offered'];
 
         if ($answeredCall && $totalCall) {
-            return number_format((float) (($answeredCall / $totalCall) * 100), 2, '.',',',',');
+            return number_format((float) (($answeredCall / $totalCall) * 100), 2, '.',',');
         } else
             return 0;
     }
