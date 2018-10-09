@@ -94,7 +94,7 @@ class AgentRate extends Component {
         $totalCall = $result[0]['offered'];
 
         if ($answeredCall && $totalCall)
-            return number_format((float) (($answeredCall / $totalCall) * 100), 2, '.');
+            return number_format((float) (($answeredCall / $totalCall) * 100), 2, '.',',');
         else
             return 0;
     }
@@ -122,7 +122,7 @@ class AgentRate extends Component {
         $totalCall = $result[0]['offered'];
 
         if ($answeredCall && $totalCall) {
-            return number_format((float) (($answeredCall / $totalCall) * 100), 2, '.');
+            return number_format((float) (($answeredCall / $totalCall) * 100), 2, '.',',',',');
         } else
             return 0;
     }
@@ -149,7 +149,7 @@ class AgentRate extends Component {
         $totalCall = $result[0]['offered'];
 
         if ($answeredCall && $totalCall) {
-            return number_format((float) (($answeredCall / $totalCall) * 100), 2, '.');
+            return number_format((float) (($answeredCall / $totalCall) * 100), 2, '.',',');
         } else
             return 0;
     }
@@ -252,7 +252,7 @@ class AgentRate extends Component {
         $totalOrder = $result[0]['totalOrders'];
 
         if ($validOrders && $totalOrder) {
-            return number_format((float) (($validOrders / $totalOrder) * 100), 2, '.');
+            return number_format((float) (($validOrders / $totalOrder) * 100), 2, '.',',');
         } else
             return 0;
     }
@@ -288,7 +288,7 @@ class AgentRate extends Component {
 
 
         if ($validEmails && $allOrders) {
-            return number_format((float) (($validEmails / $allOrders) * 100), 2, '.');
+            return number_format((float) (($validEmails / $allOrders) * 100), 2, '.',',');
         } else
             return 0;
     }
