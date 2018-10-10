@@ -152,14 +152,14 @@ class ReportController extends Controller
         
         $sql = "SELECT `gamification_agentcertificates`.`agent_id`, `tblAgent`.`FirstName`, `tblAgent`.`LastName`,`tblAgent`. `Login`,max(gamification_agentcertificates.agent_points) as points, certificate_name
             FROM `gamification_agentcertificates` 
-            LEFT JOIN `tblAgent` ON `gamification_agentcertificates`.agent_id = `tblAgent`.AgentID
+            JOIN `tblAgent` ON `gamification_agentcertificates`.agent_id = `tblAgent`.AgentID
             WHERE
             ";
         
         $sql .=" (gamification_agentcertificates.created_at BETWEEN '$start_week' AND  '$end_week')";
 
         $sql .=" GROUP BY `gamification_agentcertificates`.`agent_id` ";
-        
+       
         $connection=Yii::$app->db;
         
         $command=$connection->createCommand($sql);

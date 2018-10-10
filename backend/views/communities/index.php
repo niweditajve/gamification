@@ -20,15 +20,18 @@ $base_url = Yii::$app->homeUrl;
         echo "<tr>";
         echo "<th>#</th>";
         echo "<th>Community</th>";
+        echo "<th>Source ID's</th>";
         echo "<th>Action</th>";
         echo "</tr>";
         echo '</thead>';
         echo '<tbody>';
     foreach($model as $key){
-       
+		$skills = json_decode($key['salesSourceId']);
+		$skillsData = implode(", " , $skills);
         echo "<tr>";
         echo "<td>".$key['id']."</td>";
         echo "<td>".$key['skill']."</td>";
+        echo "<td>".$skillsData."</td>";
         echo "<td>";
         echo '<a href='.$base_url.'communities/view?id='.$key['id'].' title="View" aria-label="View" data-pjax="0"><span class="glyphicon glyphicon-eye-open"></span></a>';
         echo "&nbsp;";
@@ -38,18 +41,6 @@ $base_url = Yii::$app->homeUrl;
         
     }
     echo '</tbody>';
-        echo '</table>';
+    echo '</table>';
     ?>
-    <?php /*GridView::widget([
-        'dataProvider' => $dataProvider,
-        //'filterModel' => $searchModel,
-        'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
-            'skill',
-            
-
-            ['class' => 'yii\grid\ActionColumn','template'=>'{view} {update}'],
-        ],
-    ]);*/ ?>
 </div>
