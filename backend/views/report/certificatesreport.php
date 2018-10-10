@@ -90,7 +90,15 @@ $exportColumns = [
                     'name' => 'date_from',
                     'value' => $d1,
                     'nameTo' => 'date_to',
-                    'valueTo' => $d2
+                    'valueTo' => $d2,
+					
+					'options'  => [ 
+							'placeholder' => Yii::t('app', 'Enter Start date'), 
+					],
+					'optionsTo'  => [
+							'placeholder' => Yii::t('app', 'Enter End date'), 
+					],
+					
                 ]);?>
                 </div>
                 <div class="col-md-2">
