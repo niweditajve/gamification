@@ -12,6 +12,28 @@
 	float: right!important;
     margin-bottom: 20px!important;
 }
+
+.abd {
+float: left;
+width: 100%;
+
+border: 1px solid #b1a8a8;
+    margin-top: 10px;
+    padding: 8px 20px;
+}
+
+.abd label {
+float: left;
+width: 100px;margin: 10px auto;
+}
+.button-community{
+    margin-top: 20px;
+}
+
+.community-checkbox {
+float: right;
+width: 34px;
+}
 html,
 body {
     height: 100%;

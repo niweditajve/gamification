@@ -45,9 +45,9 @@ use yii\helpers\ArrayHelper;
             $checked = "checked";
             
         }
-        echo  '<label class="community-label">' . $key .'</label>';
+        echo  '<div class="abd"><label class="community-label">' . $key .'</label>';
 		
-		echo '<input class="form-control" type="checkbox" name="sourceid[]" value="'.$key.'" '.$checked.'> ';
+		echo '<input class="form-control community-checkbox" type="checkbox" name="sourceid[]" value="'.$key.'" '.$checked.'> </div> ';
         
     }
     echo '</div>';
@@ -57,7 +57,7 @@ use yii\helpers\ArrayHelper;
     <div class="help-block"></div>
     
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Save', ['class' => 'btn btn-success button-community']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
