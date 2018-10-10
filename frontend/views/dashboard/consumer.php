@@ -69,19 +69,31 @@ $agentId = $agent['AgentID'];
                     </div>
                     <div class="col-md-2">
                         <span class="top-text">Today's Close Rate</span>
-                        <div class="demo-1" data-percent="<?php echo Yii::$app->agentcomponent->getTodaysCloseRate($skillType, $agentId); ?>"></div>
+						<?php
+						$todaysCloseRate = Yii::$app->agentcomponent->getTodaysCloseRate($skillType, $agentId);
+						?>
+                        <div class="demo-4" data-backcolor="<?php echo Yii::$app->agentcomponent->getColor(25, 60, $todaysCloseRate); ?>" data-percent="<?php echo $todaysCloseRate ?>"></div>
                     </div>
                     <div class="col-md-2">
+						<?php
+							$communityTodaysCloseRate = Yii::$app->agentcomponent->getTodaysCloseRate($skillType, $agentId, $community);
+						?>
                         <span class="top-text">Today's Community Close Rate </span>
-                        <div class="demo-2" data-percent="<?php echo Yii::$app->agentcomponent->getTodaysCloseRate($skillType, $agentId, $community); ?>"></div>
+                        <div class="demo-2" data-backcolor="<?php echo Yii::$app->agentcomponent->getColor(25, 60, $communityTodaysCloseRate); ?>" data-percent="<?php echo $communityTodaysCloseRate; ?>"></div>
                     </div>
                     <div class="col-md-2">
                         <span class="top-text"> Today's Points Earned  </span>
-                        <div class="demo-3" data-percent="<?php echo Yii::$app->agentcomponent->getTodaysPoints($agentId); ?>" data-nopercentage="1"></div>
+						<?php
+						$todaysPoints = Yii::$app->agentcomponent->getTodaysPoints($agentId);
+						?>
+                        <div class="demo-3" data-backcolor="<?php echo Yii::$app->agentcomponent->getColor(25, 60, $todaysPoints); ?>" data-percent="<?php echo $todaysPoints; ?>" data-nopercentage="1"></div>
                     </div>
                     <div class="col-md-2">
                         <span class="top-text">WTD Points </span>
-                        <div class="demo-1" data-percent="<?php echo Yii::$app->agentcomponent->getTodaysPoints($agentId, 1); ?>" data-nopercentage="1"></div>
+						<?php
+						$wtd = Yii::$app->agentcomponent->getTodaysPoints($agentId, 1);
+						?>
+                        <div class="demo-1" data-backcolor="<?php echo Yii::$app->agentcomponent->getColor(25, 60, $wtd); ?>" data-percent="<?php echo $wtd; ?>" data-nopercentage="1"></div>
                     </div>
                 </div>
 

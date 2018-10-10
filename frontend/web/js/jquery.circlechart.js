@@ -25,7 +25,7 @@
 					    'height': defaults.diameter,
 					    'border-radius': '100%',
 					    'background-color': defaults.bgColor,
-					    'background-image' : 'linear-gradient(91deg, transparent 50%, '+defaults.bgColor+' 50%), linear-gradient(90deg, '+defaults.bgColor+' 50%, transparent 50%)'
+					    //'background-image' : 'linear-gradient(0deg, transparent 50%, '+defaults.bgColor+' 50%), linear-gradient(0deg, '+defaults.bgColor+' 50%, transparent 50%)'
 					},
 					cirCover: {
 						'position': 'relative',
@@ -52,18 +52,19 @@
 			var that = this,
 					template = '<div><div class="ab"><div class="cir"><span class="perc">{{percentage}}</span></div></div></div>',					
 					options =  $.extend(defaults, options)					
-
+			
 			function init(){
 				that.each(function(){
-                                    
+										
 					var $this = $(this),
 					    //we need to check for a percent otherwise set to 0;
 						perc = Math.round($this.data('percent')), //get the percentage from the element
 						deg = perc * 3.6,
 						stop = options.animate ? 0 : deg,
-						$chart = ($this.data('nopercentage') == 1) ? $(template.replace('{{percentage}}',perc)) : $(template.replace('{{percentage}}',perc+'%'));
+						$chart = ($this.data('nopercentage') == 1) ? $(template.replace('{{percentage}}',perc)) : $(template.replace('{{percentage}}',perc+'%'));						
 						//set all of the css properties forthe chart
 						$chart.css(styles.cirContainer).find('.ab').css(styles.cir).find('.cir').css(styles.cirCover).find('.perc').css(styles.percent);
+						options.fillColor = $this.data('backcolor');
 					
 					$this.append($chart); //add the chart back to the target element
 					setTimeout(function(){
@@ -74,7 +75,9 @@
 
 			var animateChart = function (stop,curr,$elm){
 				var deg = curr;
+				
 				if(curr <= stop){
+					console.log(" fillcolor " + options.fillColor);
 					if (deg>=180){
 						$elm.css('background-image','linear-gradient(' + (90+deg) + 'deg, transparent 50%, '+options.fillColor+' 50%),linear-gradient(90deg, '+options.fillColor+' 50%, transparent 50%)');
 			  	    }else{
