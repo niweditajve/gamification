@@ -4,7 +4,8 @@ span.category-text {
     margin-top: 12px;
     font-weight: 600;
 }
-.cir{position: relative!important;
+.cir{
+	position: relative!important;
     top: 9px!important;
     left: 9px!important;
     text-align: center;
@@ -12,6 +13,31 @@ span.category-text {
     height: 81px!important;
     border-radius: 100%;
     background-color: rgb(255, 255, 255);
+}
+.bar-percentage{
+	position: absolute;
+    top: -45px !important;
+    float: left;
+    right: 0px;
+    min-height: 27px!important;
+}
+.progress-bar{
+	color: #000!important;
+	text-align: left!important;
+}
+.community-list{
+	border: 1px solid;
+    padding: 15px 12px;
+    font-size: 15px;
+    font-weight: 700;
+}
+.perc{
+	    
+    line-height: 80px!important;
+    
+    margin: 0px auto!important;
+    text-align: center!important;
+    padding-right: 13px!important;
 }
 span.top-text {
     min-height: 48px!important;

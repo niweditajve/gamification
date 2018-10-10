@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
         
         foreach($sourceIds as $key){
             
-            echo "<h5>" . $key . "</h5>";
+            echo "<div class='community-list'>" . $key . "</div>";
             
         }
     }

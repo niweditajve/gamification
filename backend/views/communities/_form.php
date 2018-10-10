@@ -45,7 +45,9 @@ use yii\helpers\ArrayHelper;
             $checked = "checked";
             
         }
-        echo  $key .'<input class="form-control" type="checkbox" name="sourceid[]" value="'.$key.'" '.$checked.'> ';
+        echo  '<label class="community-label">' . $key .'</label>';
+		
+		echo '<input class="form-control" type="checkbox" name="sourceid[]" value="'.$key.'" '.$checked.'> ';
         
     }
     echo '</div>';

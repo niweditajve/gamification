@@ -67,19 +67,19 @@ $agentId = $agent['AgentID'];
                         </div>
                     </div>
                     <div class="col-md-2">
-                        Today's Close Rate 
+                        <span class="top-text">Today's Close Rate</span>
                         <div class="demo-1" data-percent="<?php echo Yii::$app->agentcomponent->getTodaysCloseRate($skillType, $agentId); ?>"></div>
                     </div>
                     <div class="col-md-2">
-                        Today's Community Close Rate
+                        <span class="top-text">Today's Community Close Rate</span>
                         <div class="demo-2" data-percent="<?php echo Yii::$app->agentcomponent->getTodaysCloseRate($skillType, $agentId, $community); ?>"></div>
                     </div>
                     <div class="col-md-2">
-                        Today's Points Earned
+                        <span class="top-text">Today's Points Earned</span>
                         <div class="demo-3" data-percent="<?php echo Yii::$app->agentcomponent->getTodaysPoints($agentId); ?>" data-nopercentage="1"></div>
                     </div>
                     <div class="col-md-2">
-                        WTD Points
+                        <span class="top-text">WTD Points</span>
                         <div class="demo-1" data-percent="<?php echo Yii::$app->agentcomponent->getTodaysPoints($agentId, 1); ?>" data-nopercentage="1"></div>
                     </div>
                 </div>
@@ -124,9 +124,10 @@ $agentId = $agent['AgentID'];
 
                 <div class="col-md-12" style="margin-top:20px; padding-bottom: 25px;">
                     <div class="col-md-3">
-
-                        <?php
-                        echo $category["voice"]["title"];
+						<span class="category-text">
+						<?php echo $category["voice"]["title"]; ?>						
+						</span>
+                        <?php                        
                         $voices = Yii::$app->agentcomponent->getRate($skillType, $agentId, "voice");
                         $voiceCommunity = Yii::$app->agentcomponent->getRate($skillType, $agentId, "voice", $community);
                         ?>
@@ -135,49 +136,55 @@ $agentId = $agent['AgentID'];
                             <div class="progress-bar">
                                 <div class="progress-track">
                                     <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor($category["voice"]["redCutOff"], $category["voice"]["yellowCutOff"], $voices); ?>">
-                                        <span><?php echo $voices; ?>%</span> You
+                                        <span class="bar-percentage"><?php echo $voices; ?>%</span>
                                     </div>
                                 </div>
+								<span class="bar-text"> You </span>
                             </div>
                             <div class="progress-bar">
                                 <div class="progress-track">
                                     <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor($category["voice"]["redCutOff"], $category["voice"]["yellowCutOff"], $voiceCommunity); ?>">
-                                        <span><?php echo $voiceCommunity; ?>%</span> Community
+                                        <span class="bar-percentage"><?php echo $voiceCommunity; ?>%</span>
                                     </div>
                                 </div>
+								<span class="bar-text"> Community </span>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-md-3">
-
-                        <?php
-                        echo $category["ExpRepairSold"]["title"];
-                        $exp = Yii::$app->agentcomponent->getRate($skillType, $agentId, "ExpRepairSold");
-                        $expCommunity = Yii::$app->agentcomponent->getRate($skillType, $agentId, "ExpRepairSold", $community);
+						<span class="category-text">
+							<?php echo $category["ExpRepairSold"]["title"]; ?>						
+						</span>
+                        <?php                        
+							$exp = Yii::$app->agentcomponent->getRate($skillType, $agentId, "ExpRepairSold");
+							$expCommunity = Yii::$app->agentcomponent->getRate($skillType, $agentId, "ExpRepairSold", $community);
                         ?>
                         <div class="container vertical rounded" style="margin-left:40px;">
                             <div class="progress-bar">
                                 <div class="progress-track">
                                     <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor($category["ExpRepairSold"]["redCutOff"], $category["ExpRepairSold"]["yellowCutOff"], $exp); ?>">
-                                        <span><?php echo $exp; ?>%</span> You
+                                        <span class="bar-percentage"><?php echo $exp; ?>%</span>
                                     </div>
                                 </div>
+								<span class="bar-text"> You </span>
                             </div>
                             <div class="progress-bar">
                                 <div class="progress-track">
                                     <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor($category["ExpRepairSold"]["redCutOff"], $category["ExpRepairSold"]["yellowCutOff"], $expCommunity); ?>">
-                                        <span><?php echo $expCommunity; ?>%</span> Community
+                                        <span class="bar-percentage"><?php echo $expCommunity; ?>%</span>
                                     </div>
                                 </div>
+								<span class="bar-text"> Community </span>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-md-3">
-
-                        <?php
-                        echo $category["NortonSold"]["title"];
+						<span class="category-text">
+							<?php echo $category["NortonSold"]["title"]; ?>						
+						</span>
+                        <?php                        
                         $norton = Yii::$app->agentcomponent->getRate($skillType, $agentId, "NortonSold");
                         $nortonCommunity = Yii::$app->agentcomponent->getRate($skillType, $agentId, "NortonSold", $community);
                         ?>
@@ -185,24 +192,27 @@ $agentId = $agent['AgentID'];
                             <div class="progress-bar">
                                 <div class="progress-track">
                                     <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor($category["NortonSold"]["redCutOff"], $category["NortonSold"]["yellowCutOff"], $norton); ?>">
-                                        <span><?php echo $norton ?>%</span> You
+                                        <span class="bar-percentage"><?php echo $norton ?>%</span>
                                     </div>
                                 </div>
+								<span class="bar-text"> You </span>
                             </div>
                             <div class="progress-bar">
                                 <div class="progress-track">
                                     <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor($category["NortonSold"]["redCutOff"], $category["NortonSold"]["yellowCutOff"], $nortonCommunity); ?>">
-                                        <span><?php echo $nortonCommunity ?>%</span> Community
+                                        <span class="bar-percentage"><?php echo $nortonCommunity ?>%</span>
                                     </div>
                                 </div>
+								<span class="bar-text"> Community </span>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-md-3">
-
-                        <?php
-                        echo $category["PCESold"]["title"];
+						<span class="category-text">
+							<?php echo $category["PCESold"]["title"]; ?>						
+						</span>
+                        <?php                        
                         $pce = Yii::$app->agentcomponent->getRate($skillType, $agentId, "PCESold");
                         $pceCommunity = Yii::$app->agentcomponent->getRate($skillType, $agentId, "PCESold", $community);
                         ?>
@@ -211,16 +221,18 @@ $agentId = $agent['AgentID'];
                             <div class="progress-bar">
                                 <div class="progress-track">
                                     <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor($category["PCESold"]["redCutOff"], $category["PCESold"]["yellowCutOff"], $pce); ?>">
-                                        <span><?php echo $pce; ?>%</span> You
+                                        <span class="bar-percentage"><?php echo $pce; ?>%</span>
                                     </div>
                                 </div>
+								<span class="bar-text"> You </span>
                             </div>
                             <div class="progress-bar">
                                 <div class="progress-track">
                                     <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor($category["PCESold"]["redCutOff"], $category["PCESold"]["yellowCutOff"], $pceCommunity); ?>">
-                                        <span><?php echo $pceCommunity; ?>%</span> Community
+                                        <span class="bar-percentage"><?php echo $pceCommunity; ?>%</span>
                                     </div>
                                 </div>
+								<span class="bar-text"> Community </span>
                             </div>
                         </div>
                     </div>
@@ -229,9 +241,10 @@ $agentId = $agent['AgentID'];
                 <div class="col-md-12" style="margin-top:20px; padding-bottom: 25px;">
 
                     <div class="col-md-3">
-
-                        <?php
-                        echo $category["CCNumber"]["title"];
+						<span class="category-text">
+							<?php echo $category["CCNumber"]["title"]; ?>						
+						</span>
+                        <?php                        
                         $ccorders = Yii::$app->agentcomponent->getRate($skillType, $agentId, "CCNumber");
                         $ccordersCommunity = Yii::$app->agentcomponent->getRate($skillType, $agentId, "CCNumber", $community);
                         ?>
@@ -240,25 +253,29 @@ $agentId = $agent['AgentID'];
                             <div class="progress-bar">
                                 <div class="progress-track">
                                     <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor($category["CCNumber"]["redCutOff"], $category["CCNumber"]["yellowCutOff"], $ccorders); ?>">
-                                        <span><?php echo $ccorders; ?>%</span> You
+                                        <span class="bar-percentage"><?php echo $ccorders; ?>%</span>
                                     </div>
                                 </div>
+								<span class="bar-text"> You </span>
                             </div>
                             <div class="progress-bar">
                                 <div class="progress-track">
                                     <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor($category["CCNumber"]["redCutOff"], $category["CCNumber"]["yellowCutOff"], $ccordersCommunity); ?>">
-                                        <span><?php echo $ccordersCommunity; ?>%</span> Community
+                                        <span class="bar-percentage"><?php echo $ccordersCommunity; ?>%</span>
                                     </div>
                                 </div>
+								<span class="bar-text"> Community </span>
                             </div>
                         </div>
                     </div>
 
 
                     <div class="col-md-3">
-
+						<span class="category-text">
+							<?php echo $category["email"]["title"]; ?>						
+						</span>
                         <?php
-                        echo $category["email"]["title"];
+                        
                         $validEmail = Yii::$app->agentcomponent->getValidEmail($skillType, $agentId);
                         $communityEmail = Yii::$app->agentcomponent->getValidEmail($skillType, $agentId, $community);
                         ?>
@@ -267,24 +284,28 @@ $agentId = $agent['AgentID'];
                             <div class="progress-bar">
                                 <div class="progress-track">
                                     <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor($category["email"]["redCutOff"], $category["email"]["yellowCutOff"], $validEmail); ?>">
-                                        <span><?php echo $validEmail; ?>%</span> You
+                                        <span class="bar-percentage"><?php echo $validEmail; ?>%</span>
                                     </div>
                                 </div>
+								<span class="bar-text"> You </span>
                             </div>
                             <div class="progress-bar">
                                 <div class="progress-track">
                                     <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor($category["email"]["redCutOff"], $category["email"]["yellowCutOff"], $communityEmail); ?>">
-                                        <span><?php echo $communityEmail; ?>%</span> Community
+                                        <span class="bar-percentage"><?php echo $communityEmail; ?>%</span>
                                     </div>
                                 </div>
+								<span class="bar-text"> Community </span>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-md-3">
-
+						<span class="category-text">
+							<?php echo $category["PhoneNumber"]["title"]; ?>						
+						</span>
                         <?php
-                        echo $category["PhoneNumber"]["title"];
+                        
                         $validPhones = Yii::$app->agentcomponent->getRate($skillType, $agentId, "PhoneNumber");
                         $communityPhones = Yii::$app->agentcomponent->getRate($skillType, $agentId, "PhoneNumber", $community);
                         ?>
@@ -292,24 +313,27 @@ $agentId = $agent['AgentID'];
                             <div class="progress-bar">
                                 <div class="progress-track">
                                     <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor($category["PhoneNumber"]["redCutOff"], $category["PhoneNumber"]["yellowCutOff"], $validPhones); ?>">
-                                        <span><?php echo $validPhones; ?>%</span> You
+                                        <span class="bar-percentage"><?php echo $validPhones; ?>%</span>
                                     </div>
                                 </div>
+								<span class="bar-text"> You </span>
                             </div>
                             <div class="progress-bar">
                                 <div class="progress-track">
                                     <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor($category["PhoneNumber"]["redCutOff"], $category["PhoneNumber"]["yellowCutOff"], $communityPhones); ?>">
-                                        <span><?php echo $communityPhones; ?>%</span> Community
+                                        <span class="bar-percentage"><?php echo $communityPhones; ?>%</span>
                                     </div>
                                 </div>
+								<span class="bar-text"> Community </span>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-md-3">
-
-                        <?php
-                        echo $category["ScheduleAttempted"]["title"];
+						<span class="category-text">
+							<?php echo $category["ScheduleAttempted"]["title"]; ?>						
+						</span>
+                        <?php                        
                         $scheduleInstall = Yii::$app->agentcomponent->getRate($skillType, $agentId, "ScheduleAttempted");
                         $scheduleInstallCommunity = Yii::$app->agentcomponent->getRate($skillType, $agentId, "ScheduleAttempted", $community);
                         ?>
@@ -317,16 +341,18 @@ $agentId = $agent['AgentID'];
                             <div class="progress-bar">
                                 <div class="progress-track">
                                     <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor($category["ScheduleAttempted"]["redCutOff"], $category["ScheduleAttempted"]["yellowCutOff"], $scheduleInstall); ?>">
-                                        <span><?php echo $scheduleInstall; ?>%</span> You
+                                        <span class="bar-percentage"><?php echo $scheduleInstall; ?>%</span>
                                     </div>
                                 </div>
+								<span class="bar-text"> You </span>
                             </div>
                             <div class="progress-bar">
                                 <div class="progress-track">
                                     <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor($category["ScheduleAttempted"]["redCutOff"], $category["ScheduleAttempted"]["yellowCutOff"], $scheduleInstallCommunity); ?>">
-                                        <span><?php echo $scheduleInstallCommunity; ?>%</span> Community
+                                        <span class="bar-percentage"><?php echo $scheduleInstallCommunity; ?>%</span>
                                     </div>
                                 </div>
+								<span class="bar-text"> Community </span>
                             </div>
                         </div>
                     </div>
@@ -335,9 +361,10 @@ $agentId = $agent['AgentID'];
 
                 <div class="col-md-12" style="margin-top:20px; padding-bottom: 25px;">
                     <div class="col-md-3">
-
-                        <?php
-                        echo $category["Connection"]["title"];
+						<span class="category-text">
+							<?php echo $category["Connection"]["title"]; ?>						
+						</span>
+                        <?php                        
                         $currentConnection = Yii::$app->agentcomponent->getRate($skillType, $agentId, "Connection");
                         $currentConnectionCommunity = Yii::$app->agentcomponent->getRate($skillType, $agentId, "Connection", $community);
                         ?>
@@ -346,16 +373,18 @@ $agentId = $agent['AgentID'];
                             <div class="progress-bar">
                                 <div class="progress-track">
                                     <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor($category["Connection"]["redCutOff"], $category["Connection"]["yellowCutOff"], $currentConnection); ?>">
-                                        <span><?php echo $currentConnection; ?>%</span> You
+                                        <span class="bar-percentage"><?php echo $currentConnection; ?>%</span>
                                     </div>
                                 </div>
+								<span class="bar-text"> You </span>
                             </div>
                             <div class="progress-bar">
                                 <div class="progress-track">
                                     <div class="progress-fill <?php echo Yii::$app->agentcomponent->getColor($category["Connection"]["redCutOff"], $category["Connection"]["yellowCutOff"], $currentConnectionCommunity); ?>">
-                                        <span><?php echo $currentConnectionCommunity; ?>%</span> Community
+                                        <span class="bar-percentage"><?php echo $currentConnectionCommunity; ?>%</span> 
                                     </div>
                                 </div>
+								<span class="bar-text"> Community </span>
                             </div>
                         </div>
                     </div>

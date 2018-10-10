@@ -95,7 +95,7 @@ $exportColumns = [
                 </div>
                 <div class="col-md-2">
                     <div class="form-group">
-                        <?= Html::submitButton('filter', ['class' => 'btn btn-success btn-sm', 'style' => 'font-size: 18px; padding: 2px 22px;']) ?>
+                        <?= Html::submitButton('filter', ['class' => 'btn btn-success btn-sm report-button', 'style' => 'font-size: 18px; padding: 2px 22px;']) ?>
                     </div>
                 </div>
                 <?php ActiveForm::end(); ?>
