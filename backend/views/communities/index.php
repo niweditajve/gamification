@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel backend\models\CommunitySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Communities';
+$this->title = 'Sales Centers';
 $this->params['breadcrumbs'][] = $this->title;
 $base_url = Yii::$app->homeUrl;
 ?>

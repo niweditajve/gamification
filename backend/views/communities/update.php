@@ -5,8 +5,8 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Community */
 
-$this->title = 'Update Community: ' . $model->skill;
-$this->params['breadcrumbs'][] = ['label' => 'Communities', 'url' => ['index']];
+$this->title = 'Update Sales Center: ' . $model->skill;
+$this->params['breadcrumbs'][] = ['label' => 'Sales Centers', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->skill, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
