@@ -30,11 +30,11 @@ class Certificates extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['point', 'trohpy_image_id','community_id'], 'required'],
+            [['point', 'trohpy_image_id','usercallcenter_id'], 'required'],
             [['point'], 'number'],
-            [['trohpy_image_id','community_id'], 'integer'],
+            [['trohpy_image_id','usercallcenter_id'], 'integer'],
             [['trohpy_image_id'], 'exist', 'skipOnError' => true, 'targetClass' => Trophyimages::className(), 'targetAttribute' => ['trohpy_image_id' => 'id']],
-            [['community_id'], 'exist', 'skipOnError' => true, 'targetClass' => Community::className(), 'targetAttribute' => ['community_id' => 'id']],
+            [['usercallcenter_id'], 'exist', 'skipOnError' => true, 'targetClass' => Usercallcenters::className(), 'targetAttribute' => ['usercallcenter_id' => 'id']],
         ];
     }
 
@@ -47,7 +47,7 @@ class Certificates extends \yii\db\ActiveRecord
             'id' => 'ID',
             'point' => 'Point',
             'trohpy_image_id' => 'Trohpy',
-            'community_id' => 'Community id',
+            'usercallcenter_id' => 'Community id',
         ];
     }
 
@@ -64,6 +64,6 @@ class Certificates extends \yii\db\ActiveRecord
      */
     public function getCommunityName()
     {
-        return $this->hasOne(Community::className(), ['id' => 'community_id']);
+        return $this->hasOne(Usercallcenters::className(), ['id' => 'usercallcenter_id']);
     }
 }
