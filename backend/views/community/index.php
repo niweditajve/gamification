@@ -7,14 +7,15 @@ use yii\grid\GridView;
 /* @var $searchModel backend\models\CommunitySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Communities';
+$this->title = 'Sales Centers';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="community-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-    <?php echo Html::a('Create Community', ['create'], ['class' => 'btn btn-success']) ?>
+    <p>
+        <?php echo Html::a('Create Sales Center', ['create'], ['class' => 'btn btn-success']) ?>
+    </p>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
@@ -27,6 +28,10 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'header' => 'CallCenter',
                 'attribute' => 'callCenter.CallCenter',
+            ],
+            [
+                'header' => 'User',
+                'attribute' => 'gameAdmin.user_id',
             ],
 
             ['class' => 'yii\grid\ActionColumn','template'=>'{view} {update}'],

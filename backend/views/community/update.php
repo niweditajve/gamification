@@ -5,9 +5,9 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Community */
 
-$this->title = 'Update Community: ' . $model->id;
+$this->title = 'Update Community: ' . $model->community_title;
 $this->params['breadcrumbs'][] = ['label' => 'Communities', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => $model->community_title, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="community-update">

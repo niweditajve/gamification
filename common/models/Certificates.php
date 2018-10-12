@@ -10,6 +10,7 @@ use Yii;
  * @property int $id
  * @property double $point
  * @property int $trohpy_image_id
+ * @property int $community_id
  *
  * @property GamificationTrophyimages $trohpyImage
  */
@@ -29,10 +30,11 @@ class Certificates extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['point', 'trohpy_image_id'], 'required'],
+            [['point', 'trohpy_image_id','community_id'], 'required'],
             [['point'], 'number'],
-            [['trohpy_image_id'], 'integer'],
+            [['trohpy_image_id','community_id'], 'integer'],
             [['trohpy_image_id'], 'exist', 'skipOnError' => true, 'targetClass' => Trophyimages::className(), 'targetAttribute' => ['trohpy_image_id' => 'id']],
+            [['community_id'], 'exist', 'skipOnError' => true, 'targetClass' => Community::className(), 'targetAttribute' => ['community_id' => 'id']],
         ];
     }
 
@@ -45,6 +47,7 @@ class Certificates extends \yii\db\ActiveRecord
             'id' => 'ID',
             'point' => 'Point',
             'trohpy_image_id' => 'Trohpy',
+            'community_id' => 'Community id',
         ];
     }
 
@@ -54,5 +57,13 @@ class Certificates extends \yii\db\ActiveRecord
     public function getTrohpyImage()
     {
         return $this->hasOne(Trophyimages::className(), ['id' => 'trohpy_image_id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCommunityName()
+    {
+        return $this->hasOne(Community::className(), ['id' => 'community_id']);
     }
 }

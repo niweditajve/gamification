@@ -16,14 +16,14 @@ use common\models\Trophyimages;
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'point')->textInput() ?>
-
-    <?php //$form->field($model, 'trohpy_image_id')->textInput() ?>
-    
-    <?php //$form->field($model, 'trohpy_image_id')->dropDownList(ArrayHelper::map(<Trophyimages>::find()->all(),'id','title'), ['prompt'=>'Select XYZ']) ?> 
     
     <?php $categoryArray = ArrayHelper::map(\common\models\Trophyimages::find()->orderBy('title')->asArray()->all(), 'id', 'title'); ?> 
     
+    <?php $communityArray = ArrayHelper::map(\common\models\Community::find()->orderBy('community_title')->asArray()->all(), 'id', 'community_title'); ?> 
+    
     <?= $form->field($model, 'trohpy_image_id')->dropDownList($categoryArray, ['prompt' => 'Select Trophy'])->label('Trophy') ?>
+    
+    <?php echo $form->field($model, 'community_id')->dropDownList($communityArray, ['prompt' => 'Select Community'])->label('Community') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>

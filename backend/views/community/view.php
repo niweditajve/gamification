@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Community */
 
-$this->title = $model->id;
+$this->title = $model->community_title;
 $this->params['breadcrumbs'][] = ['label' => 'Communities', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -34,6 +34,10 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             'community_title',
             'sales_source_id',
+           /* [
+                'attribute' => 'User',
+                'value' => $model->gameAdmin->user_id,
+            ],*/
         ],
     ]) ?>
 

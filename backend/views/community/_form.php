@@ -14,13 +14,17 @@ use yii\helpers\ArrayHelper;
 
     <?php $form = ActiveForm::begin(); ?>
     
-    <?php  $communityArray = ArrayHelper::map(\common\models\CallCenter::find()->orderBy('CallCenter')->asArray()->all(), 'RowID', 'CallCenter'); ?> 
+    <?php $communityArray = ArrayHelper::map(\common\models\CallCenter::find()->orderBy('CallCenter')->asArray()->all(), 'RowID', 'CallCenter');  ?> 
     
     <?php echo $form->field($model, 'call_center_id')->dropDownList($communityArray, ['prompt' => 'Select Call Center'])->label('Call Center') ?>
 
     <?= $form->field($model, 'community_title')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'sales_source_id')->textInput() ?>
+    
+    <?php  $userArray = ArrayHelper::map(\common\models\Usercallcenters::find()->asArray()->all(), 'id', 'user_id'); ?> 
+    
+    <?= $form->field($model, 'game_admin_id')->dropDownList($userArray, ['prompt' => 'Select User ID'])->label('User') ?>
 
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
