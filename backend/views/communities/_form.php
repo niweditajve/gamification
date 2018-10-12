@@ -19,18 +19,18 @@ use yii\helpers\ArrayHelper;
     
     
     $allSourceID = array(
-                        "1" => 
+                        "Business" => 
                         // Source ID's for Business
                             array("98055", "98237", "98223", "98219", "98214"),
-                        "2" =>
+                        "Consumer" =>
                         // Source ID's for Consumer
                             array("91505", "92323", "91851" ,"92152", "92019"),
-                        "3" => 
+                        "Dealer" => 
                         // Source ID's for Dealer
                             array("91505", "92323", "91851" ,"92152", "92019")
                         );
     
-    $availableSourceIds = $allSourceID[$model->id];
+    $availableSourceIds = $allSourceID[$model->skill];
     
     echo '<label class="control-label" for="categories-title">Source ID</label>';
    

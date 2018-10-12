@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel backend\models\CommunitySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Sales Centers';
+$this->title = 'Community Define';
 $this->params['breadcrumbs'][] = $this->title;
 $base_url = Yii::$app->homeUrl;
 ?>
@@ -20,6 +20,7 @@ $base_url = Yii::$app->homeUrl;
         echo "<tr>";
         echo "<th>#</th>";
         echo "<th>Community</th>";
+        echo "<th>Call Center</th>";
         echo "<th>Source ID's</th>";
         echo "<th>Action</th>";
         echo "</tr>";
@@ -31,6 +32,7 @@ $base_url = Yii::$app->homeUrl;
         echo "<tr>";
         echo "<td>".$key['id']."</td>";
         echo "<td>".$key['skill']."</td>";
+        echo "<td>".$key['game_admin_id']."</td>";
         echo "<td>".$skillsData."</td>";
         echo "<td>";
         echo '<a href='.$base_url.'communities/view?id='.$key['id'].' title="View" aria-label="View" data-pjax="0"><span class="glyphicon glyphicon-eye-open"></span></a>';
