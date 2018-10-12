@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model backend\models\Community */
 
-$this->title = 'Create Community';
+$this->title = 'Create Sales Center';
 $this->params['breadcrumbs'][] = ['label' => 'Communities', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model backend\models\Community */
 
 $this->title = $model->community_title;
-$this->params['breadcrumbs'][] = ['label' => 'Communities', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Sales Center', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="community-view">
