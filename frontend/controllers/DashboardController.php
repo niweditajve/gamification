@@ -7,6 +7,7 @@ use yii\web\Controller;
 use common\models\User;
 use common\models\Categories;
 use common\models\Skills;
+use common\models\Agentlastlogin;
 
 class DashboardController extends Controller {
 
@@ -35,6 +36,7 @@ class DashboardController extends Controller {
      * @return string
      */
     public function actionIndex() {
+        
         $model = new User();
 
         $skillType = "Business";
@@ -57,6 +59,9 @@ class DashboardController extends Controller {
      * @return mixed
      */
     public function actionConsumer() {
+        
+        $this->updateLastLogin();
+        
         $model = new User();
 
         $skillType = "Consumer";
@@ -128,6 +133,8 @@ class DashboardController extends Controller {
      * @return mixed
      */
     public function actionBusiness() {
+        
+        $this->updateLastLogin();
 
         $model = new User();
 
@@ -148,6 +155,8 @@ class DashboardController extends Controller {
      * @return mixed
      */
     public function actionDealer() {
+        
+        $this->updateLastLogin();
 
         $model = new User();
 
@@ -160,6 +169,26 @@ class DashboardController extends Controller {
                     'category'      => $this->getCategories(),
                     'community'     => $this->getCommunity("Dealer"),
         ]);
+    }
+    
+    
+    public function updateLastLogin(){
+        
+        $agent = Yii::$app->agentcomponent->getAgentId();
+        
+        $agentId = $agent['AgentID'];
+        
+        if($agentId){
+            
+            $model = new Agentlastlogin();
+
+            $model->agent_id=$agentId;
+
+            $model->hit_time= date("Y-m-d H:i:s");
+
+            $model->save();
+        }
+        
     }
 
 }
