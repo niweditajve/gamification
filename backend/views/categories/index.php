@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'header' => 'Call Center',
                 'attribute' => 'callcenterDefine.title',
                 'visible'=>Yii::$app->user->can('admin'),
-                'filter' => Html::activeDropDownList($searchModel, 'callcenter_define_id', ArrayHelper::map(CallcenterDefine::find()->asArray()->all(), 'id', 'title'),['class'=>'form-control','prompt' => 'Select Category'])
+                'filter' => Html::activeDropDownList($searchModel, 'game_admin_id', ArrayHelper::map(CallcenterDefine::find()->asArray()->all(), 'id', 'title'),['class'=>'form-control','prompt' => 'Select Category'])
             ],
             
             ['class' => 'yii\grid\ActionColumn','template'=>'{view} {update}'],

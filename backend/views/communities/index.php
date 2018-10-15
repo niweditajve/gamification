@@ -31,7 +31,7 @@ $base_url = Yii::$app->homeUrl;
                 'attribute' => 'skill',
                 'value' => function ($data) {
        
-                    $skills = json_decode($data->salesSourceId);
+                    $skills = json_decode($data->sales_source_Id);
 
                     $skillsData = implode(", " , $skills);
 

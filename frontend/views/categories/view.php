@@ -32,17 +32,17 @@ $this->params['breadcrumbs'][] = $this->title;
             
             [
                 'attribute' => 'Red Color Bar Range',
-                'value' => "0% - ".$model->redCutOff . "%",
+                'value' => "0% - ".$model->red_cut_off . "%",
             ],
             
             [
                 'attribute' => 'Yellow Color Bar Range',
-                'value' => $model->redCutOff + 1 ."% - ".  $model->yellowCutOff."%",
+                'value' => $model->red_cut_off + 1 ."% - ".  $model->yellow_cut_off."%",
             ],
             
             [
                 'attribute' => 'Green Color Bar Range',
-                'value' => $model->yellowCutOff + 1 . "% - 100%",
+                'value' => $model->yellow_cut_off + 1 . "% - 100%",
             ],
             
             

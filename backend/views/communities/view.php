@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     
     <?php
     
-    $sourceIds = json_decode($model->salesSourceId);
+    $sourceIds = json_decode($model->sales_source_Id);
     
     echo "<h4>".$model->gameAdmin['title']."</h4>";
     

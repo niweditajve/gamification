@@ -26,7 +26,7 @@ class CategoriesSearch extends Categories
     public function rules()
     {
         return [
-            [['id','callcenter_define_id'], 'integer'],
+            [['id','game_admin_id'], 'integer'],
             [['title', 'created_at', 'updated_at'], 'safe'],
             [['point'], 'number'],
         ];
@@ -61,13 +61,13 @@ class CategoriesSearch extends Categories
             
             if($profile['id']){
                 
-                $whereCluase = array("callcenter_define_id"=>$profile['id']);
+                $whereCluase = array("game_admin_id"=>$profile['id']);
 
                 $query->where($whereCluase);
                 
             }
             else{
-                $whereCluase = array("callcenter_define_id"=>5);
+                $whereCluase = array("game_admin_id"=>5);
 
                 $query->where($whereCluase);
             }
@@ -91,7 +91,7 @@ class CategoriesSearch extends Categories
         $query->andFilterWhere([
             'id' => $this->id,
             'point' => $this->point,
-            'callcenter_define_id'=>$this->callcenter_define_id,
+            'game_admin_id'=>$this->game_admin_id,
             
         ]);
 

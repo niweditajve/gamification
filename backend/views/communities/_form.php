@@ -14,7 +14,7 @@ use yii\helpers\ArrayHelper;
 
     <?php $form = ActiveForm::begin();
     
-    $sourceIds = json_decode($model->salesSourceId);
+    $sourceIds = json_decode($model->sales_source_Id);
     $sourceIds = (array)$sourceIds;
     
     

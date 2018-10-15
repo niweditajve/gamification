@@ -16,9 +16,9 @@ use yii\widgets\ActiveForm;
     
     <?= $form->field($model, 'point')->textInput() ?>
     
-    <?= $form->field($model, 'redCutOff')->textInput(['id'=>'redCutOff']) ?>
+    <?= $form->field($model, 'red_cut_off')->textInput(['id'=>'redCutOff']) ?>
     
-    <?= $form->field($model, 'yellowCutOff')->textInput(['id'=>'yellowCutOff']) ?>
+    <?= $form->field($model, 'yellow_cut_off')->textInput(['id'=>'yellowCutOff']) ?>
     
     <table class="table table-striped table-bordered">
         <thead>

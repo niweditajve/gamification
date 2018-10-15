@@ -9,7 +9,7 @@ use Yii;
  *
  * @property int $id
  * @property string $skill
- * @property string $salesSourceId
+ * @property string $sales_source_Id
  * @property int $game_admin_id
  *
  * @property GamificationCallcenterDefine $gameAdmin
@@ -30,10 +30,10 @@ class Skills extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['skill', 'salesSourceId', 'game_admin_id'], 'required'],
+            [['skill', 'sales_source_Id', 'game_admin_id'], 'required'],
             [['game_admin_id'], 'integer'],
             [['skill'], 'string', 'max' => 55],
-            [['salesSourceId'], 'string', 'max' => 255],
+            [['sales_source_Id'], 'string', 'max' => 255],
             [['game_admin_id'], 'exist', 'skipOnError' => true, 'targetClass' => CallcenterDefine::className(), 'targetAttribute' => ['game_admin_id' => 'id']],
         ];
     }
@@ -46,7 +46,7 @@ class Skills extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'skill' => 'Skill',
-            'salesSourceId' => 'Sales Source ID',
+            'sales_source_Id' => 'Sales Source ID',
             'game_admin_id' => 'Game Admin ID',
         ];
     }

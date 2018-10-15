@@ -19,7 +19,7 @@ class SkillsSearch extends Skills
     {
         return [
             [['id', 'skill','game_admin_id'], 'integer'],
-            [['salesSourceId'], 'number'],
+            [['sales_source_Id'], 'number'],
         ];
     }
 
