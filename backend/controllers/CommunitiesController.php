@@ -37,7 +37,7 @@ class CommunitiesController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['index', 'view', 'create', 'update'],
-                        'roles' => ['admin','admin_cc'],
+                        'roles' => ['admin'],
                     ],
                 ],
             ],
@@ -114,7 +114,7 @@ class CommunitiesController extends Controller
             
             $sourceid = json_encode($sourceids);
             
-            $model->salesSourceId = $sourceid;
+            $model->sales_source_Id = $sourceid;
             
             $model->save();
            

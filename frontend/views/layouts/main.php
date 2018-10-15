@@ -51,6 +51,23 @@ AppAsset::register($this);
                         ],
                         'visible' => Yii::$app->user->can('virtual_user')
                     ],
+                    ['label' => 'Manage', 'url' => ['#'],
+                            'items' => [
+                                ['label' => 'Categories', 'url' => ['/categories/index'], 'visible' => Yii::$app->user->can('admin_cc')],
+                                ['label' => 'Trophy Images', 'url' => ['/trophy/index'], 'visible' => Yii::$app->user->can('admin_cc')],
+                                ['label' => 'Certificates', 'url' => ['/certificate/index'], 'visible' => Yii::$app->user->can('admin_cc')],
+                                ['label' => 'Community Define', 'url' => ['/communities/index'], 'visible' => Yii::$app->user->can('admin_cc')],
+                        ],
+                        'visible' => Yii::$app->user->can('admin_cc')
+                    ],
+                    ['label' => 'Reports', 'url' => ['#'],
+                        'items' => [
+                            ['label' => 'Last Login Report ', 'url' => ['/report/agents'], 'visible' => Yii::$app->user->can('admin_cc')],
+                            ['label' => 'Point Certifacte Report', 'url' => ['/report/certificates'], 'visible' => Yii::$app->user->can('admin_cc')],
+                            ['label' => 'Cert Earned report', 'url' => ['/report/cert'], 'visible' => Yii::$app->user->can('admin_cc')],
+                        ],
+                        'visible' => Yii::$app->user->can('admin_cc') 
+                    ],
                     
                     ['label' => 'IVR', 'url' => ['#'],
                         'items' => [

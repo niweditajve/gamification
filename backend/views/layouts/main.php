@@ -46,12 +46,12 @@ AppAsset::register($this);
                         ['label' => 'Home', 'url' => ['/site/index']],                        
                         ['label' => 'Manage', 'url' => ['#'],
                             'items' => [
-                                ['label' => 'Categories', 'url' => ['/categories/index'], 'visible' => Yii::$app->user->can('admin') || Yii::$app->user->can('admin_cc')],
-                                ['label' => 'Trophy Images', 'url' => ['/trophy/index'], 'visible' => Yii::$app->user->can('admin') || Yii::$app->user->can('admin_cc')],
-                                ['label' => 'Certificates', 'url' => ['/certificate/index'], 'visible' => Yii::$app->user->can('admin') || Yii::$app->user->can('admin_cc')],
-                                ['label' => 'Community Define', 'url' => ['/communities/index'], 'visible' => Yii::$app->user->can('admin') || Yii::$app->user->can('admin_cc')],
+                                ['label' => 'Categories', 'url' => ['/categories/index'], 'visible' => Yii::$app->user->can('admin')],
+                                ['label' => 'Trophy Images', 'url' => ['/trophy/index'], 'visible' => Yii::$app->user->can('admin')],
+                                ['label' => 'Certificates', 'url' => ['/certificate/index'], 'visible' => Yii::$app->user->can('admin')],
+                                ['label' => 'Community Define', 'url' => ['/communities/index'], 'visible' => Yii::$app->user->can('admin')],
                             ],
-                            'visible' => Yii::$app->user->can('admin') || Yii::$app->user->can('admin_cc')
+                            'visible' => Yii::$app->user->can('admin')
                         ],
                         ['label' => 'Reports', 'url' => ['#'],
                             'items' => [
