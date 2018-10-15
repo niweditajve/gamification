@@ -14,7 +14,10 @@ $base_url = Yii::$app->homeUrl;
 <div class="community-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php 
+    <?php /*
+    echo '<pre>';
+    print_r($model);
+    echo '</pre>';
         echo '<table class="table table-striped table-bordered">';
         echo '<thead>';
         echo "<tr>";
@@ -27,6 +30,9 @@ $base_url = Yii::$app->homeUrl;
         echo '</thead>';
         echo '<tbody>';
     foreach($model as $key){
+        
+       // echo .;
+        echo $model->gameAdmin->$key['game_admin_id'];
 		$skills = json_decode($key['salesSourceId']);
 		$skillsData = implode(", " , $skills);
         echo "<tr>";
@@ -44,5 +50,37 @@ $base_url = Yii::$app->homeUrl;
     }
     echo '</tbody>';
     echo '</table>';
-    ?>
+    */ ?>
+    
+    
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        //'filterModel' => $searchModel,
+        'columns' => [
+            ['class' => 'yii\grid\SerialColumn'],
+            [
+                'header' => 'Community',
+                'attribute' => 'skill',
+            ],
+            
+            [
+                'header' => "Source ID's",
+                'attribute' => 'skill',
+                'value' => function ($data) {
+       
+                    $skills = json_decode($data->salesSourceId);
+
+                    $skillsData = implode(", " , $skills);
+
+                    return $skillsData;
+               },
+            ],
+            [
+                'header' => 'Call Center',
+                'attribute' => 'gameAdmin.title',
+            ],
+            
+            ['class' => 'yii\grid\ActionColumn'],
+        ],
+    ]); ?>
 </div>

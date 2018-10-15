@@ -5,6 +5,7 @@ namespace backend\controllers;
 use Yii;
 use common\models\Skills;
 use common\models\Community;
+use common\models\SkillsSearch;
 use common\models\CommunitySearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -49,12 +50,13 @@ class CommunitiesController extends Controller
      */
     public function actionIndex()
     {
-        $model = Skills::find()->all();
-
+        $searchModel = new SkillsSearch();
+        //$model = Skills::find()->all();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         
         return $this->render('index', [
-            'model' => $model,
-          
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
         ]); 
        
     }
