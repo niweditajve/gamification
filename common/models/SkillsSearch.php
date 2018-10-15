@@ -41,7 +41,31 @@ class SkillsSearch extends Skills
      */
     public function search($params)
     {
+        
         $query = Skills::find();
+        
+        if(Yii::$app->user->can('admin_cc') && ! Yii::$app->user->can('admin')){
+            
+            $profile = CallcenterDefine::find()
+                ->select('id')
+                ->where(['user_id' => Yii::$app->user->id])
+                ->one();
+            
+            if($profile['id']){
+                
+                $params = array("game_admin_id"=>$profile['id']);
+
+                $query->where($params);
+                
+            }
+            else{
+                $params = array("game_admin_id"=>5);
+
+                $query->where($params);
+            }
+        }
+        
+        
 
         // add conditions that should always apply here
 

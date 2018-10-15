@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $model backend\models\Community */
 
 $this->title = 'Update Community Define: ' . $model->skill;
-$this->params['breadcrumbs'][] = ['label' => 'Sales Centers', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Community Define', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => $model->skill, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
