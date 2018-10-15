@@ -23,10 +23,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             
-           
-            
-            
-            
             [
                 'attribute' => 'Dashboard Display Name',
                 'value' => $model->title,

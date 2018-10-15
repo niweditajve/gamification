@@ -20,9 +20,6 @@ use yii\widgets\ActiveForm;
     
     <?= $form->field($model, 'yellowCutOff')->textInput(['id'=>'yellowCutOff']) ?>
     
-    <?php // $form->field($model, 'greenCutOff')->textInput() ?>
-    
-    
     <table class="table table-striped table-bordered">
         <thead>
             <tr>

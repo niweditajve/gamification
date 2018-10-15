@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\ArrayHelper;
+use common\models\CallcenterDefine; 
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\CategoriesSearch */
@@ -14,8 +16,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
     
-   
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
@@ -26,8 +26,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'title',
             ],
             'point',
+            [
+                'header' => 'Call Center',
+                'attribute' => 'callcenterDefine.title',
+                'visible'=>Yii::$app->user->can('admin'),
+                'filter' => Html::activeDropDownList($searchModel, 'callcenter_define_id', ArrayHelper::map(CallcenterDefine::find()->asArray()->all(), 'id', 'title'),['class'=>'form-control','prompt' => 'Select Category'])
+            ],
             
             ['class' => 'yii\grid\ActionColumn','template'=>'{view} {update}'],
+            
         ],
     ]); ?>
 </div>

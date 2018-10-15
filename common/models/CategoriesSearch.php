@@ -26,7 +26,7 @@ class CategoriesSearch extends Categories
     public function rules()
     {
         return [
-            [['id'], 'integer'],
+            [['id','callcenter_define_id'], 'integer'],
             [['title', 'created_at', 'updated_at'], 'safe'],
             [['point'], 'number'],
         ];
@@ -51,7 +51,28 @@ class CategoriesSearch extends Categories
     public function search($params)
     {
         $query = Categories::find();
+        
+        if(Yii::$app->user->can('admin_cc') && ! Yii::$app->user->can('admin')){
+            
+            $profile = CallcenterDefine::find()
+                ->select('id')
+                ->where(['user_id' => Yii::$app->user->id])
+                ->one();
+            
+            if($profile['id']){
+                
+                $whereCluase = array("callcenter_define_id"=>$profile['id']);
 
+                $query->where($whereCluase);
+                
+            }
+            else{
+                $whereCluase = array("callcenter_define_id"=>5);
+
+                $query->where($whereCluase);
+            }
+        }
+        
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -70,8 +91,8 @@ class CategoriesSearch extends Categories
         $query->andFilterWhere([
             'id' => $this->id,
             'point' => $this->point,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'callcenter_define_id'=>$this->callcenter_define_id,
+            
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title]);
