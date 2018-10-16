@@ -4,13 +4,13 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\Certificates */
+/* @var $model backend\models\Trophyimages */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Certificates', 'url' => ['index']];
+$this->title = $model->title;
+$this->params['breadcrumbs'][] = ['label' => 'Trophy Images', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="certificates-view">
+<div class="trophyimages-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -28,18 +28,16 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'point',
             
+            'title',
+                  
             [
-                'attribute' => 'Certificate',
-                'value' => $model->trohpyImage->title,
-            ],
+                'attribute' =>      'Trophy',
+                'value'     =>       Yii::$app->urlManager->createUrl('') .'images/slider' ."/". $model->filename,
+                'format'    =>      ['image',['width'=>'100','height'=>'100']],
+             ],
+                 
             
-            [
-                'attribute' => 'Call Center',
-                'value' => $model->gameAdmin->title,
-            ],
         ],
     ]) ?>
-
 </div>

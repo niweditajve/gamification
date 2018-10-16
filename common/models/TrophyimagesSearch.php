@@ -27,7 +27,7 @@ class TrophyimagesSearch extends Trophyimages
     public function rules()
     {
         return [
-            [['id'], 'integer'],
+            [['id','game_admin_id'], 'integer'],
             [['title', 'filename', 'created_at'], 'safe'],
         ];
     }
@@ -51,6 +51,28 @@ class TrophyimagesSearch extends Trophyimages
     public function search($params)
     {
         $query = Trophyimages::find();
+        
+        
+        if(Yii::$app->user->can('admin_cc') && ! Yii::$app->user->can('admin')){
+            
+            $profile = CallcenterDefine::find()
+                ->select('id')
+                ->where(['user_id' => Yii::$app->user->id])
+                ->one();
+            
+            if($profile['id']){
+                
+                $whereCluase = array("game_admin_id"=>$profile['id']);
+
+                $query->where($whereCluase);
+                
+            }
+            else{
+                $whereCluase = array("game_admin_id"=>5);
+
+                $query->where($whereCluase);
+            }
+        }
 
         // add conditions that should always apply here
 
@@ -70,6 +92,7 @@ class TrophyimagesSearch extends Trophyimages
         $query->andFilterWhere([
             'id' => $this->id,
             'created_at' => $this->created_at,
+            'game_admin_id'=>$this->game_admin_id,
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title])

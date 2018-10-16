@@ -14,10 +14,6 @@ use yii\helpers\ArrayHelper;
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
-
-    <?php $callcenterArray = ArrayHelper::map(\common\models\CallcenterDefine::find()->orderBy('title')->asArray()->all(), 'id', 'title'); ?>
-    
-    <?= $form->field($model, 'game_admin_id')->dropDownList($callcenterArray, ['prompt' => 'Select Call Center'])->label('Call Center') ?>
     
     <?= $form->field($model, 'filename')->fileInput()  ?>   
 

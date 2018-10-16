@@ -30,12 +30,16 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             
             'title',
-                       
-                [
-                    'attribute'=>'Trophy',
-                    'value'=> Yii::$app->urlManagerF->createUrl('') .'images/slider' ."/". $model->filename,
-                    'format' => ['image',['width'=>'100','height'=>'100']],
-                 ],
+            [
+                'attribute' =>   'Call Center',
+                'value'     =>   $model->gameAdmin->title,
+            ],       
+            [
+                'attribute' =>      'Trophy',
+                'value'     =>       Yii::$app->urlManagerF->createUrl('') .'images/slider' ."/". $model->filename,
+                'format'    =>      ['image',['width'=>'100','height'=>'100']],
+             ],
+                 
             
         ],
     ]) ?>

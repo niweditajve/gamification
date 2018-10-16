@@ -35,10 +35,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => $model->trohpyImage->title,
             ],
             
-            [
-                'attribute' => 'Call Center',
-                'value' => $model->gameAdmin->title,
-            ],
         ],
     ]) ?>
 

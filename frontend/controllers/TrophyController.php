@@ -1,15 +1,15 @@
 <?php
 
-namespace backend\controllers;
+namespace frontend\controllers;
 
 use Yii;
+use common\models\CallcenterDefine;
 use common\models\Trophyimages;
 use common\models\TrophyimagesSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use common\models\UploadForm;
 use yii\web\UploadedFile;
 use yii\helpers\FileHelper;
 
@@ -37,7 +37,7 @@ class TrophyController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['index', 'view', 'create','delete', 'update'],
-                        'roles' => ['admin'],
+                        'roles' => ['admin_cc'],
                     ],
                 ],
             ],
@@ -80,7 +80,12 @@ class TrophyController extends Controller
     public function actionCreate()
     {
         $model = new Trophyimages();
-
+        
+        $profile = CallcenterDefine::find()
+            ->select('id')
+            ->where(['user_id' => Yii::$app->user->id])
+            ->one();
+        
         if ($model->load(Yii::$app->request->post())) {
             
             $directory = Yii::getAlias('@frontend/web/images/slider') . DIRECTORY_SEPARATOR;
@@ -105,7 +110,13 @@ class TrophyController extends Controller
                     $model->filename= $fileName;
                     
                     $model->created_at= date('Y-m-d h:i:s');
-
+                    
+                    $profile_id = $profile['id'];
+    
+                    $model->game_admin_id = $model->game_admin_id ? $model->game_admin_id : $profile_id ;
+                    
+                   // echo '<pre>';print_r($model); exit;
+                    
                     if($model->save()){
                         return $this->redirect(['view', 'id' => $model->id]);
                     }
@@ -118,9 +129,12 @@ class TrophyController extends Controller
                 }
             }
         }
-
+        
+       
+        
         return $this->render('create', [
             'model' => $model,
+            'profile' => $profile,
         ]);
     }
 

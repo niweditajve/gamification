@@ -3,7 +3,6 @@
 use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\helpers\Url;
-use yii\helpers\ArrayHelper;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\TrophyimagesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -35,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => 'Trophy',
                 'value' => function ($data) {
        
-                $urls = Yii::$app->urlManagerF->createUrl('') .'images/slider' ."/". $data['filename'];
+                $urls = Yii::$app->urlManager->createUrl('') .'images/slider' ."/". $data['filename'];
                 
                 return Html::img($urls ,['width' => '100px'],['height' => '100px'] ,['alt'=>'yii']);
                },
@@ -44,8 +43,6 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'header' => 'Call Center',
                 'attribute' => 'gameAdmin.title',
-                'filter' => Html::activeDropDownList($searchModel, 'game_admin_id', ArrayHelper::map(\common\models\CallcenterDefine::find()->asArray()->all(), 'id', 'title'),['class'=>'form-control','prompt' => 'Select Category'])
-           
             ],
             
            

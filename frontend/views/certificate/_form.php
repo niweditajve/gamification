@@ -17,12 +17,8 @@ use yii\helpers\ArrayHelper;
     
     <?php $categoryArray = ArrayHelper::map(\common\models\Trophyimages::find()->orderBy('title')->asArray()->all(), 'id', 'title'); ?> 
     
-    <?php $callcenterArray = ArrayHelper::map(\common\models\CallcenterDefine::find()->orderBy('id')->asArray()->all(), 'id', 'title'); ?> 
-    
     <?= $form->field($model, 'trohpy_image_id')->dropDownList($categoryArray, ['prompt' => 'Select Trophy'])->label('Certificate') ?>
     
-    <?php echo $form->field($model, 'game_admin_id')->dropDownList($callcenterArray, ['prompt' => 'Select Call Center'])->label('Call Center') ?>
-
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>

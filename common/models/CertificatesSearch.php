@@ -18,7 +18,7 @@ class CertificatesSearch extends Certificates
     public function rules()
     {
         return [
-            [['id', 'trohpy_image_id'], 'integer'],
+            [['id', 'trohpy_image_id','game_admin_id'], 'integer'],
             [['point'], 'number'],
         ];
     }
@@ -42,6 +42,27 @@ class CertificatesSearch extends Certificates
     public function search($params)
     {
         $query = Certificates::find();
+        
+        if(Yii::$app->user->can('admin_cc') && ! Yii::$app->user->can('admin')){
+            
+            $profile = CallcenterDefine::find()
+                ->select('id')
+                ->where(['user_id' => Yii::$app->user->id])
+                ->one();
+            
+            if($profile['id']){
+                
+                $whereCluase = array("game_admin_id"=>$profile['id']);
+
+                $query->where($whereCluase);
+                
+            }
+            else{
+                $whereCluase = array("game_admin_id"=>5);
+
+                $query->where($whereCluase);
+            }
+        }
 
         // add conditions that should always apply here
 
@@ -62,6 +83,7 @@ class CertificatesSearch extends Certificates
             'id' => $this->id,
             'point' => $this->point,
             'trohpy_image_id' => $this->trohpy_image_id,
+            'game_admin_id'=>$this->game_admin_id,
         ]);
 
         return $dataProvider;

@@ -10,8 +10,9 @@ use Yii;
  * @property int $id
  * @property double $point
  * @property int $trohpy_image_id
- * @property int $community_id
+ * @property int $game_admin_id
  *
+ * @property GamificationCallcenterDefine $gameAdmin
  * @property GamificationTrophyimages $trohpyImage
  */
 class Certificates extends \yii\db\ActiveRecord
@@ -30,11 +31,11 @@ class Certificates extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['point', 'trohpy_image_id','usercallcenter_id'], 'required'],
+            [['point', 'trohpy_image_id','game_admin_id'], 'required'],
             [['point'], 'number'],
-            [['trohpy_image_id','usercallcenter_id'], 'integer'],
+            [['trohpy_image_id','game_admin_id'], 'integer'],
             [['trohpy_image_id'], 'exist', 'skipOnError' => true, 'targetClass' => Trophyimages::className(), 'targetAttribute' => ['trohpy_image_id' => 'id']],
-            [['usercallcenter_id'], 'exist', 'skipOnError' => true, 'targetClass' => Usercallcenters::className(), 'targetAttribute' => ['usercallcenter_id' => 'id']],
+            [['game_admin_id'], 'exist', 'skipOnError' => true, 'targetClass' => CallcenterDefine::className(), 'targetAttribute' => ['game_admin_id' => 'id']],
         ];
     }
 
@@ -47,7 +48,7 @@ class Certificates extends \yii\db\ActiveRecord
             'id' => 'ID',
             'point' => 'Point',
             'trohpy_image_id' => 'Trohpy',
-            'usercallcenter_id' => 'Community id',
+            'game_admin_id' => 'Game Admin ID',
         ];
     }
 
@@ -62,8 +63,8 @@ class Certificates extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCommunityName()
+    public function getGameAdmin()
     {
-        return $this->hasOne(Usercallcenters::className(), ['id' => 'usercallcenter_id']);
+        return $this->hasOne(CallcenterDefine::className(), ['id' => 'game_admin_id']);
     }
 }
