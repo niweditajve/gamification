@@ -8,6 +8,7 @@ use common\models\User;
 use common\models\Categories;
 use common\models\Skills;
 use common\models\Agentlastlogin;
+use common\models\Usercallcenters;
 
 class DashboardController extends Controller {
 
@@ -63,7 +64,13 @@ class DashboardController extends Controller {
         $this->updateLastLogin();
         
         $model = new User();
+        
+        $agent = Yii::$app->agentcomponent->getAgentId();
+        
+        $agentId = $agent['AgentID'];
 
+        $parentTenentId = Yii::$app->agentcomponent->getAgentTenantId($agentId);
+        
         $skillType = "Consumer";
 
         return $this->render('consumer', [
@@ -71,7 +78,8 @@ class DashboardController extends Controller {
                     'profile'       => $this->getProfilePic(),
                     'skillType'     => $skillType,
                     'category'      => $this->getCategories(),
-                    'community'     => $this->getCommunity("Consumer"),
+                    'community'     => $this->getCommunity("Consumer",$parentTenentId),
+                    'agentId'       => $agentId,
         ]);
     }
     
@@ -88,10 +96,10 @@ class DashboardController extends Controller {
 
         foreach ($categories as $catKey) {
 
-            $category[$catKey['categoeryKey']] = array(
+            $category[$catKey['categoery_key']] = array(
                 "title" => $catKey['title'],
-                "redCutOff" => $catKey['redCutOff'],
-                "yellowCutOff" => $catKey['yellowCutOff'],
+                "redCutOff" => $catKey['red_cut_off'],
+                "yellowCutOff" => $catKey['yellow_cut_off'],
             );
         }
 
@@ -103,11 +111,15 @@ class DashboardController extends Controller {
      * @param string $skillType
      * @return array of communities.
      */
-    public function getCommunity($skillType) {
+    public function getCommunity($skillType, $parentTenentId) {
+        
+        $getGameAdminId = Usercallcenters::find()->select('callcenter_define_id')->where([ 'tenant_id' => $parentTenentId ])->one();
+        
+        $gameAdminId = $getGameAdminId['callcenter_define_id'];
 
-        $skills = Skills::find()->where(["skill" => $skillType])->one();
+        $skills = Skills::find()->where(["skill" => $skillType , 'game_admin_id' => $gameAdminId])->one();
 
-        $skillArray = json_decode($skills['salesSourceId']);
+        $skillArray = json_decode($skills['sales_source_Id']);
 
         return implode(",", $skillArray);
     }
@@ -139,13 +151,20 @@ class DashboardController extends Controller {
         $model = new User();
 
         $skillType = "Business";
+        
+        $agent = Yii::$app->agentcomponent->getAgentId();
+        
+        $agentId = $agent['AgentID'];
+
+        $parentTenentId = Yii::$app->agentcomponent->getAgentTenantId($agentId);
 
         return $this->render('business', [
                     'model'         => $model,
                     'profile'       => $this->getProfilePic(),
                     'skillType'     => $skillType,
                     'category'      => $this->getCategories(),
-                    'community'     => $this->getCommunity("Business"),
+                    'community'     => $this->getCommunity("Business", $parentTenentId),
+                    'agentId'       => $agentId,
         ]);
     }
     
@@ -161,13 +180,20 @@ class DashboardController extends Controller {
         $model = new User();
 
         $skillType = "Dealer SalesOnCall";
+        
+        $agent = Yii::$app->agentcomponent->getAgentId();
+        
+        $agentId = $agent['AgentID'];
+
+        $parentTenentId = Yii::$app->agentcomponent->getAgentTenantId($agentId);
 
         return $this->render('dealer', [
                     'model'         => $model,
                     'profile'       => $this->getProfilePic(),
                     'skillType'     => $skillType,
                     'category'      => $this->getCategories(),
-                    'community'     => $this->getCommunity("Dealer"),
+                    'community'     => $this->getCommunity("Dealer", $parentTenentId),
+                    'agentId'       => $agentId,
         ]);
     }
     

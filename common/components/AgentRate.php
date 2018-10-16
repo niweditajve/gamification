@@ -1,5 +1,4 @@
 <?php
-
 namespace common\components;
 
 use Yii;
@@ -274,17 +273,17 @@ class AgentRate extends Component {
 
         $emailCommand = Yii::$app->db->createCommand($validEmailsSql);
 
-        $validEmails = $emailCommand->queryAll();
+        $validEmailResult = $emailCommand->queryAll();
 
-        $validEmails = $validEmails[0]['validOrders'];
+        $validEmails = $validEmailResult[0]['validOrders'];
 
         $allOrdersSql = "SELECT count(RowID) AS allOrders FROM callData WHERE " . $communityCondition . $skillCondition;
 
         $allOrdersCommand = Yii::$app->db->createCommand($allOrdersSql);
 
-        $allOrders = $allOrdersCommand->queryAll();
+        $allOrderResult = $allOrdersCommand->queryAll();
 
-        $allOrders = $allOrders[0]['allOrders'];
+        $allOrders = $allOrderResult[0]['allOrders'];
 
 
         if ($validEmails && $allOrders) {
@@ -363,9 +362,9 @@ class AgentRate extends Component {
      */
     public function getTrophies($agentID) {
 
-        $agentWkPoints = $this->getTodaysPoints($agentID, 1);
+        $agentWkPoints = $this->getTodaysPoints($agentID);
 
-        $model = Certificates::find()->select('trohpy_image_id')->where('point < :ponits', [':ponits' => $agentWkPoints])->all();
+        $model = Certificates::find()->select('trohpy_image_id')->where('point <= :points', [':points' => $agentWkPoints])->all();
 
         $trophies = array();
 
@@ -439,7 +438,7 @@ class AgentRate extends Component {
      */
     public function getLeaderPoints($skillType) {
 
-        $getSkills = $this->getLeaderSkills($skillType);
+        //$getSkills = $this->getLeaderSkills($skillType);
 
         $sql = "SELECT max(point) as maxPonits FROM `gamification_agentpoints` WHERE created_at >= '" . date('Y-m-d') . " 00:00:00' AND created_at < '" . date('Y-m-d') . " 11:59:59'"; //. $getSkills;
 
@@ -492,5 +491,5 @@ class AgentRate extends Component {
         else
             return false;
     }
-
+	
 }

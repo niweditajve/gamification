@@ -4,9 +4,6 @@ use dosamigos\fileupload\FileUpload;
 
 $this->title = 'Dealer SOC';
 
-// find agent id of logged in user
-$agent = Yii::$app->agentcomponent->getAgentId();
-$agentId = $agent['AgentID'];
 ?>
 <style>
     .jumbotron .btn{
