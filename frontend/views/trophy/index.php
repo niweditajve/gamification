@@ -39,13 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 return Html::img($urls ,['width' => '100px'],['height' => '100px'] ,['alt'=>'yii']);
                },
             ],
-                       
-            [
-                'header' => 'Call Center',
-                'attribute' => 'gameAdmin.title',
-            ],
-            
-           
+             
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]);

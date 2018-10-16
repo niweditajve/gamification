@@ -37,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'header' => 'Call Center',
                 'attribute' => 'gameAdmin.title',
-                'filter' => Html::activeDropDownList($searchModel, 'game_admin_id', ArrayHelper::map(\common\models\CallcenterDefine::find()->asArray()->all(), 'id', 'title'),['class'=>'form-control','prompt' => 'Select Category'])
+                'filter' => Html::activeDropDownList($searchModel, 'game_admin_id', ArrayHelper::map(\common\models\CallcenterDefine::find()->asArray()->all(), 'id', 'title'),['class'=>'form-control','prompt' => 'Select Call Center'])
             ],
             
             ['class' => 'yii\grid\ActionColumn'],
