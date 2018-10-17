@@ -12,6 +12,7 @@ namespace backend\controllers;
 use Yii;
 use yii\web\Controller;
 use common\models\Agentpoints;
+use common\models\Usercallcenters;
 use common\models\Categories;
 use common\models\Skills;
 use common\models\Agentcertificates;
@@ -35,49 +36,49 @@ class AgentpointsController extends Controller {
     public function getSelectStatement($catId) {
         $str = '';
         switch ($catId) {
-            case "2":
+            case "TV":
                 $str = "sum(if(OrderID !='',1,0))";
                 return $str;
-            case "3":
+            case "directMail":
                 $str = "sum(if(OrderID !='',1,0))";
                 return $str;
-            case "4":
+            case "web":
                 $str = "sum(if(OrderID !='',1,0))";
                 return $str;
-            case "5":
+            case "transfer":
                 $str = "sum(if(OrderID !='',1,0))";
                 return $str;
-            case "6":
+            case "voice":
                 $str = "sum(if(VoIPSold like 'Y',1,0))";
                 return $str;
-            case "7":
+            case "ExpRepairSold":
                 $str = "sum(if(ExpRepairSold like 'Y',1,0))";
                 return $str;
-            case "8":
+            case "NortonSold":
                 $str = "sum(if(NortonSold like 'Y',1,0))";
                 return $str;
-            case "9":
+            case "PCESold":
                 $str = "sum(if(PCESold like 'Y',1,0))";
                 return $str;
-            case "10":
+            case "email":
                 $str = "sum(if(`EmailAddress` != '' AND `EmailAddress` NOT LIKE '%@hughes.com%',1,0))";
                 return $str;
-            case "11":
+            case "PhoneNumber":
                 $str = "sum(if(`PhoneNumber` and `PhoneNumber` REGEXP '[0-9]{10}',1,0))";
                 return $str;
-            case "12":
+            case "ScheduleAttempted":
                 $str = "sum(if(ScheduleAttempted like '1',1,0))";
                 return $str;
-            case "13":
+            case "Connection":
                 $str = "sum(if(Connection != '',1,0))";
                 return $str;
-            case "14":
+            case "orders":
                 $str = "sum(if(OrderID !='',1,0))";
                 return $str;
-            case "15":
+            case "allOrders":
                 $str = "sum(if(OrderID !='',1,0))";
                 return $str;
-            case "16":
+            case "CCNumber":
                 $str = "sum(if(OrderID !='',1,0))";
                 return $str;
             default:
@@ -98,11 +99,13 @@ class AgentpointsController extends Controller {
         
         foreach ($records as $key) {
             
-            $categoryId = $key['id'];            
+            $categoryId = $key['id'];
+            
+            $categoeryKey = $key['categoery_key'];            
             
             $pointValue = $key['point'];
 
-            $selectStatement = $this->getSelectStatement($categoryId);
+            $selectStatement = $this->getSelectStatement($categoeryKey);
             
 
             $query = "SELECT count(RowID) as totalOrders, AgentID ,$selectStatement as answered"
@@ -110,19 +113,19 @@ class AgentpointsController extends Controller {
                     . "AND CreateDate >= '" . date('Y-m-d h') . ":00:00' AND CreateDate < '" . date('Y-m-d h') . ":59:59'"
                     . "";
 
-             if ($categoryId == "2") {
+             if ($categoeryKey == "TV") {
                 $query .= " AND MediaType = 'Broadcast'";
             }
 
-            if ($categoryId == "3") {
+            if ($categoeryKey == "directMail") {
                 $query .= " AND MediaType = 'Campaigns'";
             }
 
-            if ($categoryId == "4") {
+            if ($categoeryKey == "web") {
                 $query .= " AND MediaType = 'Web'";
             }
 
-            if ($categoryId == "5") {
+            if ($categoeryKey == "transfer") {
                 $query .= " AND DispositionCode IN ('Transfer to Business','Transfer to Government','Transfer to Enterprise','Transfer to Consumer','Transfer To Another Business Agent')";
             }
             
@@ -145,7 +148,7 @@ class AgentpointsController extends Controller {
                    
                     foreach($skills as $skillKey){
                         
-                        $communities = $this->getCommunity($skillKey);
+                        $communities = $this->getCommunity($AgentID, $skillKey);
                         
                         $communityQuery = "SELECT count(RowID) as totalOrders, AgentID ,$selectStatement as answered"
                             . " FROM `callData` WHERE "
@@ -162,8 +165,8 @@ class AgentpointsController extends Controller {
                         $communityAnswered = $communityResult[0]['answered'];
 
                         $communityTotalOrders = $communityResult[0]['totalOrders'];
-
-                        $communityRate = number_format((float)( ($communityAnswered / $communityTotalOrders) * 100), 2, '.',',');
+                        
+                        $communityRate = ($communityAnswered && $communityTotalOrders) ? number_format((float)( ($communityAnswered / $communityTotalOrders) * 100), 2, '.',',') : 0;
 
                         if ($agentrate > $communityRate){
                             
@@ -184,13 +187,25 @@ class AgentpointsController extends Controller {
      * @param string $skillType.
      * @return  array of communities.
      */
-    public function getCommunity($skillType) {
-
-        $skills = Skills::find()->where(["skill" => $skillType])->one();
+    public function getCommunity($agentId, $skillType) {
+        
+        $parentTenentId = Yii::$app->agentcomponent->getAgentTenantId($agentId);
+        
+        /*$skills = Skills::find()->where(["skill" => $skillType])->one();
 
         $skillArray = json_decode($skills['salesSourceId']);
 
-        return implode(",", $skillArray);
+        return implode(",", $skillArray);*/
+        
+        $getGameAdminId = Usercallcenters::find()->select('callcenter_define_id')->where([ 'tenant_id' => $parentTenentId ])->one();
+        
+        $gameAdminId = $getGameAdminId['callcenter_define_id'];
+
+        $skills = Skills::find()->where(["skill" => $skillType , 'game_admin_id' => $gameAdminId])->one();
+
+        $skillArray = json_decode($skills['sales_source_Id']);
+       
+        return (is_array($skillArray)) ? implode(",", $skillArray) : "";
     }
     
     /**

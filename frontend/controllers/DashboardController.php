@@ -121,7 +121,7 @@ class DashboardController extends Controller {
 
         $skillArray = json_decode($skills['sales_source_Id']);
 
-        return implode(",", $skillArray);
+        return (is_array($skillArray)) ? implode(",", $skillArray) : "";
     }
     
     /**
