@@ -101,7 +101,7 @@ class AgentpointsController extends Controller {
             
             $categoryId = $key['id'];
             
-            $categoeryKey = $key['categoery_key'];            
+            $categoeryKey = $key['category_key'];            
             
             $pointValue = $key['point'];
 

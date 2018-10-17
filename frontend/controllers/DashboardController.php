@@ -96,7 +96,7 @@ class DashboardController extends Controller {
 
         foreach ($categories as $catKey) {
 
-            $category[$catKey['categoery_key']] = array(
+            $category[$catKey['category_key']] = array(
                 "title" => $catKey['title'],
                 "redCutOff" => $catKey['red_cut_off'],
                 "yellowCutOff" => $catKey['yellow_cut_off'],

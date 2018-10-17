@@ -10,7 +10,7 @@ use Yii;
  * @property int $id
  * @property string $title
  * @property double $point
- * @property string $categoery_key
+ * @property string $category_key
  * @property int $red_cut_off
  * @property int $yellow_cut_off
  * @property int $game_admin_id
@@ -36,12 +36,12 @@ class Categories extends \yii\db\ActiveRecord
     {
         return [
             
-            [['title', 'categoery_key', 'game_admin_id'], 'required'],
+            [['title', 'category_key', 'game_admin_id'], 'required'],
             [['point'], 'number'],
             [['red_cut_off', 'yellow_cut_off', 'game_admin_id'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['title'], 'string', 'max' => 255],
-            [['categoery_key'], 'string', 'max' => 55],
+            [['category_key'], 'string', 'max' => 55],
             [['game_admin_id'], 'exist', 'skipOnError' => true, 'targetClass' => CallcenterDefine::className(), 'targetAttribute' => ['game_admin_id' => 'id']],
             [['yellow_cut_off'],'compare','compareAttribute'=>'red_cut_off','operator'=>'>','message'=>'Yellow Cut Off must be greater than Red Cut Off'],
         ];
@@ -57,7 +57,7 @@ class Categories extends \yii\db\ActiveRecord
             'id' => 'ID',
             'title' => 'Title',
             'point' => 'Point',
-            'categoery_key' => 'Categoery Key',
+            'category_key' => 'Category Key',
             'red_cut_off' => 'Red Cut Off',
             'yellow_cut_off' => 'Yellow Cut Off',
             'game_admin_id' => 'Callcenter Define ID',
