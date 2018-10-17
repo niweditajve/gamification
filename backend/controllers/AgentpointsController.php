@@ -233,8 +233,8 @@ class AgentpointsController extends Controller {
      */
     public function actionAgentcertificate() {
 
-        $dateCondition = "created_at >= '" . date('Y-m-d') . " 00:00:00' AND created_at < '" . date('Y-m-d') . " 11:59:59'";
-
+        $dateCondition = "created_at >= '" . date('Y-m-d') . " 00:00:00' AND created_at < '" . date('Y-m-d') . " 23:59:59'";
+        
         $sql = "SELECT sum(point) as points,agentId FROM `gamification_agentpoints` WHERE $dateCondition GROUP BY AgentID ";
 
         $queryCommand = Yii::$app->db->createCommand($sql);
