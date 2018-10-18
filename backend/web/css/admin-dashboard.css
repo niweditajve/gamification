@@ -48,7 +48,7 @@
 
 body {
   margin: 0;
-  color: #525f7f; 
+  color: #fff; 
   background-color: #1e1e2f;
 }
 
@@ -340,7 +340,7 @@ body {
 }
 
 .card .card-header .card-category {
-  color: #9A9A9A;
+ /* color: #9A9A9A; */
   margin-bottom: 5px;
   font-weight: 300;
 }
@@ -379,7 +379,7 @@ body {
 }
 
 .card.card-white .form-control::-webkit-input-placeholder {
-  color: rgba(34, 42, 66, 0.4);
+  color: rgba(34, 42, 66, 0.4); 
   opacity: 1;
   filter: alpha(opacity=100);
 }
@@ -576,8 +576,8 @@ body {
 }
 
 .card-chart .card-body {
-  padding-left: 5px;
-  padding-right: 5px;
+  /*padding-left: 5px;
+  padding-right: 5px; */
 }
 
 .card-chart .card-body .tab-space {
@@ -795,4 +795,88 @@ body {
 .card-plain:not(.card-subcategories).card-body {
   padding-left: 0;
   padding-right: 0;
+}
+
+
+.title {
+  font-weight: 600;
+}
+
+.title.title-up {
+  text-transform: uppercase;
+}
+
+.title.title-up a {
+  color: #222a42;
+  text-decoration: none;
+}
+
+.title+.category {
+  margin-top: -10px;
+}
+
+.order-count{
+    background-color: #fff;
+    font-weight: 700;
+    color: #000;
+    padding: 10px 0px 5px 10px;
+}
+
+.arrow-down {
+    width: 0;
+    height: 0;
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-top: 20px solid #f00;
+    position: absolute;
+    margin-top: 15px;
+    left: 40px;
+}
+
+.arrow-up {
+  width: 0; 
+  height: 0; 
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  
+  border-bottom: 20px solid green;
+  position: absolute;
+  margin-top: 15px;
+  left: 40px;
+}
+
+
+.order-rate{
+    font-size: 2.5em;
+    padding: 0px 0px 0px 80px;
+}
+
+.answer-rate{
+    font-size: 5.0em;
+    padding: 0px 0px 0px 40px;
+}
+
+.table-rate{
+    background-color: #fff;
+    color: #000;
+    font-weight: 600;
+    border-bottom: 2px solid #000;
+}
+
+.color-green{
+    color : green;
+}
+
+.color-red{
+    color:red;
+}
+
+.order-percentage{
+    font-size: 3.5em;
+    padding: 0px 0px 0px 65px;
+}
+
+.main-order-percentage{
+    font-size: 15.0em;
+    padding: 0px 0px 0px 65px;
 }

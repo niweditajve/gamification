@@ -6,189 +6,236 @@ $this->title = 'RM Factory';
 
 
 <link href="<?= Yii::$app->request->baseUrl ?>/css/admin-dashboard.css?v=1.0.0" rel="stylesheet" />
-  
-    
-  <div class="site-index">
 
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-3">
-            <div class="card card-chart">
-              <div class="card-header">
-                <h5 class="card-category">Calls now/Calls last week same time</h5>
-                <h3 class="card-title"> </h3>
-              </div>
-              <div class="card-body">
-                <div class="chart-area">
-                  <canvas id="chartLinePurple"></canvas>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3">
-            <div class="card card-chart">
-              <div class="card-header">
-                <h5 class="card-category">Orders now/Orders Last week same time</h5>
-                <h3 class="card-title"> </h3>
-              </div>
-              <div class="card-body">
-                <div class="chart-area">
-                  <canvas id="CountryChart"></canvas>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-3">
-            <div class="card card-chart">
-              <div class="card-header">
-                <h5 class="card-category">Answer Rate</h5>
-                <h3 class="card-title"> </h3>
-              </div>
-              <div class="card-body">
-                <div class="chart-area">
-                  <canvas id="chartLineGreen"></canvas>
-                </div>
-              </div>
-            </div>
-          </div>
-		  
-		  <div class="col-lg-3">
-            <div class="card" style="padding:20px 20px 0px 20px;">
-              
-              <div class="card-body ">
-                <div class="table-full-width">
-                  <table class="table">
-                    <tbody>
-                      <tr>
-                        <td>
-                          <p class="title">Voice Attachment</p>
-                          <p class="text-muted"></p>
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <p class="title">ER Attachment</p>
-                        </td>
-                      </tr>
-					  <tr>
-                        <td>
-                          <p class="title">PCE Attachment</p>
-                          <p class="text-muted"></p>
-                        </td>
-                      </tr>
-					  <tr>
-                        <td>
-                          <p class="title">Norton Attachment</p>
-                          <p class="text-muted"></p>
-                        </td>
-                      </tr>
-					  
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-		  
-        </div>
+
+<div class="site-index">
+
+    <div class="container">
         
-		<div class="row">
-			<div class="col-lg-6">
-				<div class="row">
-					<div class="col-lg-12" >
-						<div class="card card-chart" style="min-height: 310px;">
-						  <div class="card-header">
-							<h5 class="card-category">Current Close Rate</h5>
-							<h3 class="card-title"> </h3>
-						  </div>
-						  <div class="card-body">
-							<div class="chart-area">
-							  <canvas id="chartLinePurple"></canvas>
-							</div>
-						  </div>
-						</div>
-					</div>
-					
-					<div class="col-lg-12" >
-						<div class="card card-chart" style="height: 110px;">
-						  <div class="card-header">
-							<h5 class="card-category">Your Current Close Rate</h5>
-							<h3 class="card-title"> </h3>
-						  </div>
-						  <div class="card-body">
-							<div class="chart-area">
-							  <canvas id="chartLinePurple"></canvas>
-							</div>
-						  </div>
-						</div>
-					</div>
-				</div>
-				
-				
-			</div>
-			<div class="col-lg-6">
-			
-				<div class="row">
-					<div class="col-lg-6" >
-						<div class="card card-chart">
-						  <div class="card-header">
-							<h5 class="card-category">TV Close Rate</h5>
-							<h3 class="card-title"> </h3>
-						  </div>
-						  <div class="card-body">
-							<div class="chart-area">
-							  <canvas id="chartLinePurple"></canvas>
-							</div>
-						  </div>
-						</div>
-					</div>
-					<div class="col-lg-6" >
-						<div class="card card-chart">
-						  <div class="card-header">
-							<h5 class="card-category">DM Close Rate</h5>
-							<h3 class="card-title"> </h3>
-						  </div>
-						  <div class="card-body">
-							<div class="chart-area">
-							  <canvas id="chartLinePurple"></canvas>
-							</div>
-						  </div>
-						</div>
-					</div>
-				</div>
-				
-				<div class="row">
-					<div class="col-lg-6" >
-						<div class="card card-chart">
-						  <div class="card-header">
-							<h5 class="card-category">Web Close Rate</h5>
-							<h3 class="card-title"> </h3>
-						  </div>
-						  <div class="card-body">
-							<div class="chart-area">
-							  <canvas id="chartLinePurple"></canvas>
-							</div>
-						  </div>
-						</div>
-					</div>
-					<div class="col-lg-6" >
-						<div class="card card-chart">
-						  <div class="card-header">
-							<h5 class="card-category">Transfer Close Rate</h5>
-							<h3 class="card-title"> </h3>
-						  </div>
-						  <div class="card-body">
-							<div class="chart-area">
-							  <canvas id="chartLinePurple"></canvas>
-							</div>
-						  </div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-	  </div>
-     
-  </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <select class="form-control">
+                        <option value=""> Combined Call Centers </option>
+                        <option value="1"> ComSol </option>
+                        <option value="2"> ComSol </option>
+                        <option value="3"> ComSol Republic </option>
+                        <option value="4"> ComSol Springfield </option>
+                        <option value="5"> Edgemark </option>
+                        <option value="6"> Focus </option>
+                    </select>
+                </div>
+                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3">
+                <div class="card card-chart">
+                    <div class="card-header">
+                        <h5 class=""> Calls now/Calls last week </h5>
+                        Same time
+
+                    </div>
+                    <div class="card-body">
+                        <div class="order-count">
+                            <p> Today : 
+                                591 </p>
+                            <p>  Last week :
+                                746 </p>
+                        </div>
+
+                        <div class="order-rate color-red">
+                            <span class="arrow-down"></span> 3.33%
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="card card-chart">
+                    <div class="card-header">
+                        <h5 class="">Orders now/Orders Last week </h5>
+                        Same time
+
+                    </div>
+                    <div class="card-body">
+                        <div class="order-count">
+                            <p> Today : 
+                                591 </p>
+                            <p>  Last week :
+                                746 </p>
+                        </div>
+
+                        <div class="order-rate color-red">
+                            <span class="arrow-down"></span> 3.33%
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="card card-chart">
+                    <div class="card-header">
+                        <h5 class="">Answer Rate</h5>
+
+                    </div>
+                    <div class="card-body">
+                        <div class="answer-rate">95%</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3">
+                <div class="card">
+
+                    <div class="card-body ">
+                        <div class="table-full-width">
+                            <table class="table">
+                                <tbody>
+                                    <tr class="table-rate">
+                                        <td>
+                                            <p >Voice Attachment X%</p>
+
+                                        </td>
+                                    </tr>
+                                    <tr class="table-rate">
+                                        <td>
+                                            <p >ER Attachment X%</p>
+                                        </td>
+                                    </tr>
+                                    <tr class="table-rate">
+                                        <td>
+                                            <p >PCE Attachment X%</p>
+
+                                        </td>
+                                    </tr>
+                                    <tr class="table-rate">
+                                        <td>
+                                            <p >Norton Attachment X%</p>
+
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="row">
+                    <div class="col-lg-12" >
+                        <div class="card card-chart" style="min-height: 450px;">
+                            <div class="card-header">
+                                <h5 class="card-category">Current Close Rate</h5>
+                                <h3 class="card-title"> </h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="main-order-percentage">
+                                    22% 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--
+                    <div class="col-lg-12" >
+                            <div class="card card-chart" style="height: 110px;">
+                              <div class="card-header">
+                                    <h5 class="card-category">Your Current Close Rate</h5>
+                                    <h3 class="card-title"> </h3>
+                              </div>
+                              <div class="card-body">
+                                    <div class="chart-area">
+                                      <canvas id="chartLinePurple"></canvas>
+                                    </div>
+                              </div>
+                            </div>
+                    </div> -->
+                </div>
+
+
+            </div>
+            <div class="col-lg-6">
+
+                <div class="row">
+                    <div class="col-lg-6" >
+                        <div class="card card-chart">
+                            <div class="card-header">
+                                <h5 class="">TV Close Rate</h5>
+
+                            </div>
+                            <div class="card-body">
+                                <div class="order-percentage">
+                                    12% 
+                                </div>
+
+                                <div class="order-rate color-green">
+                                    <span class="arrow-up"></span> 15.13%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6" >
+                        <div class="card card-chart">
+                            <div class="card-header">
+                                <h5 class="">DM Close Rate</h5>
+
+                            </div>
+                            <div class="card-body">
+                                <div class="order-percentage">
+                                    19% 
+                                </div>
+
+                                <div class="order-rate color-green">
+                                    <span class="arrow-up"></span> 15.13%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-6" >
+                        <div class="card card-chart">
+                            <div class="card-header">
+                                <h5 class="">Web Close Rate</h5>
+
+                            </div>
+                            <div class="card-body">
+                                <div class="order-percentage">
+                                    27% 
+                                </div>
+
+                                <div class="order-rate color-green">
+                                    <span class="arrow-up"></span> 36.84%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6" >
+                        <div class="card card-chart">
+                            <div class="card-header">
+                                <h5 class="">Transfer Close Rate</h5>
+
+                            </div>
+                            <div class="card-body">
+                                <div class="order-percentage">
+                                    23% 
+                                </div>
+
+                                <div class="order-rate color-green">
+                                    <span class="arrow-up"></span> 36.84%
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+        </div>
+
+    </div>
+
+</div>
