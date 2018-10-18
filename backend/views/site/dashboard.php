@@ -38,7 +38,8 @@ $this->title = 'RM Factory';
                     <div class="card-body">
                         <div class="order-count">
                             <p> Today : 
-                                591 </p>
+                                <span id="todaysCallsCount"> </span>
+                            </p>
                             <p>  Last week :
                                 746 </p>
                         </div>
@@ -139,20 +140,7 @@ $this->title = 'RM Factory';
                             </div>
                         </div>
                     </div>
-                    <!--
-                    <div class="col-lg-12" >
-                            <div class="card card-chart" style="height: 110px;">
-                              <div class="card-header">
-                                    <h5 class="card-category">Your Current Close Rate</h5>
-                                    <h3 class="card-title"> </h3>
-                              </div>
-                              <div class="card-body">
-                                    <div class="chart-area">
-                                      <canvas id="chartLinePurple"></canvas>
-                                    </div>
-                              </div>
-                            </div>
-                    </div> -->
+                    
                 </div>
 
 
@@ -238,3 +226,27 @@ $this->title = 'RM Factory';
     </div>
 
 </div>
+<script>
+     
+     function totalCallCount(){
+         
+         $.ajax({
+                type     :'POST',
+                cache    : false,
+                url      : 'totalcallcount',
+                success  : function(response) 
+                {
+                    var data = $.parseJSON(response);
+                    
+                    $("#todaysCallsCount").html(data.todaysCount);
+                }
+         });       
+     }
+     
+    $(document).ready(function(e){
+        
+        totalCallCount();
+        
+    });
+
+</script>
