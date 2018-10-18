@@ -18,11 +18,10 @@ $this->title = 'RM Factory';
                     <select class="form-control">
                         <option value=""> Combined Call Centers </option>
                         <option value="1"> ComSol </option>
-                        <option value="2"> ComSol </option>
-                        <option value="3"> ComSol Republic </option>
-                        <option value="4"> ComSol Springfield </option>
-                        <option value="5"> Edgemark </option>
-                        <option value="6"> Focus </option>
+                        <option value="2"> ComSol Republic </option>
+                        <option value="3"> ComSol Springfield </option>
+                        <option value="4"> Edgemark </option>
+                        <option value="5"> Focus </option>
                     </select>
                 </div>
                 
@@ -32,7 +31,7 @@ $this->title = 'RM Factory';
             <div class="col-lg-3">
                 <div class="card card-chart">
                     <div class="card-header">
-                        <h5 class=""> Calls now/Calls last week </h5>
+                        <h5 class=""> Calls now/Calls Last week </h5>
                         Same time
 
                     </div>
@@ -86,7 +85,7 @@ $this->title = 'RM Factory';
             <div class="col-lg-3">
                 <div class="card">
 
-                    <div class="card-body ">
+                    <div class="card-body" style="padding: 15px;">
                         <div class="table-full-width">
                             <table class="table">
                                 <tbody>
