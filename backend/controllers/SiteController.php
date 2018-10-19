@@ -295,13 +295,13 @@ class SiteController extends Controller
                 ->andFilterWhere(["!=" , 'NortonSold', ""])
                 ->count();
         
-        $response['voiceRate']    = ($voiceRates && $call) ? (($voiceRates / $call )* 100 ) : 0;
+        $response['voiceRate']    = ($voiceRates && $call) ? (number_format((float) (($voiceRates / $call )* 100), 2, '.',',')) : 0;
         
-        $response['erRate']    = ($voiceRates && $call) ? (($erRates / $call )* 100 ) : 0;
+        $response['erRate']    = ($erRates && $call) ? (number_format((float) (($erRates / $call )* 100), 2, '.',',')) : 0;
         
-        $response['pceRate']    = ($voiceRates && $call) ? (($pceRates / $call )* 100 ) : 0;
+        $response['pceRate']    = ($pceRates && $call) ? (number_format((float) (($pceRates / $call )* 100), 2, '.',',') ) : 0;
         
-        $response['nortonRate']    = ($voiceRates && $call) ? (($nortonRates / $call )* 100 ) : 0;
+        $response['nortonRate']    = ($nortonRates && $call) ? (number_format((float) (($nortonRates / $call )* 100), 2, '.',',') ) : 0;
         
         echo json_encode($response);
     }
