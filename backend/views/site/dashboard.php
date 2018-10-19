@@ -15,8 +15,8 @@ $this->title = 'RM Factory';
         <div class="row">
             <div class="col-lg-6">
                 <div class="form-group">
-                    <select class="form-control">
-                        <option value=""> Combined Call Centers </option>
+                    <select class="form-control" id="call_center">
+                        <option value="all"> Combined Call Centers </option>
                         <option value="1"> ComSol </option>
                         <option value="2"> ComSol Republic </option>
                         <option value="3"> ComSol Springfield </option>
@@ -41,11 +41,15 @@ $this->title = 'RM Factory';
                                 <span id="todaysCallsCount"> </span>
                             </p>
                             <p>  Last week :
-                                746 </p>
+                                <span id="lastWeekCallsCount"> <span>
+                            </p>
                         </div>
 
-                        <div class="order-rate color-red">
-                            <span class="arrow-down"></span> 3.33%
+                        <div class="order-rate">
+                            <div id="callsArrowType">
+                                
+                            </div>
+                            <span id="callsRate"></span>
                         </div>
                     </div>
                 </div>
@@ -60,13 +64,19 @@ $this->title = 'RM Factory';
                     <div class="card-body">
                         <div class="order-count">
                             <p> Today : 
-                                591 </p>
+                                <span id="todaysOrdersCount"></span>
+                            </p>
                             <p>  Last week :
-                                746 </p>
+                                <span id="lastWeekOrdersCount"></span>
+                            </p>
                         </div>
 
-                        <div class="order-rate color-red">
-                            <span class="arrow-down"></span> 3.33%
+                        <div class="order-rate">
+                            <div id="ordersArrowType">
+                                
+                            </div> 
+                            
+                            <span id="ordersRate"></span>
                         </div>
                     </div>
                 </div>
@@ -78,7 +88,7 @@ $this->title = 'RM Factory';
 
                     </div>
                     <div class="card-body">
-                        <div class="answer-rate">95%</div>
+                        <div class="answer-rate"><span id="answerRate"></span>%</div>
                     </div>
                 </div>
             </div>
@@ -92,24 +102,24 @@ $this->title = 'RM Factory';
                                 <tbody>
                                     <tr class="table-rate">
                                         <td>
-                                            <p >Voice Attachment X%</p>
+                                            <p >Voice Attachment <span id="voiceRate"></span>%</p>
 
                                         </td>
                                     </tr>
                                     <tr class="table-rate">
                                         <td>
-                                            <p >ER Attachment X%</p>
+                                            <p >ER Attachment <span id="erRate"></span>%</p>
                                         </td>
                                     </tr>
                                     <tr class="table-rate">
                                         <td>
-                                            <p >PCE Attachment X%</p>
+                                            <p >PCE Attachment <span id="pceRate"></span>%</p>
 
                                         </td>
                                     </tr>
                                     <tr class="table-rate">
                                         <td>
-                                            <p >Norton Attachment X%</p>
+                                            <p >Norton Attachment <span id="nortonRate"></span>%</p>
 
                                         </td>
                                     </tr>
@@ -135,7 +145,7 @@ $this->title = 'RM Factory';
                             </div>
                             <div class="card-body">
                                 <div class="main-order-percentage">
-                                    22% 
+                                    <span id="currentCloseRate"></span>% 
                                 </div>
                             </div>
                         </div>
@@ -156,11 +166,12 @@ $this->title = 'RM Factory';
                             </div>
                             <div class="card-body">
                                 <div class="order-percentage">
-                                    12% 
+                                    <span id="tvCloseRate"></span>% 
                                 </div>
 
-                                <div class="order-rate color-green">
-                                    <span class="arrow-up"></span> 15.13%
+                                <div id="tvColorText" class="order-rate">
+                                    <div id="tvArrowType"></div>
+                                    <span id="tvCloseWeekRate"></span>%
                                 </div>
                             </div>
                         </div>
@@ -173,11 +184,12 @@ $this->title = 'RM Factory';
                             </div>
                             <div class="card-body">
                                 <div class="order-percentage">
-                                    19% 
+                                    <span id="dmCloseRate"></span>% 
                                 </div>
 
-                                <div class="order-rate color-green">
-                                    <span class="arrow-up"></span> 15.13%
+                                <div id="dmColorText" class="order-rate">
+                                    <div id="dmArrowType"></div>
+                                    <span id="dmCloseWeekRate"></span>%
                                 </div>
                             </div>
                         </div>
@@ -193,11 +205,12 @@ $this->title = 'RM Factory';
                             </div>
                             <div class="card-body">
                                 <div class="order-percentage">
-                                    27% 
+                                    <span id="webCloseRate"></span>% 
                                 </div>
 
-                                <div class="order-rate color-green">
-                                    <span class="arrow-up"></span> 36.84%
+                                <div id="webColorText" class="order-rate">
+                                    <div id="webArrowType"></div>
+                                    <span id="webCloseWeekRate"></span>%
                                 </div>
                             </div>
                         </div>
@@ -210,11 +223,12 @@ $this->title = 'RM Factory';
                             </div>
                             <div class="card-body">
                                 <div class="order-percentage">
-                                    23% 
+                                    <span id="transferCloseRate"></span>% 
                                 </div>
 
-                                <div class="order-rate color-green">
-                                    <span class="arrow-up"></span> 36.84%
+                                <div id="transferColorText" class="order-rate">
+                                    <div id="transferArrowType"></div>
+                                    <span id="transferCloseWeekRate"></span>%
                                 </div>
                             </div>
                         </div>
@@ -228,24 +242,193 @@ $this->title = 'RM Factory';
 </div>
 <script>
      
-     function totalCallCount(){
+     function callsValues(){
          
-         $.ajax({
+         var call_center = $("#call_center").val();
+         
+            $.ajax({
                 type     :'POST',
                 cache    : false,
-                url      : 'totalcallcount',
+                url      : '<?= Yii::$app->urlManager->createUrl('') ?>/site/totalcallcount',
+                data     : {
+                    'call_center' : call_center
+                    },
                 success  : function(response) 
                 {
                     var data = $.parseJSON(response);
                     
                     $("#todaysCallsCount").html(data.todaysCount);
+                    $("#lastWeekCallsCount").html(data.lastWeekCount);
+                    $("#callsRate").html(data.callsRate);
+                    $("#callsArrowType").html("<span class='"+data.arrowType+"'></span>");
+                    if( new Number(data.callsActualRate) < 0 )
+                        $("#callsRate").css("color" , "red");
+                    else
+                        $("#callsRate").css("color" , "green"); 
+                    
                 }
          });       
      }
      
+     function ordersValues(){
+         
+         var call_center = $("#call_center").val();
+         
+            $.ajax({
+                type     :'POST',
+                cache    : false,
+                url      : '<?= Yii::$app->urlManager->createUrl('') ?>/site/totalorderscount',
+                data     : {
+                    'call_center' : call_center
+                    },
+                success  : function(response) 
+                {
+                    var data = $.parseJSON(response);
+                    
+                    $("#todaysOrdersCount").html(data.todaysCount);
+                    $("#lastWeekOrdersCount").html(data.lastWeekCount);
+                    $("#ordersRate").html(data.callsRate);
+                    $("#ordersArrowType").html("<span class='"+data.arrowType+"'></span>");
+                    if( new Number(data.ordersActualRate) < 0 )
+                        $("#ordersRate").css("color" , "red");
+                    else
+                        $("#ordersRate").css("color" , "green"); 
+                }
+         });       
+     }
+     
+     function answerRate(){
+         var call_center = $("#call_center").val();
+         
+            $.ajax({
+                type     :'POST',
+                cache    : false,
+                url      : '<?= Yii::$app->urlManager->createUrl('') ?>/site/answerrate',
+                data     : {
+                    'call_center' : call_center
+                    },
+                success  : function(response) 
+                {
+                    var data = $.parseJSON(response);
+                    
+                    $("#answerRate").html(data.answerRate);
+                }
+         });   
+        
+     }
+     
+     function attachmentRate(){
+     
+        var call_center = $("#call_center").val();
+         
+            $.ajax({
+                type     :'POST',
+                cache    : false,
+                url      : '<?= Yii::$app->urlManager->createUrl('') ?>/site/attachementrate',
+                data     : {
+                    'call_center' : call_center
+                    },
+                success  : function(response) 
+                {
+                    var data = $.parseJSON(response);
+                    
+                    $("#voiceRate").html(data.voiceRate);
+                    $("#erRate").html(data.erRate);
+                    $("#pceRate").html(data.pceRate);
+                    $("#nortonRate").html(data.nortonRate);
+                }
+         });   
+     }
+     
+     function currentRate(){
+     
+        var call_center = $("#call_center").val();
+         
+            $.ajax({
+                type     :'POST',
+                cache    : false,
+                url      : '<?= Yii::$app->urlManager->createUrl('') ?>/site/currentcloserate',
+                data     : {
+                    'call_center' : call_center
+                    },
+                success  : function(response) 
+                {
+                    var data = $.parseJSON(response);
+                    
+                    $("#currentCloseRate").html(data.currentCloseRate);
+                    
+                }
+         });   
+     }
+     
+     function closeRates(){
+     
+        var call_center = $("#call_center").val();
+         
+            $.ajax({
+                type     :'POST',
+                cache    : false,
+                url      : '<?= Yii::$app->urlManager->createUrl('') ?>/site/closerates',
+                data     : {
+                    'call_center' : call_center
+                    },
+                success  : function(response) 
+                {
+                    var data = $.parseJSON(response);
+                    
+                    $("#tvCloseRate").html(data.tvCloseRate);                    
+                    $("#tvCloseWeekRate").html(data.tvCloseWeekRate);
+                    $("#tvColorText").addClass(data.tvColorText);
+                    $("#tvArrowType").html("<span class='"+data.tvArrowType+"'></span>");
+                    
+                    $("#dmCloseRate").html(data.dmCloseRate);                    
+                    $("#dmCloseWeekRate").html(data.dmCloseWeekRate);
+                    $("#dmColorText").addClass(data.dmColorText);
+                    $("#dmArrowType").html("<span class='"+data.dmArrowType+"'></span>");
+                    
+                    $("#webCloseRate").html(data.webCloseRate);
+                    $("#webCloseWeekRate").html(data.webCloseWeekRate);
+                    $("#webColorText").addClass(data.webColorText);
+                    $("#webArrowType").html("<span class='"+data.webArrowType+"'></span>");
+                    
+                    $("#transferCloseRate").html(data.transferCloseRate);
+                    $("#transferCloseWeekRate").html(data.transferCloseWeekRate);
+                    $("#transferColorText").addClass(data.transferColorText);
+                    $("#transferArrowType").html("<span class='"+data.transferArrowType+"'></span>");
+
+                    
+                }
+         });   
+     }
+     
+     function loadFunctions(){
+     
+        callsValues();
+        
+        ordersValues();
+        
+        answerRate();
+        
+        attachmentRate();
+        
+        currentRate();
+        
+        closeRates();
+     }
+     
+     
     $(document).ready(function(e){
         
-        totalCallCount();
+        loadFunctions();
+        
+        $('#call_center').on('change', function() {
+            loadFunctions();
+        });
+        
+        setInterval(function(){
+            loadFunctions(); // this will run after every 30 seconds
+            // type 900000 for 15 minutes
+        }, 30000); 
         
     });
 
