@@ -17,11 +17,11 @@ $this->title = 'RM Factory';
                 <div class="form-group">
                     <select class="form-control" id="call_center">
                         <option value="all"> Combined Call Centers </option>
-                        <option value="1"> ComSol </option>
-                        <option value="2"> ComSol Republic </option>
-                        <option value="3"> ComSol Springfield </option>
-                        <option value="4"> Edgemark </option>
-                        <option value="5"> Focus </option>
+                        <option value="6"> ComSol </option>
+                        <option value="19"> ComSol Republic </option>
+                        <option value="11"> ComSol Springfield </option>
+                        <option value="25"> Edgemark </option>
+                        <option value="10"> Focus </option>
                     </select>
                 </div>
                 

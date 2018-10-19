@@ -9,6 +9,8 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use common\models\LoginForm;
 use common\models\ContactForm;
+use common\models\CallData;
+use common\models\Agent;
 
 class SiteController extends Controller
 {
@@ -95,19 +97,50 @@ class SiteController extends Controller
 
         return $this->goHome();
     }
-
+    
     
     public function actionTotalcallcount(){
         
-        $call_center = Yii::$app->request->post('call_center');
-        
+        $callCenter = Yii::$app->request->post('call_center');
+                
         $response = array();
         
-        $todaysCount = rand(100,1000);
+        if($callCenter == "all" || empty($callCenter)){
+            $callCenter = '6,19,11,25,10';
+        }
         
-        $lastWeekCount = rand(100,1000);
+        $callCenterArray = explode(",",$callCenter);
         
-        $callRate = (($todaysCount - $lastWeekCount) / $lastWeekCount) *100;
+        $fromTime = "8:00:00";
+        $toTime = date("H:i:s");
+        
+        $callDate = date("Y-m-d");
+        
+        $agentIDs = Agent::find()
+                ->select("AgentID")
+                ->where(['in', 'ParentTenantID', $callCenterArray])
+                ->andFilterWhere(['Active' => 1])
+                ->asArray();
+        
+        $call = CallData::find()
+                ->select("RowID")
+                ->where(['between','CreateDate', $callDate ." " . $fromTime,$callDate . " " .$toTime ])
+                ->andFilterWhere(['in', 'AgentID', $agentIDs])
+                ->count();        
+       
+        $oldDate = date("Y-m-d" ,strtotime('-1 week',time()));
+         
+        $lastWeekcall = CallData::find()
+                ->select("RowID")
+                ->where(['between','CreateDate', $oldDate ." " .$fromTime, $oldDate ." ".$toTime ])
+                ->andFilterWhere(['in', 'AgentID', $agentIDs])
+                ->count();
+        
+        $todaysCount = $call;
+        
+        $lastWeekCount = $lastWeekcall;
+        
+        $callRate = ($call && $lastWeekcall) ? (($todaysCount - $lastWeekCount) / $lastWeekCount) *100 : 0;
         
         $response['todaysCount']    = $todaysCount;
         
@@ -118,23 +151,54 @@ class SiteController extends Controller
         $response['callsActualRate']= $callRate;
         
         $response['arrowType']      = ( $callRate < 0 ) ? "arrow-down" : "arrow-up" ;
-        
-        //$response['textColor']      = ( $callRate < 0 ) ? "color-red" : "color-green" ;
-        
+                
         echo json_encode($response);
     }
     
     public function actionTotalorderscount(){
         
-        $call_center = Yii::$app->request->post('call_center');
+        $callCenter = Yii::$app->request->post('call_center');
         
         $response = array();
         
-        $todaysCount = rand(100,1000);
+        if($callCenter == "all" || empty($callCenter)){
+            $callCenter = '6,19,11,25,10';
+        }
         
-        $lastWeekCount = rand(100,1000);
+        $callCenterArray = explode(",",$callCenter);
         
-        $callRate = (($todaysCount - $lastWeekCount) / $lastWeekCount) *100;
+        $fromTime = "8:00:00";
+        $toTime = date("H:i:s");
+        
+        $callDate = date("Y-m-d");
+        
+        $agentIDs = Agent::find()
+                ->select("AgentID")
+                ->where(['in', 'ParentTenantID', $callCenterArray])
+                ->andFilterWhere(['Active' => 1])
+                ->asArray();
+        
+        $call = CallData::find()
+                ->select("RowID")
+                ->where(['between','CreateDate', $callDate ." " . $fromTime,$callDate . " " .$toTime ])
+                ->andFilterWhere(['in', 'AgentID', $agentIDs])
+                ->andFilterWhere(["!=" , 'OrderID', ""])
+                ->count();        
+       
+        $oldDate = date("Y-m-d" ,strtotime('-1 week',time()));
+         
+        $lastWeekcall = CallData::find()
+                ->select("RowID")
+                ->where(['between','CreateDate', $oldDate ." " .$fromTime, $oldDate ." ".$toTime ])
+                ->andFilterWhere(['in', 'AgentID', $agentIDs])
+                ->andFilterWhere(["!=" , 'OrderID', ""])
+                ->count();
+        
+        $todaysCount = $call;
+        
+        $lastWeekCount = $lastWeekcall;
+        
+        $callRate = ($todaysCount && $lastWeekCount) ? (($todaysCount - $lastWeekCount) / $lastWeekCount) *100 : 0;
         
         $response['todaysCount']    = $todaysCount;
         
@@ -164,17 +228,75 @@ class SiteController extends Controller
     
     public function actionAttachementrate(){
         
-        $call_center = Yii::$app->request->post('call_center');
+        $callCenter = Yii::$app->request->post('call_center');
         
         $response = array();
         
-        $response['voiceRate']    = rand(10,100);
+        if($callCenter == "all" || empty($callCenter)){
+            $callCenter = '6,19,11,25,10';
+        }
         
-        $response['erRate']    = rand(10,100);
+        $callCenterArray = explode(",",$callCenter);
         
-        $response['pceRate']    = rand(10,100);
+        $fromTime = "8:00:00";
+        $toTime = date("H:i:s");
         
-        $response['nortonRate']    = rand(10,100);
+        $callDate = date("Y-m-d");
+        
+        $agentIDs = Agent::find()
+                ->select("AgentID")
+                ->where(['in', 'ParentTenantID', $callCenterArray])
+                ->andFilterWhere(['Active' => 1])
+                ->asArray();
+        
+        $call = CallData::find()
+                ->select("RowID")
+                ->where(['between','CreateDate', $callDate ." " . $fromTime,$callDate . " " .$toTime ])
+                ->andFilterWhere(['in', 'AgentID', $agentIDs])
+                ->andFilterWhere(["!=" , 'OrderID', ""])
+                ->count();        
+       
+        $oldDate = date("Y-m-d" ,strtotime('-1 week',time()));
+         
+        $voiceRates = CallData::find()
+                ->select("RowID")
+                ->where(['between','CreateDate', $oldDate ." " .$fromTime, $oldDate ." ".$toTime ])
+                ->andFilterWhere(['in', 'AgentID', $agentIDs])
+                ->andFilterWhere(["!=" , 'OrderID', ""])
+                ->andFilterWhere(["!=" , 'VoIPSold', ""])
+                ->count();
+        
+        $erRates = CallData::find()
+                ->select("RowID")
+                ->where(['between','CreateDate', $oldDate ." " .$fromTime, $oldDate ." ".$toTime ])
+                ->andFilterWhere(['in', 'AgentID', $agentIDs])
+                ->andFilterWhere(["!=" , 'OrderID', ""])
+                ->andFilterWhere(["!=" , 'ExpRepairSold', ""])
+                ->count();
+        
+        $pceRates = CallData::find()
+                ->select("RowID")
+                ->where(['between','CreateDate', $oldDate ." " .$fromTime, $oldDate ." ".$toTime ])
+                ->andFilterWhere(['in', 'AgentID', $agentIDs])
+                ->andFilterWhere(["!=" , 'OrderID', ""])
+                ->andFilterWhere(["!=" , 'PCESold', ""])
+                ->count();
+        
+        $nortonRates = CallData::find()
+                ->select("RowID")
+                ->where(['between','CreateDate', $oldDate ." " .$fromTime, $oldDate ." ".$toTime ])
+                ->andFilterWhere(['in', 'AgentID', $agentIDs])
+                ->andFilterWhere(["!=" , 'OrderID', ""])
+                ->andFilterWhere(["!=" , 'NortonSold', ""])
+                ->count();
+        
+        $response['voiceRate']    = ($voiceRates && $call) ? (($voiceRates / $call )* 100 ) : 0;
+        
+        $response['erRate']    = ($voiceRates && $call) ? (($erRates / $call )* 100 ) : 0;
+        
+        $response['pceRate']    = ($voiceRates && $call) ? (($pceRates / $call )* 100 ) : 0;
+        
+        $response['nortonRate']    = ($voiceRates && $call) ? (($nortonRates / $call )* 100 ) : 0;
         
         echo json_encode($response);
     }
