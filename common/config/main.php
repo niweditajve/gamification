@@ -7,14 +7,12 @@ return [
     ],
     'timeZone' => 'America/New_York',
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
-    'components' => [
+       'components' => [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
         'agentcomponent' => [
-         
             'class' => 'common\components\AgentRate',
-
-            ],
+        ],
     ],
 ];
