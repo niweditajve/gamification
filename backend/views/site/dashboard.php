@@ -169,7 +169,7 @@ $this->title = 'RM Factory';
                                     <span id="tvCloseRate"></span> 
                                 </div>
 
-                                <div id="tvColorText" class="order-rate">
+                                <div class="order-rate">
                                     <div id="tvArrowType"></div>
                                     <span id="tvCloseWeekRate"></span>
                                 </div>
@@ -187,7 +187,7 @@ $this->title = 'RM Factory';
                                     <span id="dmCloseRate"></span> 
                                 </div>
 
-                                <div id="dmColorText" class="order-rate">
+                                <div class="order-rate">
                                     <div id="dmArrowType"></div>
                                     <span id="dmCloseWeekRate"></span>
                                 </div>
@@ -208,7 +208,7 @@ $this->title = 'RM Factory';
                                     <span id="webCloseRate"></span> 
                                 </div>
 
-                                <div id="webColorText" class="order-rate">
+                                <div class="order-rate">
                                     <div id="webArrowType"></div>
                                     <span id="webCloseWeekRate"></span>
                                 </div>
@@ -226,7 +226,7 @@ $this->title = 'RM Factory';
                                     <span id="transferCloseRate"></span>
                                 </div>
 
-                                <div id="transferColorText" class="order-rate">
+                                <div class="order-rate">
                                     <div id="transferArrowType"></div>
                                     <span id="transferCloseWeekRate"></span>
                                 </div>

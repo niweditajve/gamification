@@ -448,7 +448,7 @@ class SiteController extends Controller
         
         
         $response['tvCloseRate']            = $tvCloseRate . "%";
-        $response['tvWeekActualRate']       = $tvWeekRate;
+        $response['tvActualRate']           = $tvWeekRate;
         $response['tvCloseWeekRate']        = $tvweekCloseRate . "%";
         $response['tvArrowType']            = ($tvweekCloseRate < 0 ) ? "arrow-down" : "arrow-up";
         
