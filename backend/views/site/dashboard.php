@@ -166,12 +166,12 @@ $this->title = 'RM Factory';
                             </div>
                             <div class="card-body">
                                 <div class="order-percentage">
-                                    <span id="tvCloseRate"></span>% 
+                                    <span id="tvCloseRate"></span> 
                                 </div>
 
                                 <div id="tvColorText" class="order-rate">
                                     <div id="tvArrowType"></div>
-                                    <span id="tvCloseWeekRate"></span>%
+                                    <span id="tvCloseWeekRate"></span>
                                 </div>
                             </div>
                         </div>
@@ -184,12 +184,12 @@ $this->title = 'RM Factory';
                             </div>
                             <div class="card-body">
                                 <div class="order-percentage">
-                                    <span id="dmCloseRate"></span>% 
+                                    <span id="dmCloseRate"></span> 
                                 </div>
 
                                 <div id="dmColorText" class="order-rate">
                                     <div id="dmArrowType"></div>
-                                    <span id="dmCloseWeekRate"></span>%
+                                    <span id="dmCloseWeekRate"></span>
                                 </div>
                             </div>
                         </div>
@@ -205,12 +205,12 @@ $this->title = 'RM Factory';
                             </div>
                             <div class="card-body">
                                 <div class="order-percentage">
-                                    <span id="webCloseRate"></span>% 
+                                    <span id="webCloseRate"></span> 
                                 </div>
 
                                 <div id="webColorText" class="order-rate">
                                     <div id="webArrowType"></div>
-                                    <span id="webCloseWeekRate"></span>%
+                                    <span id="webCloseWeekRate"></span>
                                 </div>
                             </div>
                         </div>
@@ -223,12 +223,12 @@ $this->title = 'RM Factory';
                             </div>
                             <div class="card-body">
                                 <div class="order-percentage">
-                                    <span id="transferCloseRate"></span>% 
+                                    <span id="transferCloseRate"></span>
                                 </div>
 
                                 <div id="transferColorText" class="order-rate">
                                     <div id="transferArrowType"></div>
-                                    <span id="transferCloseWeekRate"></span>%
+                                    <span id="transferCloseWeekRate"></span>
                                 </div>
                             </div>
                         </div>
@@ -378,23 +378,35 @@ $this->title = 'RM Factory';
                     
                     $("#tvCloseRate").html(data.tvCloseRate);                    
                     $("#tvCloseWeekRate").html(data.tvCloseWeekRate);
-                    $("#tvColorText").addClass(data.tvColorText);
                     $("#tvArrowType").html("<span class='"+data.tvArrowType+"'></span>");
+                    if( new Number(data.tvActualRate) < 0 )
+                        $("#tvCloseWeekRate").css("color" , "red");
+                    else
+                        $("#tvCloseWeekRate").css("color" , "green"); 
                     
                     $("#dmCloseRate").html(data.dmCloseRate);                    
                     $("#dmCloseWeekRate").html(data.dmCloseWeekRate);
-                    $("#dmColorText").addClass(data.dmColorText);
                     $("#dmArrowType").html("<span class='"+data.dmArrowType+"'></span>");
+                    if( new Number(data.dmActualRate) < 0 )
+                        $("#dmCloseWeekRate").css("color" , "red");
+                    else
+                        $("#dmCloseWeekRate").css("color" , "green"); 
                     
                     $("#webCloseRate").html(data.webCloseRate);
                     $("#webCloseWeekRate").html(data.webCloseWeekRate);
-                    $("#webColorText").addClass(data.webColorText);
                     $("#webArrowType").html("<span class='"+data.webArrowType+"'></span>");
+                    if( new Number(data.webActualRate) < 0 )
+                        $("#webCloseWeekRate").css("color" , "red");
+                    else
+                        $("#webCloseWeekRate").css("color" , "green"); 
                     
                     $("#transferCloseRate").html(data.transferCloseRate);
                     $("#transferCloseWeekRate").html(data.transferCloseWeekRate);
-                    $("#transferColorText").addClass(data.transferColorText);
                     $("#transferArrowType").html("<span class='"+data.transferArrowType+"'></span>");
+                    if( new Number(data.transferActualRate) < 0 )
+                        $("#transferCloseWeekRate").css("color" , "red");
+                    else
+                        $("#transferCloseWeekRate").css("color" , "green"); 
 
                     
                 }

@@ -355,7 +355,17 @@ class SiteController extends Controller
         
         $tvRate = ($call && $tvCalls) ? (($tvCalls / $call) *100) : 0;        
         $tvCloseRate = number_format((float) ($tvRate), 2, '.',',');
-        $tvweekCloseRate =  number_format((float) ($tvRate), 2, '.',',');
+        
+        $tvWeekCalls = CallData::find()
+                ->select("RowID")
+                ->where(['between','CreateDate', $oldDate ." " .$fromTime, $oldDate ." ".$toTime ])
+                ->andFilterWhere(['in', 'AgentID', $agentIDs])
+                ->andFilterWhere(["!=" , 'OrderID', ""])
+                ->andFilterWhere(['MediaType'=>'Broadcast'])
+                ->count();
+        
+        $tvWeekRate = ($tvCalls && $tvWeekCalls) ? (( ($tvCalls - $tvWeekCalls) / $tvWeekCalls) *100) : 0;  
+        $tvweekCloseRate =  number_format((float) ($tvWeekRate), 2, '.',',');
         
         $dmCalls = CallData::find()
                 ->select("RowID")
@@ -367,7 +377,17 @@ class SiteController extends Controller
         
         $dmRate = ($call && $dmCalls) ? (($dmCalls / $call) *100) : 0;
         $dmCloseRate = number_format((float) ($dmRate), 2, '.',',');
-        $dmWeekCloseRate =  number_format((float) ($dmRate), 2, '.',',');
+        
+        $dmWeekCalls = CallData::find()
+                ->select("RowID")
+                ->where(['between','CreateDate', $oldDate ." " .$fromTime, $oldDate ." ".$toTime ])
+                ->andFilterWhere(['in', 'AgentID', $agentIDs])
+                ->andFilterWhere(["!=" , 'OrderID', ""])
+                ->andFilterWhere(['MediaType'=>'Campaigns'])
+                ->count();
+        
+        $dmWeekRate = ($dmCalls && $dmWeekCalls) ? (( ($dmCalls - $dmWeekCalls) / $dmWeekCalls) *100) : 0;  
+        $dmWeekCloseRate =  number_format((float) ($dmWeekRate), 2, '.',',');
         
         $webCalls = CallData::find()
                 ->select("RowID")
@@ -379,40 +399,67 @@ class SiteController extends Controller
         
         $webRate = ($call && $webCalls) ? (($webCalls / $call) *100) : 0;
         $webCloseRate = number_format((float) ($webRate), 2, '.',',');
-        $webWeekCloseRate =  number_format((float) ($webRate), 2, '.',',');
         
+        $webWeekCalls = CallData::find()
+                ->select("RowID")
+                ->where(['between','CreateDate', $oldDate ." " .$fromTime, $oldDate ." ".$toTime ])
+                ->andFilterWhere(['in', 'AgentID', $agentIDs])
+                ->andFilterWhere(["!=" , 'OrderID', ""])
+                ->andFilterWhere(['MediaType'=>'Web'])
+                ->count();
+        
+        $webWeekRate = ($webCalls && $webWeekCalls) ? (( ($webCalls - $webWeekCalls) / $webWeekCalls) *100) : 0;  
+        $webWeekCloseRate =  number_format((float) ($webWeekRate), 2, '.',',');
+        
+        $transferArray = array(
+                    "Transfer to Business",
+                    "Transfer to Government",
+                    "Transfer to Enterprise",
+                    "Transfer to Consumer",
+                    "Transfer To Another Business Agent"
+                );
         
         $transferCalls = CallData::find()
                 ->select("RowID")
                 ->where(['between','CreateDate', $callDate ." " .$fromTime, $callDate ." ".$toTime ])
                 ->andFilterWhere(['in', 'AgentID', $agentIDs])
                 ->andFilterWhere(["!=" , 'OrderID', ""])
-                ->andFilterWhere(['MediaType'=>'Web'])
+                ->andFilterWhere(['in','DispositionCode',$transferArray])
                 ->count();
         
         $transferRate = ($call && $transferCalls) ? (($transferCalls / $call) *100) : 0;
         $transferCloseRate = number_format((float) ($transferRate), 2, '.',',');
-        $transferWeekCloseRate =  number_format((float) ($transferRate), 2, '.',',');        
+        
+         $transferWeekCalls = CallData::find()
+                ->select("RowID")
+                ->where(['between','CreateDate', $oldDate ." " .$fromTime, $oldDate ." ".$toTime ])
+                ->andFilterWhere(['in', 'AgentID', $agentIDs])
+                ->andFilterWhere(["!=" , 'OrderID', ""])
+                ->andFilterWhere(['in','DispositionCode',$transferArray])
+                ->count();
+        
+        $transferWeekRate = ($transferCalls && $transferWeekCalls) ? (( ($transferCalls - $transferWeekCalls) / $transferWeekCalls) *100) : 0;  
+        $transferWeekCloseRate =  number_format((float) ($webWeekRate), 2, '.',',');
         
         
         $response['tvCloseRate']            = $tvCloseRate;
-        $response['tvCloseWeekRate']        = $tvweekCloseRate;
-        $response['tvColorText']            = ($tvweekCloseRate < 0 ) ? "color-red" : "color-green";
+        $response['tvWeekActualRate']       = $tvWeekRate;
+        $response['tvCloseWeekRate']        = $tvweekCloseRate . "%";
         $response['tvArrowType']            = ($tvweekCloseRate < 0 ) ? "arrow-down" : "arrow-up";
         
         $response['dmCloseRate']            = $dmCloseRate;
-        $response['dmCloseWeekRate']        = $dmWeekCloseRate;
-        $response['dmColorText']            = ($dmWeekCloseRate < 0 ) ? "color-red" : "color-green";
+        $response['dmActualRate']           = $dmWeekRate;
+        $response['dmCloseWeekRate']        = $dmWeekCloseRate . "%";
         $response['dmArrowType']            = ($dmWeekCloseRate < 0 ) ? "arrow-down" : "arrow-up";
         
         $response['webCloseRate']           = $webCloseRate;
-        $response['webCloseWeekRate']       = $webWeekCloseRate;
-        $response['webColorText']           = ($webWeekCloseRate < 0 ) ? "color-red" : "color-green";
-        $response['webArrowType']           = ($webWeekCloseRate < 0 ) ? "arrow-down" : "arrow-up";
+        $response['webActualRate']          = $webWeekRate;
+        $response['webCloseWeekRate']       = $webWeekCloseRate . "%";
+         $response['webArrowType']           = ($webWeekCloseRate < 0 ) ? "arrow-down" : "arrow-up";
         
         $response['transferCloseRate']      = $transferCloseRate;
-        $response['transferCloseWeekRate']  = $transferWeekCloseRate;
-        $response['transferColorText']      = ($transferWeekCloseRate < 0 ) ? "color-red" : "color-green";
+        $response['transferActualRate']     = $transferWeekRate;
+        $response['transferCloseWeekRate']  = $transferWeekCloseRate . "%";
         $response['transferArrowType']      = ($transferWeekCloseRate < 0 ) ? "arrow-down" : "arrow-up";
         
         echo json_encode($response);
