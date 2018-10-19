@@ -63,7 +63,12 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('dashboard');
+        if (Yii::$app->user->isGuest) {
+           return $this->render('index');
+        }else{
+            return $this->render('dashboard');
+        }
+        
     }
 
     /**
@@ -442,22 +447,22 @@ class SiteController extends Controller
         $transferWeekCloseRate =  number_format((float) ($webWeekRate), 2, '.',',');
         
         
-        $response['tvCloseRate']            = $tvCloseRate;
+        $response['tvCloseRate']            = $tvCloseRate . "%";
         $response['tvWeekActualRate']       = $tvWeekRate;
         $response['tvCloseWeekRate']        = $tvweekCloseRate . "%";
         $response['tvArrowType']            = ($tvweekCloseRate < 0 ) ? "arrow-down" : "arrow-up";
         
-        $response['dmCloseRate']            = $dmCloseRate;
-        $response['dmActualRate']           = $dmWeekRate;
+        $response['dmCloseRate']            = $dmCloseRate . "%";
+        $response['dmActualRate']           = $dmWeekRate ;
         $response['dmCloseWeekRate']        = $dmWeekCloseRate . "%";
         $response['dmArrowType']            = ($dmWeekCloseRate < 0 ) ? "arrow-down" : "arrow-up";
         
-        $response['webCloseRate']           = $webCloseRate;
+        $response['webCloseRate']           = $webCloseRate . "%";
         $response['webActualRate']          = $webWeekRate;
         $response['webCloseWeekRate']       = $webWeekCloseRate . "%";
          $response['webArrowType']           = ($webWeekCloseRate < 0 ) ? "arrow-down" : "arrow-up";
         
-        $response['transferCloseRate']      = $transferCloseRate;
+        $response['transferCloseRate']      = $transferCloseRate . "%";
         $response['transferActualRate']     = $transferWeekRate;
         $response['transferCloseWeekRate']  = $transferWeekCloseRate . "%";
         $response['transferArrowType']      = ($transferWeekCloseRate < 0 ) ? "arrow-down" : "arrow-up";
