@@ -66,11 +66,12 @@ class SiteController extends Controller
         if (Yii::$app->user->isGuest) {
            return $this->render('index');
         }else{
+            
             return $this->render('dashboard');
         }
         
     }
-
+    
     /**
      * Login action.
      *
@@ -308,11 +309,44 @@ class SiteController extends Controller
     
     public function actionCurrentcloserate(){
         
-        $call_center = Yii::$app->request->post('call_center');
+        $callCenter = Yii::$app->request->post('call_center');
         
-        $response = array(); 
+        $response = array();
         
-        $response['currentCloseRate']    = rand(10,100);
+        if($callCenter == "all" || empty($callCenter)){
+            $callCenter = '6,19,11,25,10';
+        }
+        
+        $callCenterArray = explode(",",$callCenter);
+        
+        $fromTime = "8:00:00";
+        
+        $toTime = date("H:i:s");
+        
+        $callDate = date("Y-m-d");
+        
+        $agentIDs = Agent::find()
+                ->select("AgentID")
+                ->where(['in','ParentTenantID', $callCenterArray])
+                ->andFilterWhere(['Active' => 1])
+                ->asArray();
+        
+        $toalCall = CallData::find()
+                ->select("RowID")
+                ->where(['between','CreateDate', $callDate ." " . $fromTime,$callDate . " " .$toTime ])
+                ->andFilterWhere(['in', 'AgentID', $agentIDs])
+                ->count(); 
+        
+        $answeredCall = CallData::find()
+                ->select("RowID")
+                ->where(['between','CreateDate', $callDate ." " . $fromTime,$callDate . " " .$toTime ])
+                ->andFilterWhere(['in', 'AgentID', $agentIDs])
+                ->andFilterWhere(["!=" , 'OrderID', ""])
+                ->count();
+        
+        $rate = ( $answeredCall && $toalCall) ? ( ($answeredCall / $toalCall) * 100) : 0;
+        
+        $response['currentCloseRate']    = '99.99%';//number_format((float) ($rate), 2, '.',',') . "%";
         
         echo json_encode($response);
     }
@@ -460,7 +494,7 @@ class SiteController extends Controller
         $response['webCloseRate']           = $webCloseRate . "%";
         $response['webActualRate']          = $webWeekRate;
         $response['webCloseWeekRate']       = $webWeekCloseRate . "%";
-         $response['webArrowType']           = ($webWeekCloseRate < 0 ) ? "arrow-down" : "arrow-up";
+        $response['webArrowType']           = ($webWeekCloseRate < 0 ) ? "arrow-down" : "arrow-up";
         
         $response['transferCloseRate']      = $transferCloseRate . "%";
         $response['transferActualRate']     = $transferWeekRate;
