@@ -346,7 +346,7 @@ class SiteController extends Controller
         
         $rate = ( $answeredCall && $toalCall) ? ( ($answeredCall / $toalCall) * 100) : 0;
         
-        $response['currentCloseRate']    = '99.99%';//number_format((float) ($rate), 2, '.',',') . "%";
+        $response['currentCloseRate'] = number_format((float) ($rate), 2, '.',',') . "%";
         
         echo json_encode($response);
     }

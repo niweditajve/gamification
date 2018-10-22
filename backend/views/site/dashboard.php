@@ -145,7 +145,7 @@ $this->title = 'RM Factory';
                             </div>
                             <div class="card-body">
                                 <div class="main-order-percentage">
-                                    <span id="currentCloseRate"></span>% 
+                                    <span id="currentCloseRate"></span> 
                                 </div>
                             </div>
                         </div>
@@ -240,6 +240,7 @@ $this->title = 'RM Factory';
     </div>
 
 </div>
+
 <script>
      
      function callsValues(){
