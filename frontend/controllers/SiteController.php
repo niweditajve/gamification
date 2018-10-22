@@ -189,13 +189,13 @@ class SiteController extends Controller
         $agentIDs = Agent::find()
                 ->select("AgentID")
                 ->where(['in', 'ParentTenantID', $callCenterArray])
-                ->andFilterWhere(['Active' => 1])
+                ->andWhere(['Active' => 1])
                 ->asArray();
         
         $call = CallData::find()
                 ->select("RowID")
                 ->where(['between','CreateDate', $callDate ." " . $fromTime,$callDate . " " .$toTime ])
-                ->andFilterWhere(['in', 'AgentID', $agentIDs])
+                ->andWhere(['in', 'AgentID', $agentIDs])
                 ->count();        
        
         $oldDate = date("Y-m-d" ,strtotime('-1 week',time()));
@@ -203,7 +203,7 @@ class SiteController extends Controller
         $lastWeekcall = CallData::find()
                 ->select("RowID")
                 ->where(['between','CreateDate', $oldDate ." " .$fromTime, $oldDate ." ".$toTime ])
-                ->andFilterWhere(['in', 'AgentID', $agentIDs])
+                ->andWhere(['in', 'AgentID', $agentIDs])
                 ->count();
         
         $todaysCount = $call;
@@ -241,14 +241,14 @@ class SiteController extends Controller
         $agentIDs = Agent::find()
                 ->select("AgentID")
                 ->where(['in', 'ParentTenantID', $callCenterArray])
-                ->andFilterWhere(['Active' => 1])
+                ->andWhere(['Active' => 1])
                 ->asArray();
         
         $call = CallData::find()
                 ->select("RowID")
                 ->where(['between','CreateDate', $callDate ." " . $fromTime,$callDate . " " .$toTime ])
-                ->andFilterWhere(['in', 'AgentID', $agentIDs])
-                ->andFilterWhere(["!=" , 'OrderID', ""])
+                ->andWhere(['in', 'AgentID', $agentIDs])
+                ->andWhere(["!=" , 'OrderID', ""])
                 ->count();        
        
         $oldDate = date("Y-m-d" ,strtotime('-1 week',time()));
@@ -256,8 +256,8 @@ class SiteController extends Controller
         $lastWeekcall = CallData::find()
                 ->select("RowID")
                 ->where(['between','CreateDate', $oldDate ." " .$fromTime, $oldDate ." ".$toTime ])
-                ->andFilterWhere(['in', 'AgentID', $agentIDs])
-                ->andFilterWhere(["!=" , 'OrderID', ""])
+                ->andWhere(['in', 'AgentID', $agentIDs])
+                ->andWhere(["!=" , 'OrderID', ""])
                 ->count();
         
         $todaysCount = $call;
@@ -310,48 +310,48 @@ class SiteController extends Controller
         $agentIDs = Agent::find()
                 ->select("AgentID")
                 ->where(['in', 'ParentTenantID', $callCenterArray])
-                ->andFilterWhere(['Active' => 1])
+                ->andWhere(['Active' => 1])
                 ->asArray();
         
         $call = CallData::find()
                 ->select("RowID")
                 ->where(['between','CreateDate', $callDate ." " . $fromTime,$callDate . " " .$toTime ])
-                ->andFilterWhere(['in', 'AgentID', $agentIDs])
-                ->andFilterWhere(["!=" , 'OrderID', ""])
+                ->andWhere(['in', 'AgentID', $agentIDs])
+                ->andWhere(["!=" , 'OrderID', ""])
                 ->count();        
        
         $oldDate = date("Y-m-d" ,strtotime('-1 week',time()));
          
         $voiceRates = CallData::find()
                 ->select("RowID")
-                ->where(['between','CreateDate', $oldDate ." " .$fromTime, $oldDate ." ".$toTime ])
-                ->andFilterWhere(['in', 'AgentID', $agentIDs])
-                ->andFilterWhere(["!=" , 'OrderID', ""])
-                ->andFilterWhere(["!=" , 'VoIPSold', ""])
+                ->where(['between','CreateDate', $callDate ." " .$fromTime, $callDate ." ".$toTime ])
+                ->andWhere(['in', 'AgentID', $agentIDs])
+                ->andWhere(["!=" , 'OrderID', ""])
+                ->andWhere(["!=" , 'VoIPSold', ""])
                 ->count();
         
         $erRates = CallData::find()
                 ->select("RowID")
-                ->where(['between','CreateDate', $oldDate ." " .$fromTime, $oldDate ." ".$toTime ])
-                ->andFilterWhere(['in', 'AgentID', $agentIDs])
-                ->andFilterWhere(["!=" , 'OrderID', ""])
-                ->andFilterWhere(["!=" , 'ExpRepairSold', ""])
+                ->where(['between','CreateDate', $callDate ." " .$fromTime, $callDate ." ".$toTime ])
+                ->andWhere(['in', 'AgentID', $agentIDs])
+                ->andWhere(["!=" , 'OrderID', ""])
+                ->andWhere(["!=" , 'ExpRepairSold', ""])
                 ->count();
         
         $pceRates = CallData::find()
                 ->select("RowID")
-                ->where(['between','CreateDate', $oldDate ." " .$fromTime, $oldDate ." ".$toTime ])
-                ->andFilterWhere(['in', 'AgentID', $agentIDs])
-                ->andFilterWhere(["!=" , 'OrderID', ""])
-                ->andFilterWhere(["!=" , 'PCESold', ""])
+                ->where(['between','CreateDate', $callDate ." " .$fromTime, $callDate ." ".$toTime ])
+                ->andWhere(['in', 'AgentID', $agentIDs])
+                ->andWhere(["!=" , 'OrderID', ""])
+                ->andWhere(["!=" , 'PCESold', ""])
                 ->count();
         
         $nortonRates = CallData::find()
                 ->select("RowID")
-                ->where(['between','CreateDate', $oldDate ." " .$fromTime, $oldDate ." ".$toTime ])
-                ->andFilterWhere(['in', 'AgentID', $agentIDs])
-                ->andFilterWhere(["!=" , 'OrderID', ""])
-                ->andFilterWhere(["!=" , 'NortonSold', ""])
+                ->where(['between','CreateDate', $callDate ." " .$fromTime, $callDate ." ".$toTime ])
+                ->andWhere(['in', 'AgentID', $agentIDs])
+                ->andWhere(["!=" , 'OrderID', ""])
+                ->andWhere(["!=" , 'NortonSold', ""])
                 ->count();
         
         $response['voiceRate']    = ($voiceRates && $call) ? (number_format((float) (($voiceRates / $call )* 100), 2, '.',',')) : 0;
@@ -382,20 +382,20 @@ class SiteController extends Controller
         $agentIDs = Agent::find()
                 ->select("AgentID")
                 ->where(['in','ParentTenantID', $callCenterArray])
-                ->andFilterWhere(['Active' => 1])
+                ->andWhere(['Active' => 1])
                 ->asArray();
         
         $toalCall = CallData::find()
                 ->select("RowID")
                 ->where(['between','CreateDate', $callDate ." " . $fromTime,$callDate . " " .$toTime ])
-                ->andFilterWhere(['in', 'AgentID', $agentIDs])
+                ->andWhere(['in', 'AgentID', $agentIDs])
                 ->count(); 
         
         $answeredCall = CallData::find()
                 ->select("RowID")
                 ->where(['between','CreateDate', $callDate ." " . $fromTime,$callDate . " " .$toTime ])
-                ->andFilterWhere(['in', 'AgentID', $agentIDs])
-                ->andFilterWhere(["!=" , 'OrderID', ""])
+                ->andWhere(['in', 'AgentID', $agentIDs])
+                ->andWhere(["!=" , 'OrderID', ""])
                 ->count();
         
         $rate = ( $answeredCall && $toalCall) ? ( ($answeredCall / $toalCall) * 100) : 0;
@@ -421,14 +421,14 @@ class SiteController extends Controller
         $agentIDs = Agent::find()
                 ->select("AgentID")
                 ->where(['in', 'ParentTenantID', $callCenterArray])
-                ->andFilterWhere(['Active' => 1])
+                ->andWhere(['Active' => 1])
                 ->asArray();
         
         $call = CallData::find()
                 ->select("RowID")
                 ->where(['between','CreateDate', $callDate ." " . $fromTime,$callDate . " " .$toTime ])
-                ->andFilterWhere(['in', 'AgentID', $agentIDs])
-                ->andFilterWhere(["!=" , 'OrderID', ""])
+                ->andWhere(['in', 'AgentID', $agentIDs])
+                ->andWhere(["!=" , 'OrderID', ""])
                 ->count();        
        
         $oldDate = date("Y-m-d" ,strtotime('-1 week',time()));
@@ -436,9 +436,9 @@ class SiteController extends Controller
         $tvCalls = CallData::find()
                 ->select("RowID")
                 ->where(['between','CreateDate', $callDate ." " .$fromTime, $callDate ." ".$toTime ])
-                ->andFilterWhere(['in', 'AgentID', $agentIDs])
-                ->andFilterWhere(["!=" , 'OrderID', ""])
-                ->andFilterWhere(['MediaType'=>'Broadcast'])
+                ->andWhere(['in', 'AgentID', $agentIDs])
+                ->andWhere(["!=" , 'OrderID', ""])
+                ->andWhere(['MediaType'=>'Broadcast'])
                 ->count();
         
         $tvRate = ($call && $tvCalls) ? (($tvCalls / $call) *100) : 0;        
@@ -447,9 +447,9 @@ class SiteController extends Controller
         $tvWeekCalls = CallData::find()
                 ->select("RowID")
                 ->where(['between','CreateDate', $oldDate ." " .$fromTime, $oldDate ." ".$toTime ])
-                ->andFilterWhere(['in', 'AgentID', $agentIDs])
-                ->andFilterWhere(["!=" , 'OrderID', ""])
-                ->andFilterWhere(['MediaType'=>'Broadcast'])
+                ->andWhere(['in', 'AgentID', $agentIDs])
+                ->andWhere(["!=" , 'OrderID', ""])
+                ->andWhere(['MediaType'=>'Broadcast'])
                 ->count();
         
         $tvWeekRate = ($tvCalls && $tvWeekCalls) ? (( ($tvCalls - $tvWeekCalls) / $tvWeekCalls) *100) : 0;  
@@ -458,9 +458,9 @@ class SiteController extends Controller
         $dmCalls = CallData::find()
                 ->select("RowID")
                 ->where(['between','CreateDate', $callDate ." " .$fromTime, $callDate ." ".$toTime ])
-                ->andFilterWhere(['in', 'AgentID', $agentIDs])
-                ->andFilterWhere(["!=" , 'OrderID', ""])
-                ->andFilterWhere(['MediaType'=>'Campaigns'])
+                ->andWhere(['in', 'AgentID', $agentIDs])
+                ->andWhere(["!=" , 'OrderID', ""])
+                ->andWhere(['MediaType'=>'Campaigns'])
                 ->count();
         
         $dmRate = ($call && $dmCalls) ? (($dmCalls / $call) *100) : 0;
@@ -469,9 +469,9 @@ class SiteController extends Controller
         $dmWeekCalls = CallData::find()
                 ->select("RowID")
                 ->where(['between','CreateDate', $oldDate ." " .$fromTime, $oldDate ." ".$toTime ])
-                ->andFilterWhere(['in', 'AgentID', $agentIDs])
-                ->andFilterWhere(["!=" , 'OrderID', ""])
-                ->andFilterWhere(['MediaType'=>'Campaigns'])
+                ->andWhere(['in', 'AgentID', $agentIDs])
+                ->andWhere(["!=" , 'OrderID', ""])
+                ->andWhere(['MediaType'=>'Campaigns'])
                 ->count();
         
         $dmWeekRate = ($dmCalls && $dmWeekCalls) ? (( ($dmCalls - $dmWeekCalls) / $dmWeekCalls) *100) : 0;  
@@ -480,9 +480,9 @@ class SiteController extends Controller
         $webCalls = CallData::find()
                 ->select("RowID")
                 ->where(['between','CreateDate', $callDate ." " .$fromTime, $callDate ." ".$toTime ])
-                ->andFilterWhere(['in', 'AgentID', $agentIDs])
-                ->andFilterWhere(["!=" , 'OrderID', ""])
-                ->andFilterWhere(['MediaType'=>'Web'])
+                ->andWhere(['in', 'AgentID', $agentIDs])
+                ->andWhere(["!=" , 'OrderID', ""])
+                ->andWhere(['MediaType'=>'Web'])
                 ->count();
         
         $webRate = ($call && $webCalls) ? (($webCalls / $call) *100) : 0;
@@ -491,9 +491,9 @@ class SiteController extends Controller
         $webWeekCalls = CallData::find()
                 ->select("RowID")
                 ->where(['between','CreateDate', $oldDate ." " .$fromTime, $oldDate ." ".$toTime ])
-                ->andFilterWhere(['in', 'AgentID', $agentIDs])
-                ->andFilterWhere(["!=" , 'OrderID', ""])
-                ->andFilterWhere(['MediaType'=>'Web'])
+                ->andWhere(['in', 'AgentID', $agentIDs])
+                ->andWhere(["!=" , 'OrderID', ""])
+                ->andWhere(['MediaType'=>'Web'])
                 ->count();
         
         $webWeekRate = ($webCalls && $webWeekCalls) ? (( ($webCalls - $webWeekCalls) / $webWeekCalls) *100) : 0;  
@@ -510,9 +510,9 @@ class SiteController extends Controller
         $transferCalls = CallData::find()
                 ->select("RowID")
                 ->where(['between','CreateDate', $callDate ." " .$fromTime, $callDate ." ".$toTime ])
-                ->andFilterWhere(['in', 'AgentID', $agentIDs])
-                ->andFilterWhere(["!=" , 'OrderID', ""])
-                ->andFilterWhere(['in','DispositionCode',$transferArray])
+                ->andWhere(['in', 'AgentID', $agentIDs])
+                ->andWhere(["!=" , 'OrderID', ""])
+                ->andWhere(['in','DispositionCode',$transferArray])
                 ->count();
         
         $transferRate = ($call && $transferCalls) ? (($transferCalls / $call) *100) : 0;
@@ -521,9 +521,9 @@ class SiteController extends Controller
          $transferWeekCalls = CallData::find()
                 ->select("RowID")
                 ->where(['between','CreateDate', $oldDate ." " .$fromTime, $oldDate ." ".$toTime ])
-                ->andFilterWhere(['in', 'AgentID', $agentIDs])
-                ->andFilterWhere(["!=" , 'OrderID', ""])
-                ->andFilterWhere(['in','DispositionCode',$transferArray])
+                ->andWhere(['in', 'AgentID', $agentIDs])
+                ->andWhere(["!=" , 'OrderID', ""])
+                ->andWhere(['in','DispositionCode',$transferArray])
                 ->count();
         
         $transferWeekRate = ($transferCalls && $transferWeekCalls) ? (( ($transferCalls - $transferWeekCalls) / $transferWeekCalls) *100) : 0;  
@@ -568,20 +568,20 @@ class SiteController extends Controller
         $agentIDs = Agent::find()
                 ->select("AgentID")
                 ->where(['ParentTenantID'=> $tenant_id])
-                ->andFilterWhere(['Active' => 1])
+                ->andWhere(['Active' => 1])
                 ->asArray();
         
         $toalCall = CallData::find()
                 ->select("RowID")
                 ->where(['between','CreateDate', $callDate ." " . $fromTime,$callDate . " " .$toTime ])
-                ->andFilterWhere(['in', 'AgentID', $agentIDs])
+                ->andWhere(['in', 'AgentID', $agentIDs])
                 ->count(); 
         
         $answeredCall = CallData::find()
                 ->select("RowID")
                 ->where(['between','CreateDate', $callDate ." " . $fromTime,$callDate . " " .$toTime ])
-                ->andFilterWhere(['in', 'AgentID', $agentIDs])
-                ->andFilterWhere(["!=" , 'OrderID', ""])
+                ->andWhere(['in', 'AgentID', $agentIDs])
+                ->andWhere(["!=" , 'OrderID', ""])
                 ->count();
         
         $rate = ( $answeredCall && $toalCall) ? ( ($answeredCall / $toalCall) * 100) : 0;
