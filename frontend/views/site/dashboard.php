@@ -141,7 +141,7 @@ Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = [
                             </div>
                             <div class="card-body">
                                 <div class="main-order-percentage">
-                                    <span id="currentCloseRate"></span>% 
+                                    <span id="currentCloseRate"></span>
                                 </div>
                             </div>
                         </div>
