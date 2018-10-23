@@ -104,12 +104,7 @@ class SiteController extends Controller
         return $this->goHome();
     }
     
-    
-    public function actionTotalcallcount(){
-        
-        $callCenter = Yii::$app->request->post('call_center');
-                
-        $response = array();
+    public function getTenantIds($callCenter){
         
         if($callCenter == "all" || empty($callCenter)){
             $callCenter = '6,19,11,25,10';
@@ -117,25 +112,51 @@ class SiteController extends Controller
         
         $callCenterArray = explode(",",$callCenter);
         
-        $fromTime = "8:00:00";
-        $toTime = date("H:i:s");
-        
-        $callDate = date("Y-m-d");
-        
         $agentIDs = Agent::find()
                 ->select("AgentID")
                 ->where(['in', 'ParentTenantID', $callCenterArray])
                 ->andWhere(['Active' => 1])
                 ->asArray();
         
+        return $agentIDs;
+    }
+    
+    public function getCallDate(){
+        return $callDate = date("Y-m-d");
+    }
+    
+    public function getFromTime(){
+        return $fromTime = "8:00:00";
+    }
+    
+    public function getToTime(){
+        return $toTime = date("H:i:s");
+    }
+    
+    public function getOldDate(){
+       return $oldDate = date("Y-m-d" ,strtotime('-1 week',time()));
+    }
+    
+    
+    public function actionTotalcallcount(){
+        
+        $callCenter = Yii::$app->request->post('call_center');
+                
+        $response = array();
+        
+        $agentIDs = $this->getTenantIds($callCenter);
+        
+        $callDate = $this->getCallDate();
+        $fromTime = $this->getFromTime();
+        $toTime = $this->getToTime();        
+        $oldDate = $this->getOldDate();
+        
         $call = CallData::find()
                 ->select("RowID")
                 ->where(['between','CreateDate', $callDate ." " . $fromTime,$callDate . " " .$toTime ])
                 ->andWhere(['in', 'AgentID', $agentIDs])
                 ->count();        
-       
-        $oldDate = date("Y-m-d" ,strtotime('-1 week',time()));
-         
+        
         $lastWeekcall = CallData::find()
                 ->select("RowID")
                 ->where(['between','CreateDate', $oldDate ." " .$fromTime, $oldDate ." ".$toTime ])
@@ -167,22 +188,12 @@ class SiteController extends Controller
         
         $response = array();
         
-        if($callCenter == "all" || empty($callCenter)){
-            $callCenter = '6,19,11,25,10';
-        }
+        $agentIDs = $this->getTenantIds($callCenter);
         
-        $callCenterArray = explode(",",$callCenter);
-        
-        $fromTime = "8:00:00";
-        $toTime = date("H:i:s");
-        
-        $callDate = date("Y-m-d");
-        
-        $agentIDs = Agent::find()
-                ->select("AgentID")
-                ->where(['in', 'ParentTenantID', $callCenterArray])
-                ->andWhere(['Active' => 1])
-                ->asArray();
+        $callDate = $this->getCallDate();
+        $fromTime = $this->getFromTime();
+        $toTime = $this->getToTime();        
+        $oldDate = $this->getOldDate();      
         
         $call = CallData::find()
                 ->select("RowID")
@@ -190,9 +201,7 @@ class SiteController extends Controller
                 ->andWhere(['in', 'AgentID', $agentIDs])
                 ->andWhere(["!=" , 'OrderID', ""])
                 ->count();        
-       
-        $oldDate = date("Y-m-d" ,strtotime('-1 week',time()));
-         
+        
         $lastWeekcall = CallData::find()
                 ->select("RowID")
                 ->where(['between','CreateDate', $oldDate ." " .$fromTime, $oldDate ." ".$toTime ])
@@ -238,31 +247,18 @@ class SiteController extends Controller
         
         $response = array();
         
-        if($callCenter == "all" || empty($callCenter)){
-            $callCenter = '6,19,11,25,10';
-        }
+        $callDate = $this->getCallDate();
+        $fromTime = $this->getFromTime();
+        $toTime = $this->getToTime();        
         
-        $callCenterArray = explode(",",$callCenter);
+        $agentIDs = $this->getTenantIds($callCenter);
         
-        $fromTime = "8:00:00";
-        $toTime = date("H:i:s");
-        
-        $callDate = date("Y-m-d");
-        
-        $agentIDs = Agent::find()
-                ->select("AgentID")
-                ->where(['in', 'ParentTenantID', $callCenterArray])
-                ->andWhere(['Active' => 1])
-                ->asArray();
-        
-       $call = CallData::find()
+        $call = CallData::find()
                 ->select("RowID")
                 ->where(['between','CreateDate', $callDate ." " . $fromTime,$callDate . " " .$toTime ])
                 ->andWhere(['in', 'AgentID', $agentIDs])
                 ->count();        
        
-        $oldDate = date("Y-m-d" ,strtotime('-1 week',time()));
-         
         $voiceRates = CallData::find()
                 ->select("RowID")
                 ->where(["!=" , 'OrderID', ""])
@@ -312,23 +308,11 @@ class SiteController extends Controller
         
         $response = array();
         
-        if($callCenter == "all" || empty($callCenter)){
-            $callCenter = '6,19,11,25,10';
-        }
+        $callDate = $this->getCallDate();
+        $fromTime = $this->getFromTime();
+        $toTime = $this->getToTime();        
         
-        $callCenterArray = explode(",",$callCenter);
-        
-        $fromTime = "8:00:00";
-        
-        $toTime = date("H:i:s");
-        
-        $callDate = date("Y-m-d");
-        
-        $agentIDs = Agent::find()
-                ->select("AgentID")
-                ->where(['in','ParentTenantID', $callCenterArray])
-                ->andWhere(['Active' => 1])
-                ->asArray();
+        $agentIDs = $this->getTenantIds($callCenter);
         
         $toalCall = CallData::find()
                 ->select("RowID")
@@ -352,27 +336,15 @@ class SiteController extends Controller
     
     public function actionCloserates(){
         
-        $callCenter = Yii::$app->request->post('call_center');
-        
+        $callCenter = Yii::$app->request->post('call_center');        
         $response = array(); 
         
+        $callDate = $this->getCallDate();
+        $fromTime = $this->getFromTime();
+        $toTime = $this->getToTime();        
+        $oldDate = $this->getOldDate();
         
-        if($callCenter == "all" || empty($callCenter)){
-            $callCenter = '6,19,11,25,10';
-        }
-        
-        $callCenterArray = explode(",",$callCenter);
-        
-        $fromTime = "8:00:00";
-        $toTime = date("H:i:s");
-        
-        $callDate = date("Y-m-d");
-        
-        $agentIDs = Agent::find()
-                ->select("AgentID")
-                ->where(['in', 'ParentTenantID', $callCenterArray])
-                ->andWhere(['Active' => 1])
-                ->asArray();
+        $agentIDs = $this->getTenantIds($callCenter);
         
         $call = CallData::find()
                 ->select("RowID")
@@ -381,8 +353,6 @@ class SiteController extends Controller
                 ->andWhere(["!=" , 'OrderID', ""])
                 ->count();        
        
-        $oldDate = date("Y-m-d" ,strtotime('-1 week',time()));
-         
         $tvCalls = CallData::find()
                 ->select("RowID")
                 ->where(['between','CreateDate', $callDate ." " .$fromTime, $callDate ." ".$toTime ])

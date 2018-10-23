@@ -442,7 +442,7 @@ Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = [
          setInterval(function(){
             loadFunctions(); // this will run after every 30 seconds
             // type 900000 for 15 minutes
-        }, 30000); 
+        }, 60000); 
         
     });
 
