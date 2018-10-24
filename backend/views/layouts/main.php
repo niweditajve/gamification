@@ -50,6 +50,7 @@ AppAsset::register($this);
                                 ['label' => 'Trophy Images', 'url' => ['/trophy/index'], 'visible' => Yii::$app->user->can('admin')],
                                 ['label' => 'Certificates', 'url' => ['/certificate/index'], 'visible' => Yii::$app->user->can('admin')],
                                 ['label' => 'Community Define', 'url' => ['/communities/index'], 'visible' => Yii::$app->user->can('admin')],
+                                ['label' => 'Call Center Admin', 'url' => ['/centeradmin/index'], 'visible' => Yii::$app->user->can('admin')],
                             ],
                             'visible' => Yii::$app->user->can('admin')
                         ],

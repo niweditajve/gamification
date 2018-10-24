@@ -43,4 +43,9 @@ class FrontendCallcenterDefine extends \yii\db\ActiveRecord
             'user_id' => 'User ID',
         ];
     }
+    
+    public function getCallCenter()
+    {
+        return $this->hasOne(Tenant::className(), ['TenantID' => 'tenant_id']);
+    }
 }
