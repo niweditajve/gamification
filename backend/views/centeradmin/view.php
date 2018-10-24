@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model backend\models\FrontendCallcenterDefine */
 
-$this->title = $model->id;
+$this->title = $model->callCenter->TenantLabel;
 $this->params['breadcrumbs'][] = ['label' => 'Dashboard admin', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $model->callCenter->TenantLabel;
 ?>

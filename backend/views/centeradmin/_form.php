@@ -82,10 +82,10 @@ use yii\widgets\ActiveForm;
             users.forEach(function(user){
                 
                 tbody +="<tr id='user"+user.id+"'> <td>";
-                tbody +=user.email;
+                tbody +="<strong>"+user.username +"</strong>, "+user.email;
                 tbody +="</td>";
                 tbody +="<td>";
-                tbody +="<a href='javascript:addUser("+user.id+",\""+user.email+"\");'>Add</a>";
+                tbody +="<a href='javascript:addUser("+user.id+",\""+user.username+"\",\""+user.email+"\");'>Add</a>";
                 tbody +="</td>";
                 tbody +="</td> </tr> "; 
             });
@@ -110,7 +110,7 @@ use yii\widgets\ActiveForm;
             users.forEach(function(user){
                 
                 tbody +="<tr id='addr"+v+"'> <td>";
-                tbody +=user.email;
+                tbody +="<strong>"+user.username +"</strong>, "+user.email;
                 tbody +="</td>";
                 tbody +="<td>";
                 tbody +="<a href='javascript:delete_row("+v+",\""+user.id+"\");'>Remove</a>";
@@ -118,7 +118,7 @@ use yii\widgets\ActiveForm;
                 tbody +="</td> </tr> "; 
                 
                 v++;
-                console.log(user.id);
+                //console.log(user.id);
                 checkUsers.push(parseInt(user.id));
         
                 $("#checkUsers").val(JSON.stringify(checkUsers));
@@ -132,7 +132,7 @@ use yii\widgets\ActiveForm;
         });
     }
     
-    function addUser(id,email){
+    function addUser(id,username,email){
     
        /* var index = checkUsers.indexOf(id);
         
@@ -144,7 +144,7 @@ use yii\widgets\ActiveForm;
           
         } */
         
-        $('#addr'+v).html( "<td>"+ email + "</td><td><a href='javascript: delete_row("+v+",\""+id+"\");'> Remove</a></td>" );
+        $('#addr'+v).html( "<td><strong>"+username+"</strong>, "+  email + "</td><td><a href='javascript: delete_row("+v+",\""+id+"\");'> Remove</a></td>" );
 		
 	$('#selected_users').append('<tr id="addr'+(v+1)+'"></tr>');
         

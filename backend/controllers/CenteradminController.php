@@ -149,10 +149,30 @@ class CenteradminController extends Controller
     }
     
     public function actionShowusers(){
-       
-       $users = User::find()
-               ->Select('id,email')
+        
+        $tenant_id = Yii::$app->request->post('tenant_id');
+        
+        $selectedUsers = FrontendCallcenterDefine::find()
+                ->select("user_id")
+                ->where(['tenant_id'=>$tenant_id])
+                ->asArray()
+                ->all();
+        
+        $notUsers = array();
+        
+        foreach($selectedUsers as $selectedUser){
+             
+            $users = json_decode($selectedUser['user_id']);
+             
+            foreach($users as $user){
+               ($user) ? array_push($notUsers, $user) : "";
+            }
+        }
+        
+        $users = User::find()
+               ->Select('id,email,username')
                ->orderBy('id')
+               ->where(['not in','id',$notUsers])
                ->asArray()
                ->all();
        
@@ -177,12 +197,13 @@ class CenteradminController extends Controller
         foreach($users as $user){
             
             $userDetail = User::find()
-               ->Select('email')
+               ->Select('email,username')
                ->where(['id'=>$user])
                ->one();
             
             $data['id'] = $user;
             $data['email'] = $userDetail['email'];
+            $data['username'] = $userDetail['username'];
             
             $response[] = $data;
             
