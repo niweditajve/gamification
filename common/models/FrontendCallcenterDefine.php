@@ -9,7 +9,7 @@ use Yii;
  *
  * @property int $id
  * @property int $tenant_id
- * @property int $user_id
+ * @property string $user_id
  */
 class FrontendCallcenterDefine extends \yii\db\ActiveRecord
 {
@@ -28,7 +28,8 @@ class FrontendCallcenterDefine extends \yii\db\ActiveRecord
     {
         return [
             [['tenant_id', 'user_id'], 'required'],
-            [['tenant_id', 'user_id'], 'integer'],
+            [['tenant_id'], 'integer'],
+            [['user_id'], 'string'],
         ];
     }
 
