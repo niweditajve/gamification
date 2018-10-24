@@ -12,7 +12,7 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'tenant_id')->textInput(['id'=>'tenant_id']) ?>
+    <?= $form->field($model, 'tenant_id')->hiddenInput(['id'=>'tenant_id'])->label(false); ?>
 
     <?php // $form->field($model, 'user_id')->textInput() ?>
     

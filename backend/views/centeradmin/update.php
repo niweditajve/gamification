@@ -7,7 +7,7 @@ use yii\helpers\Html;
 
 $this->title = 'Update Dashboard admin: ' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => 'Dashboard admin', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => $model->callCenter->TenantLabel, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="frontend-callcenter-define-update">

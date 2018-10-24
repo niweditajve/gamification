@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        //'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             
@@ -29,8 +29,34 @@ $this->params['breadcrumbs'][] = $this->title;
                 'header' => 'CallCenter',
                 'attribute' => 'callCenter.TenantLabel',
             ],
-            'user_id',            
+            
+            [
+                'header' => 'User(s)',
+                'format' => 'html',
+                'value' => function ($data) {
+                    if(!empty($data->user_id)){
+                    
+                        $users = json_decode($data->user_id);
 
+                        $return = '';
+                        foreach($users as $user){
+
+                            $userDetail = \common\models\User::find()->select("username,email")->where(["id" => $user])->one();
+                            $return .=$userDetail['username'];
+                            $return .=", ".$userDetail['email'];
+                            $return .="<br>";
+                        }
+
+                    return $return;
+                   }else{
+                       
+                      return "";
+                      
+                   }
+                   
+               },
+            ],
+            
             ['class' => 'yii\grid\ActionColumn','template'=>'{view} {update}'],
         ],
     ]); ?>
