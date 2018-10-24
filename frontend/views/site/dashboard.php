@@ -406,7 +406,7 @@ Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = [
                 type     :'POST',
                 cache    : false,
                 url      : '<?= Yii::$app->urlManager->createUrl('') ?>site/centercloserate',
-                data     : { 'tenant_id' : "<?php echo $tenantId ?>"},
+                data     : { 'tenant_id' : "<?php echo $tenantId[0] ?>"},
                 success  : function(response) 
                 {
                     var data = $.parseJSON(response);

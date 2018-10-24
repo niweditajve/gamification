@@ -17,6 +17,7 @@ use common\models\CallData;
 use common\models\Agent;
 use common\models\FrontendCallcenterDefine;
 
+
 class SiteController extends Controller
 {
     /**
@@ -80,7 +81,7 @@ class SiteController extends Controller
             
             $tenantId = $this->getTenantId();
 
-            if( Yii::$app->user->can('admin_cc') &&  ($tenantId != 0 || !empty($tenantId)) ){
+            if( Yii::$app->user->can('admin_cc') &&  (count($tenantId) > 0) ){
                 return $this->render('dashboard',['tenantId' => $tenantId]);
             }
             else{
@@ -92,14 +93,26 @@ class SiteController extends Controller
     
     public function getTenantId(){
         
-        $userId = Yii::$app->user->id; 
+        $userId = Yii::$app->user->id;
         
-        $tenantId = FrontendCallcenterDefine::find()
-                ->select('tenant_id')
-                ->where(['user_id' => $userId ])
-                ->one();
+        $result = FrontendCallcenterDefine::find()
+                ->select('tenant_id,user_id')
+                ->asArray()->all();
+        
+       $return = array();
        
-        return $tenantId['tenant_id'] ? $tenantId['tenant_id'] : 0;
+       foreach($result as $key){
+           
+           $users = json_decode($key['user_id']);
+          
+           if(in_array($userId,$users))
+           {
+               $return[] =  $key['tenant_id'];
+           }
+       }
+       
+       
+       return $return;
     }
 
     
