@@ -17,7 +17,7 @@ class Tenant extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'tbltenant';
+        return 'tblTenant';
     }
 
     /**
