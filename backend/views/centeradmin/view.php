@@ -43,12 +43,13 @@ $this->params['breadcrumbs'][] = $model->callCenter->TenantLabel;
 
                         $return = '';
                         foreach($users as $user){
-
-                            $userDetail = \common\models\User::find()->select("username,email")->where(["id" => $user])->one();
-                            $return .=$userDetail['username'];
-                            $return .=", ".$userDetail['email'];
-                            $return .="<br>";
-                        }
+                                $return .="<ul>";
+                                $userDetail = \common\models\User::find()->select("username,email")->where(["id" => $user])->one();
+                                $return .="<li>";
+                                $return .="<strong>".$userDetail['username']."</strong> ";
+                                $return .=$userDetail['email']."</li>";
+                                $return .="</ul>";
+                            }
 
                     return $return;
                    }else{

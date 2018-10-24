@@ -39,12 +39,15 @@ $this->params['breadcrumbs'][] = $this->title;
                         $users = json_decode($data->user_id);
 
                         $return = '';
-                        foreach($users as $user){
-
-                            $userDetail = \common\models\User::find()->select("username,email")->where(["id" => $user])->one();
-                            $return .=$userDetail['username'];
-                            $return .=", ".$userDetail['email'];
-                            $return .="<br>";
+                        if(count($users) > 0){
+                            foreach($users as $user){
+                                $return .="<ul>";
+                                $userDetail = \common\models\User::find()->select("username,email")->where(["id" => $user])->one();
+                                $return .="<li>";
+                                $return .="<strong>".$userDetail['username']."</strong> ";
+                                $return .=$userDetail['email']."</li>";
+                                $return .="</ul>";
+                            }
                         }
 
                     return $return;
