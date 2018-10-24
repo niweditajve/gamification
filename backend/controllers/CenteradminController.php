@@ -34,7 +34,7 @@ class CenteradminController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['index', 'view', 'create', 'update','showusers'],
+                        'actions' => ['index', 'view', 'create', 'update','showusers','selelctedusers'],
                         'roles' => ['admin','admin_agents'],
                     ],
                 ],
@@ -98,9 +98,19 @@ class CenteradminController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        
+        if ($model->load(Yii::$app->request->post())) {
+            
+            $user_id = Yii::$app->request->post('checkUsers');
+            
+            $user_ids = explode(",",str_replace(array("[","]"), array("",""),$user_id));
+           
+            $model->user_id = json_encode($user_ids);
+            
+            if($model->save())
+            {
+                return $this->redirect(['view', 'id' => $model->id]);
+            }
         }
 
         return $this->render('update', [
@@ -139,6 +149,7 @@ class CenteradminController extends Controller
     }
     
     public function actionShowusers(){
+       
        $users = User::find()
                ->Select('id,email')
                ->orderBy('id')
@@ -146,6 +157,39 @@ class CenteradminController extends Controller
                ->all();
        
        echo json_encode($users);
+       
        die();
+    }
+    
+    public function actionSelelctedusers(){
+        
+        $tenant_id = Yii::$app->request->post('tenant_id');
+        
+        $userResult = FrontendCallcenterDefine::find()
+                ->select("user_id")
+                ->where(['tenant_id'=>$tenant_id])
+                ->one();
+        
+        $users = json_decode($userResult['user_id']);
+        
+        $response = array();
+        
+        foreach($users as $user){
+            
+            $userDetail = User::find()
+               ->Select('email')
+               ->where(['id'=>$user])
+               ->one();
+            
+            $data['id'] = $user;
+            $data['email'] = $userDetail['email'];
+            
+            $response[] = $data;
+            
+        }
+        
+        echo json_encode($response);
+        
+        die();
     }
 }

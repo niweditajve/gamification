@@ -12,9 +12,9 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'tenant_id')->textInput() ?>
+    <?= $form->field($model, 'tenant_id')->textInput(['id'=>'tenant_id']) ?>
 
-    <?= $form->field($model, 'user_id')->textInput() ?>
+    <?php // $form->field($model, 'user_id')->textInput() ?>
     
     <div clas="row">
         <div class="col-md-6">
@@ -49,7 +49,7 @@ use yii\widgets\ActiveForm;
                     </tr>
                 </thead>
                 <tbody id="selected_users">
-                    <tr id="addr0"></tr>
+                    
                 </tbody>
         </table>
         </div>
@@ -65,12 +65,16 @@ use yii\widgets\ActiveForm;
 </div>
 
 <script>
+    
     var checkUsers = [];
-    function showResult(){
+    
+    function showUsers(){
+        
+        var tenant_id = $("#tenant_id").val();
         
         var url='<?= Yii::$app->urlManager->createUrl('') ?>/centeradmin/showusers';
 
-        $.post(url,{ },
+        $.post(url,{ tenant_id : tenant_id },
         function(data){
             var users = JSON.parse(data);
            
@@ -88,13 +92,57 @@ use yii\widgets\ActiveForm;
             $("#user_list").html(tbody);
         });
     }
+    
     var v = 0;
+    
+    
+    function showSelectedUsers(){
+        
+        var tenant_id = $("#tenant_id").val();
+       
+        var url='<?= Yii::$app->urlManager->createUrl('') ?>/centeradmin/selelctedusers';
+
+        $.post(url,{ tenant_id : tenant_id },
+        function(data){
+            var users = JSON.parse(data);
+           
+            var tbody ='';
+            users.forEach(function(user){
+                
+                tbody +="<tr id='addr"+v+"'> <td>";
+                tbody +=user.email;
+                tbody +="</td>";
+                tbody +="<td>";
+                tbody +="<a href='javascript:delete_row("+v+",\""+user.id+"\");'>Remove</a>";
+                tbody +="</td>";
+                tbody +="</td> </tr> "; 
+                
+                v++;
+                console.log(user.id);
+                checkUsers.push(parseInt(user.id));
+        
+                $("#checkUsers").val(JSON.stringify(checkUsers));
+                
+            });
+            
+            $("#selected_users").html(tbody);
+            
+            $('#selected_users').append('<tr id="addr'+(v)+'"></tr>');
+            
+        });
+    }
+    
     function addUser(id,email){
-        var index = checkUsers.indexOf(id);
+    
+       /* var index = checkUsers.indexOf(id);
+        
         if (index > -1) {
+            
           alert(id + " is already added.");
+          
           return false;
-        }
+          
+        } */
         
         $('#addr'+v).html( "<td>"+ email + "</td><td><a href='javascript: delete_row("+v+",\""+id+"\");'> Remove</a></td>" );
 		
@@ -110,30 +158,36 @@ use yii\widgets\ActiveForm;
     }
 
     function remove_user(id){
+        
 	$("#user"+(id)).hide();
+        
     }
-    
-    
     
     function delete_row(v,id)
     {
         
         $("#addr"+(v)).html('');
+        
         $("#user"+(id)).show();
         
+        //var index = checkUsers.indexOf(id);
         var index = checkUsers.indexOf(parseInt(id));
-        
-        console.log(index);
+       
         if (index > -1) {
+            
           checkUsers.splice(index, 1);
+          
         }
         
        $("#checkUsers").val(JSON.stringify(checkUsers));
+       
     }
-        
+       
     $(document).ready(function(e){
         
-        showResult();
+        showUsers();
+        
+        showSelectedUsers();
         
     });
 </script>
