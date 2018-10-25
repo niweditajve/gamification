@@ -40,7 +40,7 @@ Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = [
                     endif;
                     
                     $tenants = implode(",",$tenantArr);
-                    //echo '<pre>';print_r($tenantArr); echo $tenants;echo '</pre>';
+                    
                     ?>
                 </div>
             </div>
@@ -483,7 +483,7 @@ Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = [
         }, 60000); 
         
          $('#call_center').on('change', function() {
-            loadFunctions();
+            centerCloseRate();
         });
         
     });
