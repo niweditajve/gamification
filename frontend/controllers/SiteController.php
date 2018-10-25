@@ -16,6 +16,7 @@ use yii\helpers\Url;
 use common\models\CallData;
 use common\models\Agent;
 use common\models\FrontendCallcenterDefine;
+use common\models\Tenant;
 
 
 class SiteController extends Controller
@@ -79,10 +80,10 @@ class SiteController extends Controller
            return $this->render('index');
         }else{
             
-            $tenantId = $this->getTenantId();
+            $tenant = $this->getTenant();
 
-            if( Yii::$app->user->can('admin_cc') &&  (count($tenantId) > 0) ){
-                return $this->render('dashboard',['tenantId' => $tenantId]);
+            if( Yii::$app->user->can('admin_cc') &&  (count($tenant) > 0) ){
+                return $this->render('dashboard',['tenant' => $tenant]);
             }
             else{
                 return $this->render('index');  
@@ -91,7 +92,7 @@ class SiteController extends Controller
         
     }
     
-    public function getTenantId(){
+    public function getTenant(){
         
         $userId = Yii::$app->user->id;
         
@@ -107,7 +108,14 @@ class SiteController extends Controller
           
            if(in_array($userId,$users))
            {
-               $return[] =  $key['tenant_id'];
+               $tenant = Tenant::find()
+                       ->select('TenantLabel')
+                       ->where(['TenantID'=>$key['tenant_id']])
+                       ->one();
+               
+               $data['TenantLabel'] = $tenant['TenantLabel'];
+               $data['TenantID'] = $key['tenant_id'];
+               $return[] =  $data;
            }
        }
        
@@ -184,23 +192,9 @@ class SiteController extends Controller
 	        }
 	    }
 
-	    return '';
-	    }
-            
-    public function getTenantIds(){
-        
-        $callCenter = '6,19,11,25,10';
-        
-        $callCenterArray = explode(",",$callCenter);
-        
-        $agentIDs = Agent::find()
-                ->select("AgentID")
-                ->where(['in', 'ParentTenantID', $callCenterArray])
-                ->andWhere(['Active' => 1])
-                ->asArray();
-        
-        return $agentIDs;
+    return '';
     }
+            
     
     public function getCallDate(){
         return $callDate = date("Y-m-d");
@@ -549,8 +543,15 @@ class SiteController extends Controller
     
     public function actionCentercloserate(){
         
-        $tenant_id = Yii::$app->request->post('tenant_id');
+        $tenant = Yii::$app->request->post('tenant');
+        $allTenants = Yii::$app->request->post('allTenants');
         
+        if($tenant == "all"):
+            $callCenters = explode(",",$allTenants);
+        else:
+            $callCenters = $tenant;
+        endif;
+         
         $response = array(); 
         
         $fromTime = $this->getFromTime();
@@ -559,7 +560,7 @@ class SiteController extends Controller
         
         $agentIDs = Agent::find()
                 ->select("AgentID")
-                ->where(['ParentTenantID'=> $tenant_id])
+                ->where(['in','ParentTenantID',$callCenters])
                 ->andWhere(['Active' => 1])
                 ->asArray();
         
@@ -581,5 +582,20 @@ class SiteController extends Controller
         $response['centerCloseRate']    = number_format((float) ($rate), 2, '.',',') . "%";
         
         echo json_encode($response);
+    }
+    
+    public function getTenantIds(){
+        
+        $callCenter = '6,19,11,25,10';
+        
+        $callCenterArray = explode(",",$callCenter);
+        
+        $agentIDs = Agent::find()
+                ->select("AgentID")
+                ->where(['in', 'ParentTenantID', $callCenterArray])
+                ->andWhere(['Active' => 1])
+                ->asArray();
+        
+        return $agentIDs;
     }
 }

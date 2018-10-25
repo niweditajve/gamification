@@ -22,6 +22,30 @@ Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = [
 <div class="site-index">
 
     <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <?php 
+                    $tenantArr = array();
+                    if(count($tenant) == 1):
+                        echo '<input type="hidden" name="call_center" id="call_center" value="'.$tenant[0]['TenantID'].'" />';
+                    else:
+                        echo '<select class="form-control" id="call_center">
+                        <option value="all"> Combined Call Centers </option>';
+                        foreach($tenant as $key):
+                            echo '<option value="'.$key['TenantID'].'"> '.$key['TenantLabel'].' </option>';
+                            $tenantArr[]=$key['TenantID'];
+                        endforeach;
+                        echo '</select>';
+                    endif;
+                    
+                    $tenants = implode(",",$tenantArr);
+                    //echo '<pre>';print_r($tenantArr); echo $tenants;echo '</pre>';
+                    ?>
+                </div>
+            </div>
+        </div>
+        
        
         <div class="row">
             <div class="col-lg-3">
@@ -255,12 +279,12 @@ Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = [
      
      function callsValues(){
          
-         //alert("<?=\Yii::$app->request->csrfToken?>");
+            var call_center = $("#call_center").val();
+            
             $.ajax({
-                type     :'POST',
-                //cache    : false,                
+                type     :'POST',           
                 url      : '<?= Yii::$app->urlManager->createUrl('') ?>site/totalcallcount',
-                data     : {},
+                data     : { 'tenant' : call_center , 'allTenants' : "<?php echo $tenants; ?>"},
                 success  : function(response) 
                 {
                     var data = $.parseJSON(response);
@@ -279,12 +303,14 @@ Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = [
      }
      
      function ordersValues(){
-         
+            
+            var call_center = $("#call_center").val();
+            
             $.ajax({
                 type     :'POST',
                 cache    : false,
                 url      : '<?= Yii::$app->urlManager->createUrl('') ?>site/totalorderscount',
-                data     : {},
+                data     : { 'tenant' : call_center , 'allTenants' : "<?php echo $tenants; ?>"},
                 success  : function(response) 
                 {
                     var data = $.parseJSON(response);
@@ -302,11 +328,14 @@ Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = [
      }
      
      function answerRate(){
+     
+            var call_center = $("#call_center").val();
+            
            $.ajax({
                 type     :'POST',
                 cache    : false,
                 url      : '<?= Yii::$app->urlManager->createUrl('') ?>site/answerrate',
-                data     : {},
+                data     : { 'tenant' : call_center , 'allTenants' : "<?php echo $tenants; ?>"},
                 success  : function(response) 
                 {
                     var data = $.parseJSON(response);
@@ -319,11 +348,13 @@ Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = [
      
      function attachmentRate(){
      
+            var call_center = $("#call_center").val();
+     
            $.ajax({
                 type     :'POST',
                 cache    : false,
                 url      : '<?= Yii::$app->urlManager->createUrl('') ?>site/attachementrate',
-                data     : { },
+                data     : { 'tenant' : call_center , 'allTenants' : "<?php echo $tenants; ?>"},
                 success  : function(response) 
                 {
                     var data = $.parseJSON(response);
@@ -338,11 +369,13 @@ Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = [
      
      function currentRate(){
      
+            var call_center = $("#call_center").val();
+            
             $.ajax({
                 type     :'POST',
                 cache    : false,
                 url      : '<?= Yii::$app->urlManager->createUrl('') ?>site/currentcloserate',
-                data     : {},
+                data     : { 'tenant' : call_center , 'allTenants' : "<?php echo $tenants; ?>"},
                 success  : function(response) 
                 {
                     var data = $.parseJSON(response);
@@ -354,12 +387,14 @@ Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = [
      }
      
      function closeRates(){
-      
+     
+            var call_center = $("#call_center").val();
+            
             $.ajax({
                 type     :'POST',
                 cache    : false,
                 url      : '<?= Yii::$app->urlManager->createUrl('') ?>site/closerates',
-                data     : {},
+                data     : { 'tenant' : call_center , 'allTenants' : "<?php echo $tenants; ?>"},
                 success  : function(response) 
                 {
                     var data = $.parseJSON(response);
@@ -402,11 +437,14 @@ Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = [
      }
      
      function centerCloseRate(){
+            
+            var call_center = $("#call_center").val();
+            
             $.ajax({
                 type     :'POST',
                 cache    : false,
-                url      : '<?= Yii::$app->urlManager->createUrl('') ?>site/centercloserate',
-                data     : { 'tenant_id' : "<?php echo $tenantId[0] ?>"},
+                url      : '<?= Yii::$app->urlManager->createUrl('') ?>site/centercloserate',                
+                data     : { 'tenant' : call_center , 'allTenants' : "<?php echo $tenants; ?>"},
                 success  : function(response) 
                 {
                     var data = $.parseJSON(response);
@@ -443,6 +481,10 @@ Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = [
             loadFunctions(); // this will run after every 30 seconds
             // type 900000 for 15 minutes
         }, 60000); 
+        
+         $('#call_center').on('change', function() {
+            loadFunctions();
+        });
         
     });
 
