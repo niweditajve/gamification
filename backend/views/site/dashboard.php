@@ -32,7 +32,7 @@ $this->title = 'RM Factory';
                 <div class="card card-chart">
                     <div class="card-header">
                         <h5 class=""> Calls now/Calls Last week </h5>
-                        Same time
+                        <span>Same time</span>
 
                     </div>
                     <div class="card-body">
@@ -58,7 +58,7 @@ $this->title = 'RM Factory';
                 <div class="card card-chart">
                     <div class="card-header">
                         <h5 class="">Orders now/Orders Last week </h5>
-                        Same time
+                        <span class='senond-text'>Same time</span>
 
                     </div>
                     <div class="card-body">

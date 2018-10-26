@@ -904,6 +904,12 @@ body {
 .table-full-width { padding: 11px 0px !important;width: 217px;}
 #callsRate {padding: 0px 0px 0px 0px !important;}
 .order-count {padding: 10px 0px 5px 0px!important;width: 200px;margin: 0px auto;display: block;text-align: center;}
+.card-header span {
+    padding-left: 34px;
+}
+span.senond-text {
+padding-left: 23px;
+}
 
 /*media query*/
 @media only screen and (max-width: 1366px) and (min-width: 1281px)  {

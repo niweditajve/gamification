@@ -52,7 +52,7 @@ Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = [
                 <div class="card card-chart">
                     <div class="card-header">
                         <h5 class=""> Calls now/Calls Last week </h5>
-                        Same time
+                        <span>Same time</span>
 
                     </div>
                     <div class="card-body">
@@ -78,7 +78,7 @@ Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = [
                 <div class="card card-chart">
                     <div class="card-header">
                         <h5 class="">Orders now/Orders Last week </h5>
-                        Same time
+                        <span class='senond-text'>Same time</span>
 
                     </div>
                     <div class="card-body">
@@ -480,7 +480,7 @@ Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = [
          setInterval(function(){
             loadFunctions(); // this will run after every 30 seconds
             // type 900000 for 15 minutes
-        }, 60000); 
+        }, 60000);
         
          $('#call_center').on('change', function() {
             centerCloseRate();
