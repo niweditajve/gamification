@@ -890,3 +890,79 @@ body {
 .center-rate{
     font-size: 2.5em;
 }
+/*media query*/
+@media only screen and (max-width: 1366px) and (min-width: 1281px)  {
+.order-percentage {font-size: 3.5em;padding: 0px 0px 0px 0px!important;margin: 0px auto;text-align: center !important;}
+.arrow-up{left:48px!important;}
+.order-rate {font-size: 2.5em;padding: 0px 0px 0px 53px;min-width: 250px; width: 100%;
+}
+.card-header h5 {text-align: center;}
+.main-order-percentage {padding: 20px 0px 0px 0px!important;margin: 0px auto;text-align: center !important;}
+.card-category{font-size:22px;}
+.card .card-body {padding: 0px 0px 0px 0px!important;margin: 0px auto;text-align: center;}
+.table-full-width { padding: 11px 0px !important;width: 217px;}
+#callsRate {padding: 0px 0px 0px 0px !important;}
+.order-count {padding: 10px 0px 5px 0px!important;width: 200px;margin: 0px auto;display: block;text-align: center;}
+}
+@media only screen and (max-width: 1280px) and (min-width: 1046px)  {
+.arrow-up {left: 17px;}
+.order-rate {font-size: 2.5em;padding: 0px 0px 0px 57px;}
+.answer-rate {font-size: 5.0em; padding: 0px 0px 0px 0px;}
+.main-order-percentage {font-size: 6em;padding: 20px 0px 0px 0px;}
+.order-percentage {font-size: 3.5em;padding: 0px 0px 0px 0px;
+}
+}
+    
+@media only screen and (max-width: 1045px) and (min-width: 992px)  {
+.order-percentage {padding: 0px 0px 0px 0px;}
+.arrow-up {left: 13px;}
+.order-rate {font-size: 2.5em;padding: 0px 0px 0px 47px;}
+.main-order-percentage {font-size: 8em;padding: 20px 0px 0px 0px;}
+.answer-rate {padding: 0px 0px 0px 0px;}
+.card-category {font-size: 21px;}
+}
+    
+
+@media only screen and (max-width: 991px) and (min-width: 768px)  {
+.arrow-up {left: 14px;}
+.order-rate {font-size: 2.5em;padding: 0px 0px 0px 52px;}
+.answer-rate {font-size: 6em;padding: 0px 0px 0px 0px;}
+.main-order-percentage {font-size: 6em;padding: 20px 0px 0px 0px;}
+.order-percentage {font-size: 4.5em;padding: 0px 0px 0px 0px;}
+}
+
+
+@media only screen and (max-width: 767px) and (min-width: 591px)  {
+.arrow-up {left: 14px!important;}
+.order-rate {padding: 0px 0px 0px 52px;}
+.answer-rate {padding: 0px 0px 0px 0px;font-size: 4em;}
+.main-order-percentage {padding: 20px 0px 0px 0px;font-size: 4em;}
+.order-percentage {font-size: 3.5em;padding: 0px 0px 0px 0px;
+}
+
+}
+
+@media only screen and (max-width: 590px) and (min-width: 471px)  {
+.answer-rate {font-size: 5.0em;padding: 0px 0px 0px 0px;
+}
+.main-order-percentage {font-size: 6em;padding: 20px 0px 0px 0px;
+}
+.order-percentage {font-size: 3.5em;padding: 0px 0px 0px 0px;
+}
+.arrow-up {left: 18px!important;}
+.order-rate {font-size: 2.5em;padding: 0px 0px 0px 53px;}
+}
+@media only screen and (max-width: 470px) and (min-width: 320px)  {
+  .main-order-percentage {
+    font-size: 5em;
+    padding: 22px 0px 0px 0px;
+    margin: 0px auto;
+   }
+.answer-rate {font-size: 5.0em;padding: 0px 0px 0px 0px;
+}
+.order-percentage {font-size: 3.5em;padding: 0px 0px 0px 0px;
+}
+.arrow-up {left: 17px!important;}
+.order-rate {padding: 0px 0px 0px 57px;}
+}
+
