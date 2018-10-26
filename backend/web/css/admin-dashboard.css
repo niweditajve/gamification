@@ -894,7 +894,7 @@ body {
 }
 .order-percentage {font-size: 3.5em;padding: 0px 0px 0px 0px!important;margin: 0px auto;text-align: center !important;}
 .arrow-up{left:48px!important;}
-.order-rate {font-size: 2.5em;padding: 0px 0px 0px 53px;min-width: 250px; width: 100%;
+.order-rate {font-size: 2.5em;padding: 0px 0px 0px 53px;min-width: 250px; width: 100%;position: relative;
 }
 .card-header h5 {text-align: center;}
 

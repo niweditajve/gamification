@@ -895,7 +895,7 @@ body {
 }
 .order-percentage {font-size: 3.5em;padding: 0px 0px 0px 0px!important;margin: 0px auto;text-align: center !important;}
 .arrow-up{left:48px!important;}
-.order-rate {font-size: 2.5em;padding: 0px 0px 0px 53px;min-width: 250px; width: 100%;
+.order-rate {font-size: 2.5em;padding: 0px 0px 0px 53px;min-width: 250px; width: 100%;position: relative;
 }
 .card-header h5 {text-align: center;}
 
@@ -950,10 +950,24 @@ padding-left: 23px;
 .answer-rate {font-size: 6em;padding: 0px 0px 0px 0px;}
 .main-order-percentage {font-size: 6em;padding: 20px 0px 0px 0px;}
 .order-percentage {font-size: 4.5em;padding: 0px 0px 0px 0px;}
+.card-header span {
+    padding-left: 0px!important;
+    margin: 0px auto;
+    text-align: center!important;
+    float: left;
+    width: 100%;
+}
 }
 
 
 @media only screen and (max-width: 767px) and (min-width: 591px)  {
+    .card-header span {
+    padding-left: 0px!important;
+    margin: 0px auto;
+    text-align: center!important;
+    float: left;
+    width: 100%;
+}
 .arrow-up {left: 14px!important;}
 .order-rate {padding: 0px 0px 0px 52px;}
 .answer-rate {padding: 0px 0px 0px 0px;font-size: 4em;}
@@ -964,6 +978,13 @@ padding-left: 23px;
 }
 
 @media only screen and (max-width: 590px) and (min-width: 471px)  {
+    .card-header span {
+    padding-left: 0px!important;
+    margin: 0px auto;
+    text-align: center!important;
+    float: left;
+    width: 100%;
+}
 .answer-rate {font-size: 5.0em;padding: 0px 0px 0px 0px;
 }
 .main-order-percentage {font-size: 6em;padding: 20px 0px 0px 0px;
@@ -974,6 +995,13 @@ padding-left: 23px;
 .order-rate {font-size: 2.5em;padding: 0px 0px 0px 53px;}
 }
 @media only screen and (max-width: 470px) and (min-width: 320px)  {
+    .card-header span {
+    padding-left: 0px!important;
+    margin: 0px auto;
+    text-align: center!important;
+    float: left;
+    width: 100%;
+}
   .main-order-percentage {
     font-size: 5em;
     padding: 22px 0px 0px 0px;
