@@ -325,7 +325,7 @@ body {
 }
 
 .card .card-header {
-  padding: 15px 15px 0;
+ 
   border: 0;
   color: rgba(255, 255, 255, 0.8);
 }
@@ -880,12 +880,29 @@ body {
 
 .main-order-percentage{
     font-size: 8em;
-    padding: 65px 0px 0px 45px;
+    padding: 20px 0px 0px 0px;
+    margin: 0px auto;
+    text-align: center!important;
 }
 
 .footer{
     color:#000;
 }
+
+.center-rate{
+    font-size: 2.5em;
+}
+.order-percentage {font-size: 3.5em;padding: 0px 0px 0px 0px!important;margin: 0px auto;text-align: center !important;}
+.arrow-up{left:48px!important;}
+.order-rate {font-size: 2.5em;padding: 0px 0px 0px 53px;min-width: 250px; width: 100%;
+}
+.card-header h5 {text-align: center;}
+
+.card-category{font-size:22px;}
+.card .card-body {padding: 0px 0px 0px 0px!important;margin: 0px auto;text-align: center;}
+.table-full-width { padding: 11px 0px !important;width: 217px;}
+#callsRate {padding: 0px 0px 0px 0px !important;}
+.order-count {padding: 10px 0px 5px 0px!important;width: 200px;margin: 0px auto;display: block;text-align: center;}
 
 /*media query*/
 @media only screen and (max-width: 1366px) and (min-width: 1281px)  {
