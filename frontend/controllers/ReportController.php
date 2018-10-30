@@ -4,7 +4,7 @@ namespace frontend\controllers;
 
 use Yii;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
+//use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use common\models\Usercallcenters;
 use common\models\CallcenterDefine;
@@ -35,7 +35,7 @@ class ReportController extends Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['certificates', 'agents', 'cert'],
+                        'actions' => ['certificates', 'agents', 'cert','export'],
                         'roles' => ['admin_cc'],
                     ],
                 ],
@@ -56,7 +56,9 @@ class ReportController extends Controller
                 ->select('tenant_id')
                 ->where(['callcenter_define_id'=>$profile_id])
                 ->all();
-
+        
+        $tenant_ids = array();
+        
         foreach($tenants as $tenant_key){
             $tenant_ids[] = $tenant_key['tenant_id'];
         }
@@ -222,6 +224,8 @@ class ReportController extends Controller
 
         $dataProvider = $searchModel->searchActive(Yii::$app->request->queryParams);
         
+        headers_sent();
+        
         ExcelView::widget([
             'dataProvider' => $dataProvider,
             'filterModel' => $searchModel,
@@ -239,5 +243,6 @@ class ReportController extends Controller
                         ],
               ],
         ]);
+            return ob_get_clean();                
     }
 }
