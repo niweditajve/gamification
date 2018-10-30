@@ -44,7 +44,7 @@ class ReportController extends Controller
     }
     
     public function getTenants(){
-        
+        //echo Yii::$app->user->id;
         $profile = CallcenterDefine::find()
             ->select('id')
             ->where(['user_id' => Yii::$app->user->id])
@@ -62,17 +62,22 @@ class ReportController extends Controller
         foreach($tenants as $tenant_key){
             $tenant_ids[] = $tenant_key['tenant_id'];
         }
-        
+        // print_r($tenant_ids); exit;
         return $tenant_ids;
     }
 
    public function actionAgents(){
        
-       $sql = "SELECT `tblAgent`.`FirstName`, `tblAgent`.`LastName`,`tblAgent`. `Login` ,
+       if(count($this->getTenants()) <=0):
+           $sql= 'SELECT `tblAgent`.`FirstName` FROM `tblAgent` WHERE `tblAgent`.Active = 1 AND `tblAgent`.Active = 0';
+       else:
+           $sql = "SELECT `tblAgent`.`FirstName`, `tblAgent`.`LastName`,`tblAgent`. `Login` ,
                 (SELECT hit_time FROM gamification_agentlastlogin WHERE agent_id = `tblAgent`.`AgentID` ORDER BY id DESC LIMIT 1) as lastlogin
                 FROM `tblAgent` 
                 WHERE `tblAgent`.Active = 1 AND ParentTenantID IN (". implode(",", $this->getTenants() ) .")
-                ";
+                "; 
+       endif;
+      
         
         $connection=Yii::$app->db;
         
@@ -145,15 +150,21 @@ class ReportController extends Controller
         
         $sql .=" GROUP BY `tblAgent`.`AgentID`";
         
+        if(count($this->getTenants()) <=0):
+           $query = 'SELECT `tblAgent`.`FirstName` FROM `tblAgent` WHERE `tblAgent`.Active = 1 AND `tblAgent`.Active = 0';
+        else:
+            $query = $sql;
+        endif;
+        
         $connection=Yii::$app->db;
         
-        $command=$connection->createCommand($sql);
+        $command=$connection->createCommand($query);
         
         $rowCount=$command->execute();
         
         $dataProvider = new SqlDataProvider([
             'db' => Yii::$app->db,
-            'sql' => $sql,
+            'sql' => $query,
             'totalCount' => $rowCount,
             'sort' =>false,
             'pagination' => [
@@ -194,16 +205,22 @@ class ReportController extends Controller
         $sql .=" AND ParentTenantID IN (". implode(",", $this->getTenants() ) .") ";
 
         $sql .=" GROUP BY `gamification_agentcertificates`.`agent_id` ";
+        
+        if(count($this->getTenants()) <=0):
+           $query = 'SELECT `tblAgent`.`FirstName` FROM `tblAgent` WHERE `tblAgent`.Active = 1 AND `tblAgent`.Active = 0';
+        else:
+            $query = $sql;
+        endif;
        
         $connection=Yii::$app->db;
         
-        $command=$connection->createCommand($sql);
+        $command=$connection->createCommand($query);
         
         $rowCount=$command->execute();
         
         $dataProvider = new SqlDataProvider([
             'db' => Yii::$app->db,
-            'sql' => $sql,
+            'sql' => $query,
             'totalCount' => $rowCount,
             'sort' =>false,
             'pagination' => [
