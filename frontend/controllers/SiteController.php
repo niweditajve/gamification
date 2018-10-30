@@ -17,6 +17,7 @@ use common\models\CallData;
 use common\models\Agent;
 use common\models\FrontendCallcenterDefine;
 use common\models\Tenant;
+use common\models\TfnMedia;
 
 
 class SiteController extends Controller
@@ -67,7 +68,7 @@ class SiteController extends Controller
        
         $this->enableCsrfValidation = false;
         return parent::beforeAction($action);
-    }
+    } 
 
     /**
      * Displays homepage.
@@ -302,13 +303,57 @@ class SiteController extends Controller
     
     public function actionAnswerrate(){
         
-        $callCenter = '6,19,11,25,10';
+        $sTime = $this->getFromTime();
+        $eTime = $this->getToTime();
+        $callDate = $this->getCallDate();
        
-        $callCenterArray = explode(",",$callCenter);
+        $sDate = "2016-12-28 " . $sTime;//$callDate . " " . $sTime;
+        $eDate = $callDate . " " . $eTime;
+        $fDNIS = " and (DNIS is null or DNIS in (select inContactTFN from tfnMedia where mediaType in ('Other','Broadcast','Campaigns','Web','Callback','Directories','Digital','Broadcast2','Direct Mail','Web Managed')))";
+        
+        $qstr = "select DNIS,
+        sum(offered) as offered,
+        sum(answered) as answered 
+        from (
+                (SELECT DNIS, 
+                sum(if(LastState=19 or LastState=16 or (LastState=17 and Transfer!=1),1,0)) as offered,
+                sum(if(LastState=19,1,0)) as answered 
+                from billing_summaries 
+                where CallType='call' 
+                and Start BETWEEN UNIX_TIMESTAMP('" . $sDate . "') AND UNIX_TIMESTAMP('" . $eDate . "') 
+                group by DNIS 
+                order by DNIS) 
+                union 
+                (SELECT DNIS,
+                count(ContactID) as offered,
+                sum(if(LastState=19,1,0)) as answered 
+                from billing_summaries2 
+                where CallType='call' 
+                and Start BETWEEN UNIX_TIMESTAMP('" . $sDate . "') AND UNIX_TIMESTAMP('" . $eDate . "') 
+                group by DNIS 
+                order by DNIS))
+                t where 1=1 " . $fDNIS . " 
+                group by DNIS 
+                order by DNIS";
+        
+        $command = Yii::$app->db->createCommand($qstr);
+
+        $result = $command->queryAll();
+       
+        $offered = 0;
+        $answered = 0;
+        
+        foreach($result as $key)
+        {
+            $offered += $key['offered'];
+            $answered += $key['answered'];
+        }
+        
+        $rate = 100 * ($answered)/($offered);
         
         $response = array();
         
-        $response['answerRate']    = rand(10,100);
+        $response['answerRate']    = number_format((float) ($rate), 2, '.',',');
         
         echo json_encode($response);
     }
@@ -598,4 +643,5 @@ class SiteController extends Controller
         
         return $agentIDs;
     }
+    
 }
