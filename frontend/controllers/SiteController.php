@@ -307,7 +307,7 @@ class SiteController extends Controller
         $eTime = $this->getToTime();
         $callDate = $this->getCallDate();
        
-        $sDate = "2016-12-28 " . $sTime;//$callDate . " " . $sTime;
+        $sDate = $callDate . " " . $sTime;
         $eDate = $callDate . " " . $eTime;
         $fDNIS = " and (DNIS is null or DNIS in (select inContactTFN from tfnMedia where mediaType in ('Other','Broadcast','Campaigns','Web','Callback','Directories','Digital','Broadcast2','Direct Mail','Web Managed')))";
         
@@ -349,7 +349,7 @@ class SiteController extends Controller
             $answered += $key['answered'];
         }
         
-        $rate = 100 * ($answered)/($offered);
+        $rate = ($answered && $offered) ? 100 * ($answered)/($offered) : 0;
         
         $response = array();
         
