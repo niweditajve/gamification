@@ -44,7 +44,7 @@ class ReportController extends Controller
     }
     
     public function getTenants(){
-        //echo Yii::$app->user->id;
+        
         $profile = CallcenterDefine::find()
             ->select('id')
             ->where(['user_id' => Yii::$app->user->id])
@@ -62,7 +62,7 @@ class ReportController extends Controller
         foreach($tenants as $tenant_key){
             $tenant_ids[] = $tenant_key['tenant_id'];
         }
-        // print_r($tenant_ids); exit;
+        
         return $tenant_ids;
     }
 
