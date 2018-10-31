@@ -13,6 +13,8 @@ $this->params['breadcrumbs'][] = 'Update';
 <div class="categories-update">
 
     <h1><?= Html::encode($this->title) ?></h1>
+    
+    <?php echo "<h4>".$model->callcenterDefine['title']."</h4>"; ?>
 
     <?= $this->render('_form', [
         'model' => $model,

@@ -31,6 +31,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'point',
             
             [
+                'attribute' => 'Call Center',
+                'value' => $model->callcenterDefine['title'],
+            ],
+            
+            [
                 'attribute' => 'Red Color Bar Range',
                 'value' => "0% - ".$model->red_cut_off . "%",
             ],
