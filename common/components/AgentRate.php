@@ -6,6 +6,7 @@ use yii\base\Component;
 use common\models\Agent;
 use common\models\Certificates;
 use common\models\Trophyimages;
+use common\models\Usercallcenters;
 
 class AgentRate extends Component {
     
@@ -339,11 +340,15 @@ class AgentRate extends Component {
      * Return - Return color for bar graphs.
      */
 
-    public function getTodaysPoints($agentID, $wkd = null) {
+    public function getTodaysPoints($agentID,$skillType, $wkd = null) {
 
         $dateCondition = $this->getDateCondition($wkd);
+        
+        if($skillType == "Dealer SalesOnCall"){
+            $skillType = "Dealer";
+        }
 
-        $sql = "SELECT sum(point) as points FROM `gamification_agentpoints` WHERE $dateCondition AND AgentID =" . $agentID;
+        $sql = "SELECT sum(point) as points FROM `gamification_agentpoints` WHERE $dateCondition AND AgentID =" . $agentID . " AND skill= '".$skillType."' ";
 
         $command = Yii::$app->db->createCommand($sql);
 
@@ -360,11 +365,20 @@ class AgentRate extends Component {
      * Description - Get all trophies achieved by an agent.
      * Return - Return trophies achieved by an agent.
      */
-    public function getTrophies($agentID) {
+    public function getTrophies($agentID,$skillType) {
 
-        $agentWkPoints = $this->getTodaysPoints($agentID);
+        $agentWkPoints = $this->getTodaysPoints($agentID,$skillType);
+        
+        $parentTenentId = Yii::$app->agentcomponent->getAgentTenantId($agentID);
+        
+        $getGameAdminId = Usercallcenters::find()->select('callcenter_define_id')->where([ 'tenant_id' => $parentTenentId ])->one();
+        
+        $gameAdminId = $getGameAdminId['callcenter_define_id'];
 
-        $model = Certificates::find()->select('trohpy_image_id')->where('point <= :points', [':points' => $agentWkPoints])->all();
+        $model = Certificates::find()->select('trohpy_image_id')
+                ->where('point <= :points', [':points' => $agentWkPoints])
+                ->andWhere(['game_admin_id'=>$gameAdminId])
+                ->all();
 
         $trophies = array();
 
@@ -415,6 +429,7 @@ class AgentRate extends Component {
 
         if (empty($wkd)) {
             $text = "created_at >= '" . date('Y-m-d') . " 00:00:00' AND created_at < '" . date('Y-m-d') . " 23:59:59'";
+            
         } else {
 
             $monday = strtotime("last monday");
@@ -439,9 +454,13 @@ class AgentRate extends Component {
     public function getLeaderPoints($skillType) {
 
         //$getSkills = $this->getLeaderSkills($skillType);
+        
+        if($skillType == "Dealer SalesOnCall"){
+            $skillType = "Dealer";
+        }
 
-        $sql = "SELECT max(point) as maxPonits FROM `gamification_agentpoints` WHERE created_at >= '" . date('Y-m-d') . " 00:00:00' AND created_at < '" . date('Y-m-d') . " 11:59:59'"; //. $getSkills;
-
+        $sql = "SELECT max(point) as maxPonits FROM `gamification_agentpoints` WHERE created_at >= '" . date('Y-m-d') . " 00:00:00' AND created_at < '" . date('Y-m-d') . " 11:59:59' AND skill = '". $skillType."' ";
+        
         $command = Yii::$app->db->createCommand($sql);
 
         $result = $command->queryAll();

@@ -80,14 +80,14 @@ $this->title = 'Dealer SOC';
                     <div class="col-md-2">
                         <span class="top-text"> Today's Points Earned  </span>
 						<?php
-						$todaysPoints = Yii::$app->agentcomponent->getTodaysPoints($agentId);
+						$todaysPoints = Yii::$app->agentcomponent->getTodaysPoints($agentId,$skillType);
 						?>
                         <div class="demo-3" data-backcolor="<?php echo Yii::$app->agentcomponent->getColor(25, 60, $todaysPoints); ?>" data-percent="<?php echo $todaysPoints; ?>" data-nopercentage="1"></div>
                     </div>
                     <div class="col-md-2">
                         <span class="top-text">WTD Points </span>
 						<?php
-						$wtd = Yii::$app->agentcomponent->getTodaysPoints($agentId, 1);
+						$wtd = Yii::$app->agentcomponent->getTodaysPoints($agentId,$skillType, 1);
 						?>
                         <div class="demo-1" data-backcolor="<?php echo Yii::$app->agentcomponent->getColor(25, 60, $wtd); ?>" data-percent="<?php echo $wtd; ?>" data-nopercentage="1"></div>
                     </div>
@@ -115,7 +115,7 @@ $this->title = 'Dealer SOC';
                     </div>
                     <div class="col-md-8">
                         <?php
-                        $sliderArray = Yii::$app->agentcomponent->getTrophies($agentId);
+                        $sliderArray = Yii::$app->agentcomponent->getTrophies($agentId,$skillType);
 
                         echo \aki\imageslider\ImageSlider::widget([
                             'baseUrl' => Yii::getAlias('@web/images'),

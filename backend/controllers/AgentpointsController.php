@@ -98,15 +98,14 @@ class AgentpointsController extends Controller {
         $skills = array("Business","Consumer","Dealer");
         
         foreach ($records as $key) {
-            
+           
             $categoryId = $key['id'];
             
-            $categoeryKey = $key['category_key'];            
+            $categoeryKey = $key['category_key'];       
             
             $pointValue = $key['point'];
 
-            $selectStatement = $this->getSelectStatement($categoeryKey);
-            
+            $selectStatement = $this->getSelectStatement($categoeryKey);            
 
             $query = "SELECT count(RowID) as totalOrders, AgentID ,$selectStatement as answered"
                     . " FROM `callData` WHERE AgentID !=0 "
@@ -128,13 +127,14 @@ class AgentpointsController extends Controller {
             if ($categoeryKey == "transfer") {
                 $query .= " AND DispositionCode IN ('Transfer to Business','Transfer to Government','Transfer to Enterprise','Transfer to Consumer','Transfer To Another Business Agent')";
             }
-            
+           
             $queryCommand = Yii::$app->db->createCommand($query);
-            
+           
             $result = $queryCommand->queryAll(); 
 
-             foreach ($result as $resultKey) {
 
+             foreach ($result as $resultKey) {
+                
                 $AgentID = $resultKey['AgentID'];
 
                 $answered = $resultKey['answered'];
@@ -170,12 +170,13 @@ class AgentpointsController extends Controller {
 
                         if ($agentrate > $communityRate){
                             
-                            $this->updateAgentPoint($AgentID, $categoryId, $pointValue);
+                            $this->updateAgentPoint($AgentID, $categoryId, $pointValue,$skillKey);
                         }
                             
                         
                     }
-
+                    
+                    
                     
                 }
             } 
@@ -190,7 +191,7 @@ class AgentpointsController extends Controller {
     public function getCommunity($agentId, $skillType) {
         
         $parentTenentId = Yii::$app->agentcomponent->getAgentTenantId($agentId);
-        
+       
         /*$skills = Skills::find()->where(["skill" => $skillType])->one();
 
         $skillArray = json_decode($skills['salesSourceId']);
@@ -200,11 +201,11 @@ class AgentpointsController extends Controller {
         $getGameAdminId = Usercallcenters::find()->select('callcenter_define_id')->where([ 'tenant_id' => $parentTenentId ])->one();
         
         $gameAdminId = $getGameAdminId['callcenter_define_id'];
-
+        
         $skills = Skills::find()->where(["skill" => $skillType , 'game_admin_id' => $gameAdminId])->one();
 
         $skillArray = json_decode($skills['sales_source_Id']);
-       
+         
         return (is_array($skillArray)) ? implode(",", $skillArray) : "";
     }
     
@@ -213,13 +214,14 @@ class AgentpointsController extends Controller {
      * @param integer $agentID,integer $cat_id,integer $point.
      * @return 
      */
-    public function updateAgentPoint($agentID, $cat_id, $point) {
+    public function updateAgentPoint($agentID, $cat_id, $point,$skillKey) {
 
-        $agentPoints = new Agentpoints();
-        $agentPoints->agentId = $agentID;
-        $agentPoints->category_id = $cat_id;
-        $agentPoints->point = $point;
-        $agentPoints->created_at = date("Y-m-d h:i:s");
+        $agentPoints                = new Agentpoints();
+        $agentPoints->agentId       = $agentID;
+        $agentPoints->category_id   = $cat_id;
+        $agentPoints->point         = $point;
+        $agentPoints->skill         = $skillKey;
+        $agentPoints->created_at    = date("Y-m-d h:i:s");
 
         if ($agentPoints->save()) {
             return $agentPoints;
@@ -242,33 +244,40 @@ class AgentpointsController extends Controller {
         $result = $queryCommand->queryAll();
 
         foreach ($result as $key) {
+            
+            $parentTenentId     = Yii::$app->agentcomponent->getAgentTenantId($key['agentId']);
 
-            $query = new \yii\db\Query;
+            $getGameAdminId     = Usercallcenters::find()->select('callcenter_define_id')->where([ 'tenant_id' => $parentTenentId ])->one();
+
+            $gameAdminId        = $getGameAdminId['callcenter_define_id'];
+
+            $query              = new \yii\db\Query;
 
             $query->select(['gamification_certificates.id', 'gamification_certificates.trohpy_image_id', 'gamification_certificates.point', 'gamification_trophyimages.title'])
                     ->from('gamification_certificates')
                     ->leftJoin('gamification_trophyimages', 'gamification_trophyimages.id = gamification_certificates.trohpy_image_id')
-                    ->where('gamification_certificates.point <= :points', [':points' => $key['points']]);
+                    ->where('gamification_certificates.point <= :points', [':points' => $key['points']])
+                    ->andWhere('gamification_certificates.game_admin_id = :game_admin_id', [':game_admin_id' => $gameAdminId]);
 
-            $command = $query->createCommand();
+            $command            = $query->createCommand();
 
-            $data = $command->queryAll();
+            $data               = $command->queryAll();
 
             if (count($data) > 0) {
 
                 foreach ($data as $dataKey) {
 
-                    $certificate_id = $dataKey['id'];
-                    $agent_id = $key['agentId'];
-                    $agent_points = $key['points'];
-                    $certificate_point = $dataKey['point'];
-                    $certificate_name = $dataKey['title'];
+                    $certificate_id     = $dataKey['id'];
+                    $agent_id           = $key['agentId'];
+                    $agent_points       = $key['points'];
+                    $certificate_point  = $dataKey['point'];
+                    $certificate_name   = $dataKey['title'];
 
-                    $certificate = new Agentcertificates;
-                    $certificate->agent_id = $agent_id;
-                    $certificate->agent_points = $agent_points;
-                    $certificate->certificate_id = $certificate_id;
-                    $certificate->certificate_name = $certificate_name;
+                    $certificate                    = new Agentcertificates;
+                    $certificate->agent_id          = $agent_id;
+                    $certificate->agent_points      = $agent_points;
+                    $certificate->certificate_id    = $certificate_id;
+                    $certificate->certificate_name  = $certificate_name;
                     $certificate->certificate_point = $certificate_point;
                     $certificate->save();
                 }
