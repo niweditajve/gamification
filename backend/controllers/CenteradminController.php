@@ -35,7 +35,7 @@ class CenteradminController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['index', 'view', 'create', 'update','showusers','selelctedusers'],
-                        'roles' => ['admin','admin_agents'],
+                        'roles' => ['admin'],
                     ],
                 ],
             ],

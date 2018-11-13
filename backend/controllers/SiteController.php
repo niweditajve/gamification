@@ -66,8 +66,12 @@ class SiteController extends Controller
         if (Yii::$app->user->isGuest) {
            return $this->render('index');
         }else{
-            
-            return $this->render('dashboard');
+            if( Yii::$app->user->can('admin') ){
+                return $this->render('dashboard');
+            }
+            else{
+                return $this->render('index');  
+            }
         }
         
     }

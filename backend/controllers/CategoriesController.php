@@ -34,7 +34,7 @@ class CategoriesController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['index', 'view', 'create', 'update'],
-                        'roles' => ['admin_agents'],
+                        'roles' => ['admin'],
                     ],
                 ],
             ],
@@ -47,7 +47,7 @@ class CategoriesController extends Controller
      */
     public function actionIndex()
     {
-        echo "ds";
+       
         $searchModel = new CategoriesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
@@ -137,4 +137,5 @@ class CategoriesController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+    
 }

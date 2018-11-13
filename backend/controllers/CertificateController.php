@@ -35,7 +35,7 @@ class CertificateController extends Controller
                     [
                         'allow' => true,
                         'actions' => ['index', 'view', 'create', 'update','delete'],
-                        'roles' => ['admin_agents','admin'],
+                        'roles' => ['admin'],
                     ],
                 ],
             ],
