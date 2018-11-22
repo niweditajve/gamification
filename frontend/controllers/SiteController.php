@@ -313,11 +313,13 @@ class SiteController extends Controller
         
         $qstr = "select DNIS,
         sum(offered) as offered,
-        sum(answered) as answered 
+        sum(answered) as answered,
+        sum(ivr) as ivr
         from (
                 (SELECT DNIS, 
                 sum(if(LastState=19 or LastState=16 or (LastState=17 and Transfer!=1),1,0)) as offered,
-                sum(if(LastState=19,1,0)) as answered 
+                sum(if(LastState=19,1,0)) as answered,
+                sum(if(LastState=17 and Transfer!=1,1,0)) as ivr
                 from billing_summaries 
                 where CallType='call' 
                 and Start BETWEEN UNIX_TIMESTAMP('" . $sDate . "') AND UNIX_TIMESTAMP('" . $eDate . "') 
@@ -326,7 +328,8 @@ class SiteController extends Controller
                 union 
                 (SELECT DNIS,
                 count(ContactID) as offered,
-                sum(if(LastState=19,1,0)) as answered 
+                sum(if(LastState=19,1,0)) as answered,
+                sum(if(LastState=17 and Transfer!=1,1,0)) as ivr 
                 from billing_summaries2 
                 where CallType='call' 
                 and Start BETWEEN UNIX_TIMESTAMP('" . $sDate . "') AND UNIX_TIMESTAMP('" . $eDate . "') 
@@ -341,15 +344,23 @@ class SiteController extends Controller
         $result = $command->queryAll();
        
         $offered = 0;
+        
         $answered = 0;
+        
+        $ivr = 0;
         
         foreach($result as $key)
         {
             $offered += $key['offered'];
+            
             $answered += $key['answered'];
+            
+            $ivr += $key['ivr'];
         }
         
-        $rate = ($answered && $offered) ? 100 * ($answered)/($offered) : 0;
+        $divideBy = $offered - $ivr ;
+        
+        $rate = ($answered && $divideBy) ? 100 * ($answered)/($divideBy) : 0;
         
         $response = array();
         
