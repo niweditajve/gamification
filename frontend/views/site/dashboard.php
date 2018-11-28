@@ -44,6 +44,20 @@ Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = [
                     ?>
                 </div>
             </div>
+            
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <?php 
+                    
+                        echo '<select class="form-control" id="media_type">
+                        <option value="consumer"> Consumer </option>
+                        <option value="business"> Business </option>
+                        <option value="dealer"> Dealer </option>';
+                        echo '</select>';
+                    
+                    ?>
+                </div>
+            </div>
         </div>
         
        
@@ -69,7 +83,7 @@ Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = [
                             <div id="callsArrowType">
                                 
                             </div>
-                            <span id="callsRate"></span>
+                            <div id="callsRate"></div>
                         </div>
                     </div>
                 </div>
@@ -280,11 +294,12 @@ Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = [
      function callsValues(){
          
             var call_center = $("#call_center").val();
+            var media_type = $("#media_type").val();            
             
             $.ajax({
                 type     :'POST',           
                 url      : '<?= Yii::$app->urlManager->createUrl('') ?>site/totalcallcount',
-                data     : { 'tenant' : call_center , 'allTenants' : "<?php echo $tenants; ?>"},
+                data     : { 'tenant' : call_center , 'allTenants' : "<?php echo $tenants; ?>",'media' : media_type},
                 success  : function(response) 
                 {
                     var data = $.parseJSON(response);
@@ -305,12 +320,13 @@ Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = [
      function ordersValues(){
             
             var call_center = $("#call_center").val();
+            var media_type = $("#media_type").val();
             
             $.ajax({
                 type     :'POST',
                 cache    : false,
                 url      : '<?= Yii::$app->urlManager->createUrl('') ?>site/totalorderscount',
-                data     : { 'tenant' : call_center , 'allTenants' : "<?php echo $tenants; ?>"},
+                data     : { 'tenant' : call_center , 'allTenants' : "<?php echo $tenants; ?>",'media' : media_type},
                 success  : function(response) 
                 {
                     var data = $.parseJSON(response);
@@ -330,12 +346,13 @@ Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = [
      function answerRate(){
      
             var call_center = $("#call_center").val();
+            var media_type = $("#media_type").val();
             
            $.ajax({
                 type     :'POST',
                 cache    : false,
                 url      : '<?= Yii::$app->urlManager->createUrl('') ?>site/answerrate',
-                data     : { 'tenant' : call_center , 'allTenants' : "<?php echo $tenants; ?>"},
+                data     : { 'tenant' : call_center , 'allTenants' : "<?php echo $tenants; ?>",'media' : media_type},
                 success  : function(response) 
                 {
                     var data = $.parseJSON(response);
@@ -349,12 +366,13 @@ Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = [
      function attachmentRate(){
      
             var call_center = $("#call_center").val();
+            var media_type = $("#media_type").val();
      
            $.ajax({
                 type     :'POST',
                 cache    : false,
                 url      : '<?= Yii::$app->urlManager->createUrl('') ?>site/attachementrate',
-                data     : { 'tenant' : call_center , 'allTenants' : "<?php echo $tenants; ?>"},
+                data     : { 'tenant' : call_center , 'allTenants' : "<?php echo $tenants; ?>",'media' : media_type},
                 success  : function(response) 
                 {
                     var data = $.parseJSON(response);
@@ -370,12 +388,13 @@ Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = [
      function currentRate(){
      
             var call_center = $("#call_center").val();
+            var media_type = $("#media_type").val();
             
             $.ajax({
                 type     :'POST',
                 cache    : false,
                 url      : '<?= Yii::$app->urlManager->createUrl('') ?>site/currentcloserate',
-                data     : { 'tenant' : call_center , 'allTenants' : "<?php echo $tenants; ?>"},
+                data     : { 'tenant' : call_center , 'allTenants' : "<?php echo $tenants; ?>",'media' : media_type},
                 success  : function(response) 
                 {
                     var data = $.parseJSON(response);
@@ -389,12 +408,13 @@ Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = [
      function closeRates(){
      
             var call_center = $("#call_center").val();
+            var media_type = $("#media_type").val();
             
             $.ajax({
                 type     :'POST',
                 cache    : false,
                 url      : '<?= Yii::$app->urlManager->createUrl('') ?>site/closerates',
-                data     : { 'tenant' : call_center , 'allTenants' : "<?php echo $tenants; ?>"},
+                data     : { 'tenant' : call_center , 'allTenants' : "<?php echo $tenants; ?>",'media' : media_type},
                 success  : function(response) 
                 {
                     var data = $.parseJSON(response);
@@ -439,12 +459,13 @@ Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = [
      function centerCloseRate(){
             
             var call_center = $("#call_center").val();
+            var media_type = $("#media_type").val();
             
             $.ajax({
                 type     :'POST',
                 cache    : false,
                 url      : '<?= Yii::$app->urlManager->createUrl('') ?>site/centercloserate',                
-                data     : { 'tenant' : call_center , 'allTenants' : "<?php echo $tenants; ?>"},
+                data     : { 'tenant' : call_center , 'allTenants' : "<?php echo $tenants; ?>",'media' : media_type},
                 success  : function(response) 
                 {
                     var data = $.parseJSON(response);
@@ -482,8 +503,13 @@ Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = [
             // type 900000 for 15 minutes
         }, 60000);
         
-         $('#call_center').on('change', function() {
+        $('#call_center').on('change', function() {
             centerCloseRate();
+        });
+        
+        
+        $('#media_type').on('change', function() {
+            loadFunctions();
         });
         
     });

@@ -17,7 +17,6 @@ use common\models\CallData;
 use common\models\Agent;
 use common\models\FrontendCallcenterDefine;
 use common\models\Tenant;
-use common\models\TfnMedia;
 
 class SiteController extends Controller {
 
@@ -86,72 +85,6 @@ class SiteController extends Controller {
                 return $this->render('index');
             }
         }
-    }
-    
-    public function actionConsumer(){
-        
-         if (Yii::$app->user->isGuest) {
-            return $this->render('index');
-        } else {
-            
-            $tenant = $this->getTenant();
-
-            if (Yii::$app->user->can('admin_cc') && (count($tenant) > 0)) {
-                
-                return $this->render('consumerDashboard', ['tenant' => $tenant, 'type' => "consumer"]);
-                
-            } else {
-                
-                return $this->render('index');
-                
-            }
-            
-        }
-        
-    }
-    
-    public function actionBusiness(){
-        
-         if (Yii::$app->user->isGuest) {
-            return $this->render('index');
-        } else {
-            
-            $tenant = $this->getTenant();
-
-            if (Yii::$app->user->can('admin_cc') && (count($tenant) > 0)) {
-                
-                return $this->render('consumerDashboard', ['tenant' => $tenant, 'type' => "business"]);
-                
-            } else {
-                
-                return $this->render('index');
-                
-            }
-            
-        }
-        
-    }
-    
-    public function actionDealer(){
-        
-         if (Yii::$app->user->isGuest) {
-            return $this->render('index');
-        } else {
-            
-            $tenant = $this->getTenant();
-
-            if (Yii::$app->user->can('admin_cc') && (count($tenant) > 0)) {
-                
-                return $this->render('consumerDashboard', ['tenant' => $tenant, 'type' => "dealer"]);
-                
-            } else {
-                
-                return $this->render('index');
-                
-            }
-            
-        }
-        
     }
 
     public function getTenant() {

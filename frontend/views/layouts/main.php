@@ -51,14 +51,6 @@ AppAsset::register($this);
                         ],
                         'visible' => Yii::$app->user->can('virtual_user')
                     ],
-                    ['label' => 'Categories', 'url' => ['#'],
-                        'items' => [
-                            ['label' => 'Consumer', 'url' => ['/site/consumer']],
-                            ['label' => 'Business', 'url' => ['/site/business']],
-                            ['label' => 'Dealer', 'url' => ['/site/dealer']],
-                        ],
-                        'visible' => Yii::$app->user->can('admin_cc')
-                    ],
                     ['label' => 'Manage', 'url' => ['#'],
                             'items' => [
                                 ['label' => 'Categories', 'url' => ['/categories/index'], 'visible' => Yii::$app->user->can('admin_cc')],
