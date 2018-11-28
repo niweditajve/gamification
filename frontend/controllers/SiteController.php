@@ -411,7 +411,7 @@ class SiteController extends Controller {
         $sDate = $callDate . " " . $sTime;
         $eDate = $callDate . " " . $eTime;
         
-        if($media == "consumer" || $media == "dealer"){
+        if($media == "consumer" || $media == "dealer" || $media ==""){
             $fDNIS = " and (DNIS is null or DNIS in (select inContactTFN from tfnMedia where mediaType in ('Other','Broadcast','Campaigns','Web','Callback','Directories','Digital','Broadcast2','Direct Mail','Web Managed')))";
 
             $qstr = "select DNIS,
