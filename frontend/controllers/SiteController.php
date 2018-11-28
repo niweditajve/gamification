@@ -87,6 +87,72 @@ class SiteController extends Controller {
             }
         }
     }
+    
+    public function actionConsumer(){
+        
+         if (Yii::$app->user->isGuest) {
+            return $this->render('index');
+        } else {
+            
+            $tenant = $this->getTenant();
+
+            if (Yii::$app->user->can('admin_cc') && (count($tenant) > 0)) {
+                
+                return $this->render('consumerDashboard', ['tenant' => $tenant, 'type' => "consumer"]);
+                
+            } else {
+                
+                return $this->render('index');
+                
+            }
+            
+        }
+        
+    }
+    
+    public function actionBusiness(){
+        
+         if (Yii::$app->user->isGuest) {
+            return $this->render('index');
+        } else {
+            
+            $tenant = $this->getTenant();
+
+            if (Yii::$app->user->can('admin_cc') && (count($tenant) > 0)) {
+                
+                return $this->render('consumerDashboard', ['tenant' => $tenant, 'type' => "business"]);
+                
+            } else {
+                
+                return $this->render('index');
+                
+            }
+            
+        }
+        
+    }
+    
+    public function actionDealer(){
+        
+         if (Yii::$app->user->isGuest) {
+            return $this->render('index');
+        } else {
+            
+            $tenant = $this->getTenant();
+
+            if (Yii::$app->user->can('admin_cc') && (count($tenant) > 0)) {
+                
+                return $this->render('consumerDashboard', ['tenant' => $tenant, 'type' => "dealer"]);
+                
+            } else {
+                
+                return $this->render('index');
+                
+            }
+            
+        }
+        
+    }
 
     public function getTenant() {
 
@@ -201,9 +267,46 @@ class SiteController extends Controller {
     public function getOldDate() {
         return $oldDate = date("Y-m-d", strtotime('-1 week', time()));
     }
+    
+    public function getMediaCondition($media){
+        
+        $mediaArray = array();
+        
+        if($media == "consumer"){
+
+            $mediaArray = array('Other',
+                'Broadcast',
+                'Campaigns',
+                'Web',
+                'Callback',
+                'Directories',
+                'Digital',
+                'Broadcast2',
+                'Direct Mail',
+                'Web Managed'
+            );
+        }
+        
+        if($media == "business"){
+
+            $mediaArray = array('Business');
+        }
+        
+        if($media == "dealer"){
+
+            $mediaArray = array('Dealer');
+        }
+        
+        
+        return $mediaArray;
+    }
 
     public function actionTotalcallcount() {
-
+        
+        $media = Yii::$app->request->post('media');
+        
+        $mediaCondition = $this->getMediaCondition($media);
+        
         $response = array();
 
         $fromTime = $this->getFromTime();
@@ -217,12 +320,14 @@ class SiteController extends Controller {
                 ->select("RowID")
                 ->where(['between', 'CreateDate', $callDate . " " . $fromTime, $callDate . " " . $toTime])
                 ->andWhere(['in', 'AgentID', $agentIDs])
+                ->andWhere(['in' , 'mediaType' , $mediaCondition])
                 ->count();
 
         $lastWeekcall = CallData::find()
                 ->select("RowID")
                 ->where(['between', 'CreateDate', $oldDate . " " . $fromTime, $oldDate . " " . $toTime])
                 ->andWhere(['in', 'AgentID', $agentIDs])
+                ->andWhere(['in' , 'mediaType' , $mediaCondition])
                 ->count();
 
         $todaysCount = $call;
@@ -254,12 +359,16 @@ class SiteController extends Controller {
         $oldDate = $this->getOldDate();
 
         $agentIDs = $this->getTenantIds();
+        
+        $media = Yii::$app->request->post('media');
+        $mediaCondition = $this->getMediaCondition($media);
 
         $call = CallData::find()
                 ->select("RowID")
                 ->where(['between', 'CreateDate', $callDate . " " . $fromTime, $callDate . " " . $toTime])
                 ->andWhere(['in', 'AgentID', $agentIDs])
                 ->andWhere(["!=", 'OrderID', ""])
+                ->andWhere(['in' , 'mediaType' , $mediaCondition])
                 ->count();
 
         $lastWeekcall = CallData::find()
@@ -267,6 +376,7 @@ class SiteController extends Controller {
                 ->where(['between', 'CreateDate', $oldDate . " " . $fromTime, $oldDate . " " . $toTime])
                 ->andWhere(['in', 'AgentID', $agentIDs])
                 ->andWhere(["!=", 'OrderID', ""])
+                ->andWhere(['in' , 'mediaType' , $mediaCondition])
                 ->count();
 
         $todaysCount = $call;
@@ -295,17 +405,21 @@ class SiteController extends Controller {
         $sTime = $this->getFromTime();
         $eTime = $this->getToTime();
         $callDate = $this->getCallDate();
-
+        
+        $media = Yii::$app->request->post('media');
+        
         $sDate = $callDate . " " . $sTime;
         $eDate = $callDate . " " . $eTime;
-        $fDNIS = " and (DNIS is null or DNIS in (select inContactTFN from tfnMedia where mediaType in ('Other','Broadcast','Campaigns','Web','Callback','Directories','Digital','Broadcast2','Direct Mail','Web Managed')))";
+        
+        if($media == "consumer" || $media == "dealer"){
+            $fDNIS = " and (DNIS is null or DNIS in (select inContactTFN from tfnMedia where mediaType in ('Other','Broadcast','Campaigns','Web','Callback','Directories','Digital','Broadcast2','Direct Mail','Web Managed')))";
 
-        $qstr = "select DNIS,
-        sum(offered) as offered,
-        sum(answered) as answered,
-        sum(ivr) as ivr
+            $qstr = "select DNIS,
+            sum(offered) as offered,
+            sum(answered) as answered,
+            sum(ivr) as ivr
 
-        from (
+            from (
                 (SELECT DNIS, 
                 sum(if(LastState=19 or LastState=16 or (LastState=17 and Transfer!=1),1,0)) as offered,
                 sum(if(LastState=19,1,0)) as answered,
@@ -328,6 +442,24 @@ class SiteController extends Controller {
                 t where 1=1 " . $fDNIS . " 
                 group by DNIS 
                 order by DNIS";
+        }
+        elseif($media == "business"){
+            
+            $fDNIS = " and DNIS in (select inContactTFN from tfnMedia where mediaType in ('Business'))";
+            $qstr = "select DNIS,sum(offered) as offered,sum(ivr) as ivr,sum(answered) as answered from
+                ((SELECT DNIS, sum(if(LastState=19 or LastState=16 or (LastState=17 and Transfer!=1),1,0)) as offered, sum(if(LastState=17 and Transfer!=1,1,0)) as ivr,sum(if(LastState=19,1,0)) as answered
+                from billing_summaries
+                where CallType='call'
+                and Start BETWEEN '" . $sDate . "' AND '" . $eDate . "'
+                group by DNIS order by DNIS)
+                union
+                (SELECT DNIS,count(ContactID) as offered, sum(if(LastState=17 and Transfer!=1,1,0)) as ivr,
+                sum(if(LastState=19,1,0)) as answered from billing_summaries2 where CallType='call' and
+                Start BETWEEN '" . $sDate . "' AND '" . $eDate . "' group by DNIS order by DNIS)) t where 1=1 " 
+                    . $fDNIS . " group by DNIS order by DNIS";
+        }
+       
+        
 
         $command = Yii::$app->db->createCommand($qstr);
 
@@ -367,12 +499,16 @@ class SiteController extends Controller {
         $callDate = $this->getCallDate();
 
         $agentIDs = $this->getTenantIds();
+        
+        $media = Yii::$app->request->post('media');
+        $mediaCondition = $this->getMediaCondition($media);
 
         $call = CallData::find()
                 ->select("RowID")
                 ->where(['between', 'CreateDate', $callDate . " " . $fromTime, $callDate . " " . $toTime])
                 ->andWhere(['in', 'AgentID', $agentIDs])
                 ->andWhere(["!=", 'OrderID', ""])
+                ->andWhere(['in' , 'mediaType' , $mediaCondition])
                 ->count();
 
         $voiceRates = CallData::find()
@@ -381,6 +517,7 @@ class SiteController extends Controller {
                 ->andWhere(['in', 'AgentID', $agentIDs])
                 ->andWhere(["!=", 'OrderID', ""])
                 ->andWhere(["!=", 'VoIPSold', ""])
+                ->andWhere(['in' , 'mediaType' , $mediaCondition])
                 ->count();
 
         $erRates = CallData::find()
@@ -389,6 +526,7 @@ class SiteController extends Controller {
                 ->andWhere(['in', 'AgentID', $agentIDs])
                 ->andWhere(["!=", 'OrderID', ""])
                 ->andWhere(["!=", 'ExpRepairSold', ""])
+                ->andWhere(['in' , 'mediaType' , $mediaCondition])
                 ->count();
 
         $pceRates = CallData::find()
@@ -397,6 +535,7 @@ class SiteController extends Controller {
                 ->andWhere(['in', 'AgentID', $agentIDs])
                 ->andWhere(["!=", 'OrderID', ""])
                 ->andWhere(["!=", 'PCESold', ""])
+                ->andWhere(['in' , 'mediaType' , $mediaCondition])
                 ->count();
 
         $nortonRates = CallData::find()
@@ -405,6 +544,7 @@ class SiteController extends Controller {
                 ->andWhere(['in', 'AgentID', $agentIDs])
                 ->andWhere(["!=", 'OrderID', ""])
                 ->andWhere(["!=", 'NortonSold', ""])
+                ->andWhere(['in' , 'mediaType' , $mediaCondition])
                 ->count();
 
         $response['voiceRate'] = ($voiceRates && $call) ? (number_format((float) (($voiceRates / $call ) * 100), 2, '.', ',')) : 0;
@@ -434,12 +574,16 @@ class SiteController extends Controller {
 //                ->andWhere(['in', 'AgentID', $agentIDs])
 //                ->count();
         $toalCall = $this->getAnswered();
+        
+        $media = Yii::$app->request->post('media');
+        $mediaCondition = $this->getMediaCondition($media);
 
         $answeredCall = CallData::find()
                 ->select("RowID")
                 ->where(['between', 'CreateDate', $callDate . " " . $fromTime, $callDate . " " . $toTime])
                 ->andWhere(['in', 'AgentID', $agentIDs])
                 ->andWhere(["!=", 'OrderID', ""])
+                ->andWhere(['in' , 'mediaType' , $mediaCondition])
                 ->count();
 
         $rate = ( $answeredCall && $toalCall) ? ( ($answeredCall / $toalCall) * 100) : 0;
@@ -459,12 +603,16 @@ class SiteController extends Controller {
         $oldDate = $this->getOldDate();
 
         $agentIDs = $this->getTenantIds();
+        
+        $media = Yii::$app->request->post('media');
+        $mediaCondition = $this->getMediaCondition($media);
 
         $call = CallData::find()
                 ->select("RowID")
                 ->where(['between', 'CreateDate', $callDate . " " . $fromTime, $callDate . " " . $toTime])
                 ->andWhere(['in', 'AgentID', $agentIDs])
                 ->andWhere(["!=", 'OrderID', ""])
+                ->andWhere(['in' , 'mediaType' , $mediaCondition])
                 ->count();
 
         $tvCalls = CallData::find()
@@ -473,6 +621,7 @@ class SiteController extends Controller {
                 ->andWhere(['in', 'AgentID', $agentIDs])
                 ->andWhere(["!=", 'OrderID', ""])
                 ->andWhere(['MediaType' => 'Broadcast'])
+                ->andWhere(['in' , 'mediaType' , $mediaCondition])
                 ->count();
 
         $tvRate = ($call && $tvCalls) ? (($tvCalls / $call) * 100) : 0;
@@ -484,6 +633,7 @@ class SiteController extends Controller {
                 ->andWhere(['in', 'AgentID', $agentIDs])
                 ->andWhere(["!=", 'OrderID', ""])
                 ->andWhere(['MediaType' => 'Broadcast'])
+                ->andWhere(['in' , 'mediaType' , $mediaCondition])
                 ->count();
 
         $tvWeekRate = ($tvCalls && $tvWeekCalls) ? (( ($tvCalls - $tvWeekCalls) / $tvWeekCalls) * 100) : 0;
@@ -495,6 +645,7 @@ class SiteController extends Controller {
                 ->andWhere(['in', 'AgentID', $agentIDs])
                 ->andWhere(["!=", 'OrderID', ""])
                 ->andWhere(['MediaType' => 'Campaigns'])
+                ->andWhere(['in' , 'mediaType' , $mediaCondition])
                 ->count();
 
         $dmRate = ($call && $dmCalls) ? (($dmCalls / $call) * 100) : 0;
@@ -506,6 +657,7 @@ class SiteController extends Controller {
                 ->andWhere(['in', 'AgentID', $agentIDs])
                 ->andWhere(["!=", 'OrderID', ""])
                 ->andWhere(['MediaType' => 'Campaigns'])
+                ->andWhere(['in' , 'mediaType' , $mediaCondition])
                 ->count();
 
         $dmWeekRate = ($dmCalls && $dmWeekCalls) ? (( ($dmCalls - $dmWeekCalls) / $dmWeekCalls) * 100) : 0;
@@ -517,6 +669,7 @@ class SiteController extends Controller {
                 ->andWhere(['in', 'AgentID', $agentIDs])
                 ->andWhere(["!=", 'OrderID', ""])
                 ->andWhere(['MediaType' => 'Web'])
+                ->andWhere(['in' , 'mediaType' , $mediaCondition])
                 ->count();
 
         $webRate = ($call && $webCalls) ? (($webCalls / $call) * 100) : 0;
@@ -528,6 +681,7 @@ class SiteController extends Controller {
                 ->andWhere(['in', 'AgentID', $agentIDs])
                 ->andWhere(["!=", 'OrderID', ""])
                 ->andWhere(['MediaType' => 'Web'])
+                ->andWhere(['in' , 'mediaType' , $mediaCondition])
                 ->count();
 
         $webWeekRate = ($webCalls && $webWeekCalls) ? (( ($webCalls - $webWeekCalls) / $webWeekCalls) * 100) : 0;
@@ -547,6 +701,7 @@ class SiteController extends Controller {
                 ->andWhere(['in', 'AgentID', $agentIDs])
                 ->andWhere(["!=", 'OrderID', ""])
                 ->andWhere(['in', 'DispositionCode', $transferArray])
+                ->andWhere(['in' , 'mediaType' , $mediaCondition])
                 ->count();
 
         $transferRate = ($call && $transferCalls) ? (($transferCalls / $call) * 100) : 0;
@@ -558,6 +713,7 @@ class SiteController extends Controller {
                 ->andWhere(['in', 'AgentID', $agentIDs])
                 ->andWhere(["!=", 'OrderID', ""])
                 ->andWhere(['in', 'DispositionCode', $transferArray])
+                ->andWhere(['in' , 'mediaType' , $mediaCondition])
                 ->count();
 
         $transferWeekRate = ($transferCalls && $transferWeekCalls) ? (( ($transferCalls - $transferWeekCalls) / $transferWeekCalls) * 100) : 0;
@@ -597,6 +753,9 @@ class SiteController extends Controller {
         else:
             $callCenters = $tenant;
         endif;
+        
+        $media = Yii::$app->request->post('media');
+        $mediaCondition = $this->getMediaCondition($media);
 
         $response = array();
 
@@ -614,6 +773,7 @@ class SiteController extends Controller {
                 ->select("RowID")
                 ->where(['between', 'CreateDate', $callDate . " " . $fromTime, $callDate . " " . $toTime])
                 ->andWhere(['in', 'AgentID', $agentIDs])
+                ->andWhere(['in' , 'mediaType' , $mediaCondition])
                 ->count();
 
         $answeredCall = CallData::find()
@@ -621,6 +781,7 @@ class SiteController extends Controller {
                 ->where(['between', 'CreateDate', $callDate . " " . $fromTime, $callDate . " " . $toTime])
                 ->andWhere(['in', 'AgentID', $agentIDs])
                 ->andWhere(["!=", 'OrderID', ""])
+                ->andWhere(['in' , 'mediaType' , $mediaCondition])
                 ->count();
 
         $rate = ( $answeredCall && $toalCall) ? ( ($answeredCall / $toalCall) * 100) : 0;
